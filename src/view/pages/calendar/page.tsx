@@ -1,6 +1,4 @@
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import './calendar.css';
+import MonthlyCalendarContainer from '../../../container/MonthlyCalendar/MonthlyCalendar.container';
 
 function CalendarPage() {
   return (
@@ -43,7 +41,7 @@ function CalendarPage() {
         </div>
       </div>
       <div className="calendar">
-        <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+        <MonthlyCalendarContainer />
       </div>
       <div className="footer">
         <nav className="gnb">
