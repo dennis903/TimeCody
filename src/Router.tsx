@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainPage from './view/pages/page';
 import LoginPage from './view/pages/login/page';
 import AccountLoginPage from './view/pages/account/login/page';
+import CalendarPage from './view/pages/calendar/page';
 
 export const router = createBrowserRouter([
   {
@@ -16,5 +17,9 @@ export const router = createBrowserRouter([
   {
     path: '/account/login',
     element: <AccountLoginPage />,
+  },
+  {
+    path: '/Calendar',
+    element: <CalendarPage />,
   },
 ]);
