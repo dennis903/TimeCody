@@ -63,3 +63,8 @@
   width: 100%;
   text-align: center;
 }
+
+.fc-daygrid-event-dot {
+  border-radius: 0%;
+  opacity: 0.5;
+}
