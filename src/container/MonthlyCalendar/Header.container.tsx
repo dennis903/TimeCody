@@ -1,6 +1,14 @@
 import { type FC } from 'react';
 
-const HeaderContainer: FC = () => {
+interface IHeaderContainerProps {
+  date: Date;
+  setDate: (date: Date) => void;
+}
+
+const HeaderContainer: FC<IHeaderContainerProps> = (props) => {
+  const year = props.date.getFullYear();
+  const month = props.date.getMonth() + 1;
+
   return (
     <div>
       <div className="header-contents">
@@ -10,13 +18,21 @@ const HeaderContainer: FC = () => {
         <div className="calendar-nav">
           <p className="calendar-nav__description">내 캘린더</p>
           <div className="calendar-info">
-            <button type="button" className="icon-btn">
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => props.setDate(new Date(props.date.getFullYear(), props.date.getMonth() - 1, 1))}
+            >
               <i className="icon icon-arrow-left">
                 <img src="/src/assets/img/icon/arrow-left.png" />
               </i>
             </button>
-            <h2 className="calendar-info__title">2023년 12월</h2>
-            <button type="button" className="icon-btn">
+            <h2 className="calendar-info__title">{`${year}년 ${month}월`}</h2>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => props.setDate(new Date(props.date.getFullYear(), props.date.getMonth() + 1, 1))}
+            >
               <i className="icon icon-arrow-right">
                 <img src="/src/assets/img/icon/arrow-right.png" />
               </i>

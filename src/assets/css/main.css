@@ -493,7 +493,7 @@ a {
   font-size: 0.9rem;
 }
 
-.gnb-item:active {
+.gnb-item--active {
   color: #000;
   background-color: #cdcdcd;
   width: 3rem;

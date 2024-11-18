@@ -1,10 +1,15 @@
-import { type FC } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 import './MonthlyCalendar.container.css';
 
-const MonthlyCalendarContainer: FC = () => {
+interface IMonthlyCalendarContainerProps {
+  date: Date;
+}
+
+const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {
+  const calendarRef = useRef<FullCalendar>(null);
   const periodList = [
     { title: 'Long Event', start: '2024-11-07', end: '2024-11-10', color: 'purple', className: 'period-event' },
   ];
@@ -39,12 +44,21 @@ const MonthlyCalendarContainer: FC = () => {
     },
   ];
 
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().gotoDate(props.date);
+    }
+  }, [props.date]);
+
   return (
     <FullCalendar
+      ref={calendarRef}
       locale="kr"
       headerToolbar={false}
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
+      editable={true}
+      initialDate={props.date}
       dayCellContent={(arg) => {
         const { date } = arg;
         return date.getDate();
