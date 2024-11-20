@@ -1,24 +1,22 @@
 import { type FC, useState } from 'react';
 
 import MonthlyCalendarContainer from '../../../container/MonthlyCalendar/MonthlyCalendar.container';
-import HeaderContainer from '../../../container/MonthlyCalendar/Header.container';
-import NavigationContainer from '../../../container/MonthlyCalendar/Navigation.container';
+import HeaderContainer from '../../../container/Header/Header.container';
+import GnbContainer from '../../../container/Gnb/Gnb.container';
 
 const CalendarPage: FC = () => {
   const [date, setDate] = useState(new Date());
 
   return (
-    <div>
-      <div className="header">
-        <HeaderContainer date={date} setDate={setDate} />
-      </div>
-      <div className="calendar">
+    <>
+      <HeaderContainer date={date} setDate={setDate} />
+      <main>
         <MonthlyCalendarContainer date={date} />
-      </div>
-      <div className="footer">
-        <NavigationContainer />
-      </div>
-    </div>
+      </main>
+      <footer className="footer">
+        <GnbContainer />
+      </footer>
+    </>
   );
 };
 

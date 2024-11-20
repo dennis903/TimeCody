@@ -5,7 +5,7 @@ import { useLocation, Link } from 'react-router-dom';
 
 const cx = classNames.bind(undefined);
 
-const NavigationContainer: FC = () => {
+const GnbContainer: FC = () => {
   const { pathname } = useLocation();
   const navList = [
     {
@@ -51,28 +51,26 @@ const NavigationContainer: FC = () => {
   ];
 
   return (
-    <div className="navigation">
-      <nav className="gnb">
-        <ul className="gnb-list">
-          {navList.map((navItem) => (
-            <li
-              key={navItem.id}
-              className={cx('gnb-item', {
-                'gnb-item--active': navItem.isActive,
-              })}
-            >
-              <Link to={navItem.link} className="gnb-item__link">
-                <i className={cx('icon', navItem.icon)}>
-                  <img src={navItem.imageUrl} />
-                </i>
-                {navItem.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <nav className="gnb">
+      <ul className="gnb-list">
+        {navList.map((navItem) => (
+          <li
+            key={navItem.id}
+            className={cx('gnb-item', {
+              'gnb-item--active': navItem.isActive,
+            })}
+          >
+            <Link to={navItem.link} className="gnb-item__link">
+              <i className={cx('icon', navItem.icon)}>
+                <img src={navItem.imageUrl} />
+              </i>
+              {navItem.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
 
-export default NavigationContainer;
+export default GnbContainer;

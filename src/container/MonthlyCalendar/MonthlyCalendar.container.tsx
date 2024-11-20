@@ -18,22 +18,26 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
       groupId: 'exercise',
       title: '운동',
       start: '2024-11-09T16:00:00',
+      className: 'routine-event',
     },
     {
       groupId: 'exercise',
       title: '운동',
       start: '2024-11-11T16:00:00',
+      className: 'routine-event',
     },
     {
       groupId: 'exercise',
       title: '운동',
       start: '2024-11-13T16:00:00',
+      className: 'routine-event',
     },
   ];
   const scheduleList = [
     {
       title: '일정',
       start: '2024-11-01',
+      className: 'schedule-event',
     },
   ];
   const todoList = [
@@ -41,6 +45,8 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
       title: '1984 독서',
       start: '2024-11-12T10:30:00',
       end: '2024-11-12T12:30:00',
+      backgroundColor: 'red',
+      className: 'todo-event',
     },
   ];
 

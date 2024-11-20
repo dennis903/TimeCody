@@ -177,97 +177,97 @@ a {
 .icon-back {
   width: 0.7rem;
   height: 1.5rem;
-  background-image: url('../lib/img/icon/back.png');
+  background-image: url('../img/icon/back.png');
 }
 
 .icon-arrow-left {
   width: 0.7rem;
   height: 1.3rem;
-  background-image: url('../lib/img/icon/arrow-left.png');
+  background-image: url('../img/icon/arrow-left.png');
 }
 
 .icon-arrow-right {
   width: 0.7rem;
   height: 1.3rem;
-  background-image: url('../lib/img/icon/arrow-right.png');
+  background-image: url('../img/icon/arrow-right.png');
 }
 
 .icon-search {
   width: 1.8rem;
   height: 1.8rem;
-  background-image: url('../lib/img/icon/search.png');
+  background-image: url('../img/icon/search.png');
 }
 
 .icon-hamburger {
   width: 1.8rem;
   height: 1.5rem;
-  background-image: url('../lib/img/icon/hamburger.png');
+  background-image: url('../img/icon/hamburger.png');
 }
 
 .icon-order {
   width: 1.1rem;
   height: 0.7rem;
-  background-image: url('../lib/img/icon/order.png');
+  background-image: url('../img/icon/order.png');
 }
 
 .icon-plus {
   width: 1.45rem;
   height: 1.45rem;
-  background-image: url('../lib/img/icon/plus.png');
+  background-image: url('../img/icon/plus.png');
 }
 
 .icon-detail {
   width: 1.6rem;
   height: 0.5rem;
-  background-image: url('../lib/img/icon/detail.png');
+  background-image: url('../img/icon/detail.png');
 }
 
 .icon-close {
   width: 1.6rem;
   height: 1.7rem;
-  background-image: url('../lib/img/icon/close.png');
+  background-image: url('../img/icon/close.png');
 }
 
 .icon-open {
   width: 1.5rem;
   height: 0.7rem;
-  background-image: url('../lib/img/icon/open.png');
+  background-image: url('../img/icon/open.png');
 }
 
 .icon-arrow-small {
   width: 0.5rem;
   height: 0.5rem;
-  background-image: url('../lib/img/icon/arrow-small.png');
+  background-image: url('../img/icon/arrow-small.png');
 }
 
 .icon-diary {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/diary.png');
+  background-image: url('../img/icon/diary.png');
 }
 
 .icon-todo {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/todo.png');
+  background-image: url('../img/icon/todo.png');
 }
 
 .icon-calendar {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/calendar.png');
+  background-image: url('../img/icon/calendar.png');
 }
 
 .icon-planner {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/planner.png');
+  background-image: url('../img/icon/planner.png');
 }
 
 .icon-store {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/store.png');
+  background-image: url('../img/icon/store.png');
 }
 
 .icon-btn {
@@ -279,7 +279,7 @@ a {
 }
 
 .sidebar {
-  width: 310px;
+  width: 31rem;
 }
 
 .sidebar-header-btn {
@@ -362,6 +362,14 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
+  position: relative;
+}
+
+.calendar-nav {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .header-util {
@@ -527,9 +535,12 @@ a {
 }
 
 .calendar-info__title {
+  white-space: nowrap;
   font-size: 2rem;
   font-weight: 700;
   margin: 0 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .calender-info__title {
@@ -798,47 +809,47 @@ a {
 .icon-arrow-left {
   width: 0.7rem;
   height: 1.5rem;
-  background-image: url('../lib/img/icon/arrow-left.png');
+  background-image: url('../img/icon/arrow-left.png');
 }
 .icon-diary {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/diary.png');
+  background-image: url('../img/icon/diary.png');
 }
 .icon-todo {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/todo.png');
+  background-image: url('../img/icon/todo.png');
 }
 .icon-calendar {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/calendar.png');
+  background-image: url('../img/icon/calendar.png');
 }
 .icon-planner {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/planner.png');
+  background-image: url('../img/icon/planner.png');
 }
 .icon-store {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../lib/img/icon/store.png');
+  background-image: url('../img/icon/store.png');
 }
 .icon-check-complete-w {
   width: 1.6rem;
   height: 1.1rem;
-  background-image: url('../lib/img/icon/check-complete-w.png');
+  background-image: url('../img/icon/check-complete-w.png');
 }
 .icon-up {
   width: 2.4rem;
   height: 0.7rem;
-  background-image: url('../lib/img/icon/up.png');
+  background-image: url('../img/icon/up.png');
 }
 .icon-check-complete {
   width: 2rem;
   height: 1.3rem;
-  background-image: url('../lib/img/icon/check-complete.png');
+  background-image: url('../img/icon/check-complete.png');
 }
 
 .header-link {
