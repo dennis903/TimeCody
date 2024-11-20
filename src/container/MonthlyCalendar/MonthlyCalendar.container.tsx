@@ -55,6 +55,7 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
       ref={calendarRef}
       locale="kr"
       headerToolbar={false}
+      displayEventTime={false}
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       editable={true}

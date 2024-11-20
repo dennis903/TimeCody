@@ -61,3 +61,7 @@
   border-radius: 0%;
   opacity: 0.5;
 }
+
+.fc-daygrid-dot-event.fc-event-draggable {
+  background-color: aquamarine;
+}
