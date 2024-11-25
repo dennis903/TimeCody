@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import './Sidebar.container.css';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
@@ -11,6 +11,22 @@ interface ISidebarContainerProps {
 }
 
 const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
+  const [isOpenMenu, setIsOpenMenu] = useState<{ [key: string]: boolean }>({
+    category: false,
+    monthlyCalendar: false,
+    sectionCalendar: false,
+    sharingCalendar: false,
+  });
+
+  const [isPlusMode, setIsPlusMode] = useState(false);
+
+  const toggleMenu = (menuKey: string) => {
+    setIsOpenMenu((prev) => ({
+      ...prev,
+      [menuKey]: !prev[menuKey],
+    }));
+  };
+
   return (
     <div
       className={cx('sidebar-wrapper', {
@@ -62,32 +78,50 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
             <li className="sidebar-menu-item">
               <div className="sidebar-menu__detail">
                 <p className="sidebar__title">카테고리</p>
-                <button className="open-btn open-btn--closed">
-                  <IconComponent icon="icon-open" />
+                <button
+                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.category })}
+                  onClick={() => toggleMenu('category')}
+                >
+                  <IconComponent icon={isOpenMenu.category ? 'icon-open' : 'icon-up'} />
                 </button>
               </div>
-              <ul className="sidebar-sub-list">
-                <li className="sidebar-sub-item">
-                  <p className="sidebar-sub__title">개인</p>
-                </li>
-                <li className="sidebar-sub-item">
-                  <p className="sidebar-sub__title">공부</p>
-                </li>
-                <li className="sidebar-sub-item">
-                  <p className="sidebar-sub__title">만남</p>
-                </li>
-                <li className="sidebar-sub-item">
-                  <p className="sidebar-sub__title">직장</p>
-                </li>
-              </ul>
+              {isOpenMenu.category && (
+                <ul className="sidebar-sub-list">
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">개인</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">공부</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">만남</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">직장</p>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className="sidebar-menu-item">
               <div className="sidebar-menu__detail">
                 <p className="sidebar__title">월간 캘린더</p>
-                <button className="open-btn">
-                  <IconComponent icon="icon-open" />
+                <button
+                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.monthlyCalendar })}
+                  onClick={() => toggleMenu('monthlyCalendar')}
+                >
+                  <IconComponent icon={isOpenMenu.monthlyCalendar ? 'icon-open' : 'icon-up'} />
                 </button>
               </div>
+              {isOpenMenu.monthlyCalendar && (
+                <ul className="sidebar-sub-list">
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">월간 1</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">월간 2</p>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className="sidebar-menu-item">
               <div className="sidebar-menu__detail">
@@ -102,18 +136,44 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
             <li className="sidebar-menu-item">
               <div className="sidebar-menu__detail">
                 <p className="sidebar__title">구간 캘린더</p>
-                <button className="open-btn">
-                  <IconComponent icon="icon-open" />
+                <button
+                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.sectionCalendar })}
+                  onClick={() => toggleMenu('sectionCalendar')}
+                >
+                  <IconComponent icon={isOpenMenu.sectionCalendar ? 'icon-open' : 'icon-up'} />
                 </button>
               </div>
+              {isOpenMenu.sectionCalendar && (
+                <ul className="sidebar-sub-list">
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">구간 1</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">구간 2</p>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className="sidebar-menu-item">
               <div className="sidebar-menu__detail">
                 <p className="sidebar__title">공유 캘린더</p>
-                <button className="open-btn">
-                  <IconComponent icon="icon-open" />
+                <button
+                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.sharingCalendar })}
+                  onClick={() => toggleMenu('sharingCalendar')}
+                >
+                  <IconComponent icon={isOpenMenu.sharingCalendar ? 'icon-open' : 'icon-up'} />
                 </button>
               </div>
+              {isOpenMenu.sharingCalendar && (
+                <ul className="sidebar-sub-list">
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">공유 1</p>
+                  </li>
+                  <li className="sidebar-sub-item">
+                    <p className="sidebar-sub__title">공유 2</p>
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         </div>

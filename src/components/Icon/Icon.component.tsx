@@ -3,12 +3,14 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(undefined);
 
-interface IconComponentProps {
+interface IconComponentProps extends React.HTMLAttributes<HTMLElement> {
   icon: string;
+  className?: string;
 }
 
 const IconComponent: FC<IconComponentProps> = (props) => {
-  return <i className={cx('icon', props.icon)} />;
+  const { icon, className, ...rest } = props;
+  return <i className={cx('icon', icon, className)} {...rest} />;
 };
 
 export default IconComponent;
