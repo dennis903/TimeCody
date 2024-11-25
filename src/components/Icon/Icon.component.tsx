@@ -5,6 +5,7 @@ const cx = classNames.bind(undefined);
 
 interface IconComponentProps extends React.HTMLAttributes<HTMLElement> {
   icon: string;
+  style?: React.CSSProperties;
   className?: string;
 }
 

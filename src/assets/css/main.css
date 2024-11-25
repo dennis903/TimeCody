@@ -447,10 +447,7 @@ a {
   padding: 0;
   border: none;
   background-color: transparent;
-}
-
-.open-btn--closed .icon-open {
-  transform: rotate(180deg);
+  transition: transform 0.3s;
 }
 
 .link {

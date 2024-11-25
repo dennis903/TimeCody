@@ -1,6 +1,7 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import './Sidebar.container.css';
 import IconComponent from '../../components/Icon/Icon.component';
+import SidebarMenuContainer from '../SidebarMenu/SidebarMenu.container';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(undefined);
@@ -11,21 +12,26 @@ interface ISidebarContainerProps {
 }
 
 const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
-  const [isOpenMenu, setIsOpenMenu] = useState<{ [key: string]: boolean }>({
-    category: false,
-    monthlyCalendar: false,
-    sectionCalendar: false,
-    sharingCalendar: false,
-  });
+  const [isMoreOn, setIsMoreOn] = useState(false);
+  const [sideMenuList, setSideMenuList] = useState([
+    { id: 1, title: '카테고리', subMenuList: ['일정 1', '일정 2'], more: isMoreOn, onOff: true },
+    { id: 2, title: '월간 캘린더', more: isMoreOn, onOff: true },
+    { id: 3, title: '일정 관리', more: isMoreOn, onOff: false },
+    { id: 4, title: '주간 캘린더', more: isMoreOn, onOff: true },
+    { id: 5, title: '구간 캘린더', more: isMoreOn, onOff: true },
+    { id: 6, title: '공유 캘린더', more: isMoreOn, onOff: true },
+  ]);
 
-  const [isPlusMode, setIsPlusMode] = useState(false);
-
-  const toggleMenu = (menuKey: string) => {
-    setIsOpenMenu((prev) => ({
-      ...prev,
-      [menuKey]: !prev[menuKey],
-    }));
-  };
+  useEffect(() => {
+    setSideMenuList((prev) => {
+      return prev.map((sideMenu) => {
+        return {
+          ...sideMenu,
+          more: isMoreOn,
+        };
+      });
+    });
+  }, [isMoreOn]);
 
   return (
     <div
@@ -44,7 +50,11 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               <button type="button" className="sidebar-btn sidebar-plus-btn">
                 <IconComponent icon="icon-plus" />
               </button>
-              <button type="button" className="sidebar-btn sidebar-detail-btn">
+              <button
+                type="button"
+                className="sidebar-btn sidebar-detail-btn"
+                onClick={() => setIsMoreOn((prev) => !prev)}
+              >
                 <IconComponent icon="icon-detail" />
               </button>
             </div>
@@ -75,108 +85,30 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
         </div>
         <div className="sidebar-main">
           <ul className="sidebar-menu-list">
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">카테고리</p>
-                <button
-                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.category })}
-                  onClick={() => toggleMenu('category')}
-                >
-                  <IconComponent icon={isOpenMenu.category ? 'icon-open' : 'icon-up'} />
-                </button>
-              </div>
-              {isOpenMenu.category && (
-                <ul className="sidebar-sub-list">
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">개인</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">공부</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">만남</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">직장</p>
-                  </li>
-                </ul>
-              )}
-            </li>
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">월간 캘린더</p>
-                <button
-                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.monthlyCalendar })}
-                  onClick={() => toggleMenu('monthlyCalendar')}
-                >
-                  <IconComponent icon={isOpenMenu.monthlyCalendar ? 'icon-open' : 'icon-up'} />
-                </button>
-              </div>
-              {isOpenMenu.monthlyCalendar && (
-                <ul className="sidebar-sub-list">
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">월간 1</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">월간 2</p>
-                  </li>
-                </ul>
-              )}
-            </li>
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">일정 관리</p>
-              </div>
-            </li>
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">주간 캘린더</p>
-              </div>
-            </li>
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">구간 캘린더</p>
-                <button
-                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.sectionCalendar })}
-                  onClick={() => toggleMenu('sectionCalendar')}
-                >
-                  <IconComponent icon={isOpenMenu.sectionCalendar ? 'icon-open' : 'icon-up'} />
-                </button>
-              </div>
-              {isOpenMenu.sectionCalendar && (
-                <ul className="sidebar-sub-list">
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">구간 1</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">구간 2</p>
-                  </li>
-                </ul>
-              )}
-            </li>
-            <li className="sidebar-menu-item">
-              <div className="sidebar-menu__detail">
-                <p className="sidebar__title">공유 캘린더</p>
-                <button
-                  className={cx('open-btn', { 'open-btn--closed': !isOpenMenu.sharingCalendar })}
-                  onClick={() => toggleMenu('sharingCalendar')}
-                >
-                  <IconComponent icon={isOpenMenu.sharingCalendar ? 'icon-open' : 'icon-up'} />
-                </button>
-              </div>
-              {isOpenMenu.sharingCalendar && (
-                <ul className="sidebar-sub-list">
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">공유 1</p>
-                  </li>
-                  <li className="sidebar-sub-item">
-                    <p className="sidebar-sub__title">공유 2</p>
-                  </li>
-                </ul>
-              )}
-            </li>
+            {sideMenuList
+              .filter((sideMenu) => {
+                if (sideMenu.more) {
+                  return true;
+                }
+
+                if (sideMenu.onOff) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+              .map((sideMenu) => (
+                <SidebarMenuContainer
+                  key={sideMenu.id}
+                  title={sideMenu.title}
+                  subMenuList={sideMenu?.subMenuList}
+                  isMoreOn={isMoreOn}
+                  onOff={sideMenu.onOff}
+                />
+              ))}
           </ul>
         </div>
+        {isMoreOn && <button type="button">저장</button>}
       </div>
     </div>
   );
