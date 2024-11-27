@@ -6,15 +6,16 @@ import SwitchComponent from '../../components/switch/Switch.component';
 const cx = classNames.bind(undefined);
 
 interface ISidebarMenuContainerProps {
+  id: number;
   title: string;
   isMoreOn: boolean;
-  onOff: boolean;
+  onOff?: boolean;
   subMenuList?: string[];
+  setOnOffList: React.Dispatch<React.SetStateAction<{ id: number; onOff: boolean }[]>>;
 }
 
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [onOff, setOnOff] = useState(props.onOff);
   const subMenuListRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -28,7 +29,15 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
       <div className="sidebar-menu__detail">
         <p className="sidebar__title">{props.title}</p>
         {props.isMoreOn && (
-          <SwitchComponent id={props.title} checked={onOff} onChangeSwitch={() => setOnOff((prev) => !prev)} />
+          <SwitchComponent
+            id={props.title}
+            checked={props.onOff}
+            onChangeSwitch={() =>
+              props.setOnOffList((prev) => {
+                return prev.map((onOff) => (onOff.id === props.id ? { id: onOff.id, onOff: !onOff.onOff } : onOff));
+              })
+            }
+          /> // prev => [{id, onOff}, {id, onOff}, ...]
         )}
         {!props.isMoreOn && props.subMenuList && (
           <button

@@ -27,6 +27,47 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
       onOff: true,
     },
   ]);
+  const [onOffList, setOnOffList] = useState(
+    sideMenuList.map((sideMenu) => {
+      return {
+        id: sideMenu.id,
+        onOff: sideMenu.onOff,
+      };
+    }),
+  ); // [{id: 1, onOff: true}, {id: 2, onOff: true}, ...]
+
+  const onClickStoreBtn = () => {
+    setSideMenuList((prev) =>
+      prev.map((sideMenu) => {
+        const onOff = !!onOffList.find((onOff) => onOff.id === sideMenu.id)?.onOff; // true or false or undefined
+
+        return {
+          ...sideMenu,
+          onOff,
+        };
+      }),
+    );
+
+    setIsMoreOn(false);
+  };
+
+  const onClickMoreBtn = () => {
+    setIsMoreOn((prev) => {
+      if (prev) {
+        // 복사본 => 원상 복구 시킨다.
+        setOnOffList(
+          sideMenuList.map((sideMenu) => {
+            return {
+              id: sideMenu.id,
+              onOff: sideMenu.onOff,
+            };
+          }),
+        );
+      }
+
+      return !prev;
+    });
+  };
 
   useEffect(() => {
     setSideMenuList((prev) => {
@@ -56,11 +97,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               <button type="button" className="sidebar-btn sidebar-plus-btn">
                 <IconComponent icon="icon-plus" />
               </button>
-              <button
-                type="button"
-                className="sidebar-btn sidebar-detail-btn"
-                onClick={() => setIsMoreOn((prev) => !prev)}
-              >
+              <button type="button" className="sidebar-btn sidebar-detail-btn" onClick={() => onClickMoreBtn()}>
                 <IconComponent icon="icon-detail" />
               </button>
             </div>
@@ -106,15 +143,21 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               .map((sideMenu) => (
                 <SidebarMenuContainer
                   key={sideMenu.id}
+                  id={sideMenu.id}
                   title={sideMenu.title}
                   subMenuList={sideMenu?.subMenuList}
                   isMoreOn={isMoreOn}
-                  onOff={sideMenu.onOff}
+                  onOff={onOffList.find((onOff) => onOff.id === sideMenu.id)?.onOff} // true or false
+                  setOnOffList={setOnOffList} // onOff 복사본 값 바꿀라고
                 />
               ))}
           </ul>
         </div>
-        {isMoreOn && <button type="button">저장</button>}
+        {isMoreOn && (
+          <button type="button" onClick={onClickStoreBtn}>
+            저장
+          </button>
+        )}
       </div>
     </div>
   );
