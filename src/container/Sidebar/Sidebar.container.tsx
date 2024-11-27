@@ -14,12 +14,18 @@ interface ISidebarContainerProps {
 const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   const [isMoreOn, setIsMoreOn] = useState(false);
   const [sideMenuList, setSideMenuList] = useState([
-    { id: 1, title: '카테고리', subMenuList: ['일정 1', '일정 2'], more: isMoreOn, onOff: true },
-    { id: 2, title: '월간 캘린더', more: isMoreOn, onOff: true },
+    { id: 1, title: '카테고리', subMenuList: ['개인', '공부', '만남', '직장'], more: isMoreOn, onOff: true },
+    { id: 2, title: '월간 캘린더', subMenuList: ['내 캘린더', '프로젝트'], more: isMoreOn, onOff: true },
     { id: 3, title: '일정 관리', more: isMoreOn, onOff: false },
     { id: 4, title: '주간 캘린더', more: isMoreOn, onOff: true },
-    { id: 5, title: '구간 캘린더', more: isMoreOn, onOff: true },
-    { id: 6, title: '공유 캘린더', more: isMoreOn, onOff: true },
+    { id: 5, title: '구간 캘린더', subMenuList: ['구간 설정'], more: isMoreOn, onOff: true },
+    {
+      id: 6,
+      title: '공유 캘린더',
+      subMenuList: ['팀 프로젝트', '직장', '공유 1', '공유 2'],
+      more: isMoreOn,
+      onOff: true,
+    },
   ]);
 
   useEffect(() => {
