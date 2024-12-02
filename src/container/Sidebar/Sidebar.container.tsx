@@ -14,6 +14,7 @@ interface ISidebarContainerProps {
 const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   const [isMoreOn, setIsMoreOn] = useState(false);
   const [isEditOn, setIsEditOn] = useState(false);
+  const [isPlusOn, setIsPlusOn] = useState(false);
   const [sideMenuList, setSideMenuList] = useState([
     { id: 1, title: '카테고리', subMenuList: ['개인', '공부', '만남', '직장'], more: isMoreOn, onOff: true },
     { id: 2, title: '월간 캘린더', subMenuList: ['내 캘린더', '프로젝트'], more: isMoreOn, onOff: true },
@@ -74,6 +75,10 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     setIsEditOn((prev) => !prev);
   };
 
+  const onClickPlusBtn = () => {
+    setIsPlusOn((prev) => !prev);
+  };
+
   useEffect(() => {
     setSideMenuList((prev) => {
       return prev.map((sideMenu) => {
@@ -100,12 +105,12 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
           <div className="sidebar-header-btn">
             <div className="sidebar-header-left">
               {!isMoreOn && (
-                <button type="button" className="sidebar-btn sidebar-plus-btn">
+                <button type="button" className="sidebar-btn sidebar-plus-btn" onClick={onClickPlusBtn}>
                   <IconComponent icon="icon-plus" />
                 </button>
               )}
 
-              <button type="button" className="sidebar-btn sidebar-detail-btn" onClick={() => onClickMoreBtn()}>
+              <button type="button" className="sidebar-btn sidebar-detail-btn" onClick={onClickMoreBtn}>
                 <IconComponent icon="icon-detail" />
               </button>
             </div>
@@ -160,6 +165,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
                   onOff={onOffList.find((onOff) => onOff.id === sideMenu.id)?.onOff} // true or false
                   setOnOffList={setOnOffList} // onOff 복사본 값 바꿀라고
                   isEditOn={isEditOn}
+                  isPlusOn={isPlusOn}
                 />
               ))}
           </ul>

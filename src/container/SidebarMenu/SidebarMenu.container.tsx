@@ -15,6 +15,7 @@ interface ISidebarMenuContainerProps {
   subMenuList?: string[];
   setOnOffList: React.Dispatch<React.SetStateAction<{ id: number; onOff: boolean }[]>>;
   isEditOn?: boolean;
+  isPlusOn: boolean;
   setIsEditOn?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -47,19 +48,13 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           .with({ isMoreOn: false, subMenuList: P.when((list) => Array.isArray(list) && list.length > 0) }, () => (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <button
-                className={cx('open-btn', { 'open-btn--closed': !isOpen })}
+                type="button"
+                className="icon-btn"
                 onClick={() => setIsOpen((prev) => !prev)}
                 style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
               >
-                <IconComponent icon="icon-open" />
+                <IconComponent icon={props.isPlusOn ? 'icon-plus' : 'icon-open'} />
               </button>
-              {/* <button
-                className={cx('open-btn', { 'open-btn--closed': !isOpen })}
-                onClick={() => setIsOpen((prev) => !prev)}
-                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
-              >
-                <IconComponent icon="icon-plus" />
-              </button> */}
             </div>
           ))
           .with({ isEditOn: true }, () => (
@@ -79,10 +74,14 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           className="sidebar-sub-list"
           style={{ height: 0, overflow: 'hidden', transition: 'all 0.3s ease-out' }}
         >
-          <IconComponent icon="icon-modify" />
           {props.subMenuList.map((subMenu, index) => (
             <li key={index} className="sidebar-sub-item">
               <p className="sidebar-sub__title">{subMenu}</p>
+              {props.isPlusOn && (
+                <button type="button" className="icon-btn">
+                  <IconComponent icon="icon-modify" />
+                </button>
+              )}
             </li>
           ))}
         </ul>
