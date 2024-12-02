@@ -1,7 +1,12 @@
 import React from 'react';
+import SidebarPlusModalContainer from '@/container/Modals/SidebarPlusModal/SidebarPlusModal.container';
 
 function MainPage() {
-  return <div>MainPage</div>;
+  return (
+    <div>
+      <SidebarPlusModalContainer />
+    </div>
+  );
 }
 
 export default MainPage;
