@@ -270,6 +270,24 @@ a {
   background-image: url('../img/icon/store.png');
 }
 
+.icon-check-complete {
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url('../img/icon/check-complete');
+}
+
+.icon-check-complete-w {
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url('../img/icon/check-complete-w');
+}
+
+.icon-modify {
+  width: 1.2rem;
+  height: 1.2rem;
+  background-image: url('../img/icon/modify');
+}
+
 .icon-btn {
   background-color: transparent;
   border: none;

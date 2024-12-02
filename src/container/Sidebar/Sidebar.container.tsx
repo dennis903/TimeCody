@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 import './Sidebar.container.css';
 import IconComponent from '../../components/Icon/Icon.component';
 import SidebarMenuContainer from '../SidebarMenu/SidebarMenu.container';
+import SidebarPlusComponent from '@/components/sidebarplus/SidebarPlus.component';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(undefined);
@@ -13,6 +14,7 @@ interface ISidebarContainerProps {
 
 const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   const [isMoreOn, setIsMoreOn] = useState(false);
+  const [isEditOn, setIsEditOn] = useState(false);
   const [sideMenuList, setSideMenuList] = useState([
     { id: 1, title: '카테고리', subMenuList: ['개인', '공부', '만남', '직장'], more: isMoreOn, onOff: true },
     { id: 2, title: '월간 캘린더', subMenuList: ['내 캘린더', '프로젝트'], more: isMoreOn, onOff: true },
@@ -69,6 +71,10 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     });
   };
 
+  const onClickEditBtn = () => {
+    setIsEditOn((prev) => !prev);
+  };
+
   useEffect(() => {
     setSideMenuList((prev) => {
       return prev.map((sideMenu) => {
@@ -119,7 +125,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               <span className="sidebar-username">주아</span>
             </div>
             <div className="sidebar-edit">
-              <button type="button" className="btn edit-btn">
+              <button type="button" className="btn edit-btn" onClick={onClickEditBtn}>
                 <span className="edit-order">순서 편집</span>
                 <IconComponent icon="icon-order" />
               </button>
@@ -149,12 +155,13 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
                   isMoreOn={isMoreOn}
                   onOff={onOffList.find((onOff) => onOff.id === sideMenu.id)?.onOff} // true or false
                   setOnOffList={setOnOffList} // onOff 복사본 값 바꿀라고
+                  isEditOn={isEditOn}
                 />
               ))}
           </ul>
         </div>
         {isMoreOn && (
-          <button type="button" onClick={onClickStoreBtn}>
+          <button type="button" className="complete-btn" onClick={onClickStoreBtn}>
             저장
           </button>
         )}

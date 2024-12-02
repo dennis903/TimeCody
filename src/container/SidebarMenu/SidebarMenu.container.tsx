@@ -2,6 +2,7 @@ import { type FC, useState, useEffect, useRef } from 'react';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
+import SidebarPlusComponent from '@/components/sidebarplus/SidebarPlus.component';
 
 const cx = classNames.bind(undefined);
 
@@ -12,6 +13,8 @@ interface ISidebarMenuContainerProps {
   onOff?: boolean;
   subMenuList?: string[];
   setOnOffList: React.Dispatch<React.SetStateAction<{ id: number; onOff: boolean }[]>>;
+  isEditOn?: boolean;
+  setIsEditOn?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
@@ -45,7 +48,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
             onClick={() => setIsOpen((prev) => !prev)}
             style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
           >
-            <IconComponent icon="icon-open" />
+            <IconComponent icon={props.isEditOn ? 'icon-modify' : 'icon-open'} />
           </button>
         )}
       </div>
@@ -55,6 +58,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           className="sidebar-sub-list"
           style={{ height: 0, overflow: 'hidden', transition: 'all 0.3s ease-out' }}
         >
+          <IconComponent icon="icon-modify" />
           {props.subMenuList.map((subMenu, index) => (
             <li key={index} className="sidebar-sub-item">
               <p className="sidebar-sub__title">{subMenu}</p>
