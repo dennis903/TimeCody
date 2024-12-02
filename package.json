@@ -21,6 +21,7 @@
     "react-router-dom": "^6.27.0",
     "sass-loader": "^16.0.3",
     "style-loader": "^4.0.0",
+    "ts-pattern": "^5.5.0",
     "vite-tsconfig-paths": "^5.1.0"
   },
   "devDependencies": {

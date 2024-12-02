@@ -273,19 +273,25 @@ a {
 .icon-check-complete {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../img/icon/check-complete');
+  background-image: url('../img/icon/check-complete.png');
 }
 
 .icon-check-complete-w {
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url('../img/icon/check-complete-w');
+  background-image: url('../img/icon/check-complete-w.png');
 }
 
 .icon-modify {
   width: 1.2rem;
   height: 1.2rem;
-  background-image: url('../img/icon/modify');
+  background-image: url('../img/icon/modify.png');
+}
+
+.icon-order-edit {
+  width: 1rem;
+  height: 0.5rem;
+  background-image: url('../img/icon/order-edit.png');
 }
 
 .icon-btn {
@@ -307,6 +313,9 @@ a {
 }
 
 .sidebar-btn {
+  width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
   background-color: transparent;
   border: none;
   padding: 0.25rem;

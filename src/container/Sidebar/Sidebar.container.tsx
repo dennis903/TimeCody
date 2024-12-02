@@ -2,7 +2,6 @@ import { type FC, useEffect, useState } from 'react';
 import './Sidebar.container.css';
 import IconComponent from '../../components/Icon/Icon.component';
 import SidebarMenuContainer from '../SidebarMenu/SidebarMenu.container';
-import SidebarPlusComponent from '@/components/sidebarplus/SidebarPlus.component';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(undefined);
@@ -100,9 +99,12 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
         <div className="sidebar-header">
           <div className="sidebar-header-btn">
             <div className="sidebar-header-left">
-              <button type="button" className="sidebar-btn sidebar-plus-btn">
-                <IconComponent icon="icon-plus" />
-              </button>
+              {!isMoreOn && (
+                <button type="button" className="sidebar-btn sidebar-plus-btn">
+                  <IconComponent icon="icon-plus" />
+                </button>
+              )}
+
               <button type="button" className="sidebar-btn sidebar-detail-btn" onClick={() => onClickMoreBtn()}>
                 <IconComponent icon="icon-detail" />
               </button>
@@ -125,10 +127,12 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               <span className="sidebar-username">주아</span>
             </div>
             <div className="sidebar-edit">
-              <button type="button" className="btn edit-btn" onClick={onClickEditBtn}>
-                <span className="edit-order">순서 편집</span>
-                <IconComponent icon="icon-order" />
-              </button>
+              {!isMoreOn && (
+                <button type="button" className="btn edit-btn" onClick={onClickEditBtn}>
+                  <span className="edit-order">순서 편집</span>
+                  <IconComponent icon="icon-order" />
+                </button>
+              )}
             </div>
           </div>
         </div>

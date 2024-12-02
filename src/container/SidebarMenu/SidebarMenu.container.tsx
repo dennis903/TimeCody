@@ -1,4 +1,5 @@
 import { type FC, useState, useEffect, useRef } from 'react';
+import { match, P } from 'ts-pattern';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
@@ -31,26 +32,46 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     <li className="sidebar-menu-item">
       <div className="sidebar-menu__detail">
         <p className="sidebar__title">{props.title}</p>
-        {props.isMoreOn && (
-          <SwitchComponent
-            id={props.title}
-            checked={props.onOff}
-            onChangeSwitch={() =>
-              props.setOnOffList((prev) => {
-                return prev.map((onOff) => (onOff.id === props.id ? { id: onOff.id, onOff: !onOff.onOff } : onOff));
-              })
-            }
-          /> // prev => [{id, onOff}, {id, onOff}, ...]
-        )}
-        {!props.isMoreOn && props.subMenuList && (
-          <button
-            className={cx('open-btn', { 'open-btn--closed': !isOpen })}
-            onClick={() => setIsOpen((prev) => !prev)}
-            style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
-          >
-            <IconComponent icon={props.isEditOn ? 'icon-modify' : 'icon-open'} />
-          </button>
-        )}
+        {match(props)
+          .with({ isMoreOn: true }, () => (
+            <SwitchComponent
+              id={props.title}
+              checked={props.onOff}
+              onChangeSwitch={() =>
+                props.setOnOffList((prev) => {
+                  return prev.map((onOff) => (onOff.id === props.id ? { id: onOff.id, onOff: !onOff.onOff } : onOff));
+                })
+              }
+            />
+          ))
+          .with({ isMoreOn: false, subMenuList: P.when((list) => Array.isArray(list) && list.length > 0) }, () => (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <button
+                className={cx('open-btn', { 'open-btn--closed': !isOpen })}
+                onClick={() => setIsOpen((prev) => !prev)}
+                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+              >
+                <IconComponent icon="icon-open" />
+              </button>
+              {/* <button
+                className={cx('open-btn', { 'open-btn--closed': !isOpen })}
+                onClick={() => setIsOpen((prev) => !prev)}
+                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+              >
+                <IconComponent icon="icon-plus" />
+              </button> */}
+            </div>
+          ))
+          .with({ isEditOn: true }, () => (
+            <button
+              className={cx('open-btn', { 'open-btn--closed': !isOpen })}
+              onClick={() => setIsOpen((prev) => !prev)}
+              style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+            >
+              <IconComponent icon="icon-order-edit" />
+            </button>
+          ))
+          .otherwise(() => null)}
       </div>
       {props.subMenuList && (
         <ul
