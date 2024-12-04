@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
-
+import useModalStore from '@/store/modal.store';
 
 const cx = classNames.bind(undefined);
 
@@ -22,6 +22,7 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
+  const { openSidebarPlusModal } = useModalStore();
 
   useEffect(() => {
     if (subMenuListRef.current) {
@@ -78,7 +79,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
             <li key={index} className="sidebar-sub-item">
               <p className="sidebar-sub__title">{subMenu}</p>
               {props.isPlusOn && (
-                <button type="button" className="icon-btn">
+                <button type="button" className="icon-btn" onClick={openSidebarPlusModal}>
                   <IconComponent icon="icon-modify" />
                 </button>
               )}

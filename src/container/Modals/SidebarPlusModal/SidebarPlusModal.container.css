@@ -1,0 +1,36 @@
+.sidebar-modal-plus {
+  position: absolute;
+  padding: 5rem 2rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+
+.sidebar-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem;
+}
+
+.sidebar-modal-plus__input {
+  padding: 1.2rem;
+  margin: 1.6rem auto;
+  font-size: 1.6rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-modal__delete-btn {
+  padding: 1.6rem;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #ff0000;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+}

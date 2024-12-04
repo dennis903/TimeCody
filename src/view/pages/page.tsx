@@ -1,12 +1,7 @@
-import React from 'react';
-import SidebarPlusModalContainer from '@/container/Modals/SidebarPlusModal/SidebarPlusModal.container';
+import AppLayout from '@/view/layout/app.layout';
 
 function MainPage() {
-  return (
-    <div>
-      <SidebarPlusModalContainer />
-    </div>
-  );
+  return <AppLayout>test</AppLayout>;
 }
 
 export default MainPage;
