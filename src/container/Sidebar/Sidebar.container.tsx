@@ -1,7 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 import './Sidebar.container.css';
-import IconComponent from '../../components/Icon/Icon.component';
-import SidebarMenuContainer from '../SidebarMenu/SidebarMenu.container';
+import IconComponent from '@/components/Icon/Icon.component';
+// import SidebarMenuContainer from '@/SidebarMenu/SidebarMenu.container';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(undefined);

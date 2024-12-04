@@ -328,6 +328,16 @@ a {
   line-height: 0.7rem;
 }
 
+.sidebar-modal-delete-btn {
+  padding: 1.6rem;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #ff0000;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+}
+
 .sidebar-header-contents {
   display: flex;
   align-items: center;
@@ -391,6 +401,32 @@ a {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.sidebar-modal-plus {
+  position: absolute;
+  padding: 5rem 2rem;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sidebar-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem;
+}
+
+.sidebar-modal-plus-text {
+  padding: 1.2rem;
+  margin: 1.6rem auto;
+  font-size: 1.6rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {

@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
-import SidebarPlusComponent from '@/components/sidebarplus/SidebarPlus.component';
+
 
 const cx = classNames.bind(undefined);
 
