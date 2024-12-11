@@ -1301,3 +1301,21 @@ summary {
   justify-content: space-between;
   align-items: center;
 }
+
+.sidebar-modal-plus__form {
+  display: flex;
+  align-items: center;
+}
+
+#color {
+  width: 3rem;
+  height: 3rem;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+}
+/* 안쪽부분의 디자인 변경 */
+#color::-webkit-color-swatch {
+  border-radius: 3rem;
+  border: none;
+}

@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
-import useModalStore from '@/store/modal.store';
+import useSidebarModalStore from '@/store/modal.store';
 
 const cx = classNames.bind(undefined);
 
@@ -22,7 +22,12 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
-  const { openSidebarPlusModal } = useModalStore();
+  const { toggleSidebarPlusModal, setSidebarPlusValue } = useSidebarModalStore();
+
+  const onClickModifyBtn = (value: string) => {
+    toggleSidebarPlusModal(true);
+    setSidebarPlusValue(value);
+  };
 
   useEffect(() => {
     if (subMenuListRef.current) {
@@ -79,7 +84,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
             <li key={index} className="sidebar-sub-item">
               <p className="sidebar-sub__title">{subMenu}</p>
               {props.isPlusOn && (
-                <button type="button" className="icon-btn" onClick={openSidebarPlusModal}>
+                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu)}>
                   <IconComponent icon="icon-modify" />
                 </button>
               )}
