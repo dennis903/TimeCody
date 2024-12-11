@@ -19,14 +19,16 @@ const SidebarPlusModalContainer: FC = () => {
             <IconComponent icon="icon-check-complete" />
           </button>
         </header>
-        <input
-          className="sidebar-modal-plus__input"
-          type="text"
-          name="new"
-          id="new"
-          placeholder="새 카테고리 이름을 입력하세요"
-        />
-        <button className="sidebar-modal__delete-btn">삭제</button>
+        <div className="sidebar-modal-plus__contents">
+          <input
+            className="sidebar-modal-plus__input"
+            type="text"
+            name="new"
+            id="new"
+            placeholder="새 카테고리 이름을 입력하세요"
+          />
+          <button className="sidebar-modal__delete-btn">삭제</button>
+        </div>
       </div>
     </ModalComponent>
   );

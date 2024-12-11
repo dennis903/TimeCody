@@ -1,0 +1,44 @@
+.calendar-modal {
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding: 2rem;
+  border-radius: 2rem;
+}
+
+.calendar-modal__header-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+.calendar-modal__date {
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: #343434;
+}
+
+.calendar-modal__content {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+}
+
+.calendar-modal__content-title {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: #343434;
+}
+
+.calendar-modal__footer-item {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #343434;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}

@@ -1,9 +1,11 @@
 .sidebar-modal-plus {
   position: absolute;
-  padding: 5rem 2rem;
+  padding: 2rem;
   top: 50%;
   left: 50%;
+  width: 100%;
   transform: translate(-50%, -50%);
+  border-radius: 2rem;
   background-color: #fff;
 }
 
@@ -11,23 +13,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem;
+}
+
+.sidebar-modal-plus__contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
 
 .sidebar-modal-plus__input {
-  padding: 1.2rem;
-  margin: 1.6rem auto;
   font-size: 1.6rem;
+  padding: 1rem 2rem;
   border: none;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .sidebar-modal__delete-btn {
-  padding: 1.6rem;
-  margin: 0 auto;
+  padding: 1rem 2rem;
   background-color: #fff;
   color: #ff0000;
   font-size: 1.6rem;
