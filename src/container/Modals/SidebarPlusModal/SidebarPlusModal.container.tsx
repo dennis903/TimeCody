@@ -1,12 +1,12 @@
-import { type FC } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
-import useSidebarModalStore from '@/store/modal.store';
+import useSidebarModalStore from '@/store/SidebarModal.store';
 
 import './SidebarPlusModal.container.css';
 
 const SidebarPlusModalContainer: FC = () => {
-  const { sidebarPlusState, toggleSidebarPlusModal } = useSidebarModalStore();
+  const { sidebarPlusState, toggleSidebarPlusModal, setSidebarPlusPlaceholder } = useSidebarModalStore();
 
   return (
     sidebarPlusState.isOpen && (
@@ -27,7 +27,7 @@ const SidebarPlusModalContainer: FC = () => {
                 type="text"
                 name="new"
                 id="new"
-                value={sidebarPlusState.value}
+                value=""
                 placeholder="새 카테고리 이름을 입력하세요"
               />
               <input type="color" name="color" id="color" />

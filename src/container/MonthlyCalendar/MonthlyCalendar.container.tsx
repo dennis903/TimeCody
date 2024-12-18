@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import CalendarModalcontainer from '../Modals/CalendarModal/CalendarModal.container';
-
+import useModalStore from '@/store/modal.store';
 import './MonthlyCalendar.container.css';
 
 interface IMonthlyCalendarContainerProps {
@@ -13,7 +13,7 @@ interface IMonthlyCalendarContainerProps {
 
 const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {
   const calendarRef = useRef<FullCalendar>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { modalState, toggleModal } = useModalStore();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const periodList = [
     { title: 'Long Event', start: '2024-11-07', end: '2024-11-10', color: 'purple', className: 'period-event' },
@@ -63,12 +63,12 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
 
   const handleDateClick = (info: { date: Date }) => {
     setSelectedDate(info.date);
-    setIsModalOpen(true);
+    toggleModal(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
     setSelectedDate(null);
+    toggleModal(false);
   };
 
   return (
@@ -90,7 +90,7 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
         dateClick={handleDateClick}
       />
 
-      {isModalOpen && selectedDate && <CalendarModalcontainer date={selectedDate} onClose={closeModal} />}
+      {modalState.isOpen && selectedDate && <CalendarModalcontainer date={selectedDate} onClose={closeModal} />}
     </>
   );
 };

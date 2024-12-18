@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
-import useSidebarModalStore from '@/store/modal.store';
+import useSidebarModalStore from '@/store/SidebarModal.store';
 
 const cx = classNames.bind(undefined);
 
@@ -22,12 +22,18 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
-  const { toggleSidebarPlusModal, setSidebarPlusValue } = useSidebarModalStore();
+  const { toggleSidebarPlusModal, setSidebarPlusPlaceholder } = useSidebarModalStore();
 
-  const onClickModifyBtn = (value: string) => {
+  const onClickModifyBtn = (id: string, placeholder: string) => {
     toggleSidebarPlusModal(true);
-    setSidebarPlusValue(value);
+    setSidebarPlusPlaceholder(id, placeholder);
   };
+
+  useEffect(() => {
+    if (props.isMoreOn) {
+      setIsOpen(false);
+    }
+  }, [props.isMoreOn]);
 
   useEffect(() => {
     if (subMenuListRef.current) {
@@ -59,8 +65,19 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
                 onClick={() => setIsOpen((prev) => !prev)}
                 style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
               >
-                <IconComponent icon={props.isPlusOn ? 'icon-plus' : 'icon-open'} />
+                <IconComponent icon="icon-open" />
               </button>
+
+              {props.isPlusOn && (
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={() => toggleSidebarPlusModal(true)}
+                  style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+                >
+                  <IconComponent icon="icon-plus" />
+                </button>
+              )}
             </div>
           ))
           .with({ isEditOn: true }, () => (
@@ -84,7 +101,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
             <li key={index} className="sidebar-sub-item">
               <p className="sidebar-sub__title">{subMenu}</p>
               {props.isPlusOn && (
-                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu)}>
+                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu, subMenu)}>
                   <IconComponent icon="icon-modify" />
                 </button>
               )}

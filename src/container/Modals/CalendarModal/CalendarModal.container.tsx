@@ -3,6 +3,7 @@ import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
 
 import './CalendarModal.container.css';
+import useModalStore from '@/store/modal.store';
 
 interface ICalendarModalContainerProps {
   date: Date;
@@ -24,7 +25,8 @@ const contentlist = [
   { id: 5, title: '학원 과제' },
 ];
 
-const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date, onClose }) => {
+const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date }) => {
+  const { toggleModal } = useModalStore();
   return (
     <ModalComponent>
       <div className="calendar-modal">
@@ -33,7 +35,7 @@ const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date, 
             <h2 className="calendar-modal__date">
               {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일
             </h2>
-            <button type="button" className="icon-btn" onClick={onClose}>
+            <button type="button" className="icon-btn" onClick={() => toggleModal(false)}>
               <IconComponent icon="icon-close" />
             </button>
           </div>

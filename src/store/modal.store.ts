@@ -1,32 +1,21 @@
 import { create } from 'zustand';
 
-interface ISidebarPlusState {
+interface IModalState {
   isOpen: boolean;
-  placeholder: string;
-  value: string;
 }
 
-interface ISidebarModalStore {
-  sidebarPlusState: ISidebarPlusState;
+interface IModalStore {
+  modalState: IModalState;
 
-  toggleSidebarPlusModal: (isOpen: boolean) => void;
-  setSidebarPlusPlaceholder: (placeholder: string) => void;
-  setSidebarPlusValue: (value: string) => void;
+  toggleModal: (isOpen: boolean) => void;
 }
 
-const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
-  sidebarPlusState: {
+const useModalStore = create<IModalStore>((set) => ({
+  modalState: {
     isOpen: false,
-    placeholder: '',
-    value: '',
   },
 
-  toggleSidebarPlusModal: (isOpen: boolean) =>
-    set((state: ISidebarModalStore) => ({ sidebarPlusState: { ...state.sidebarPlusState, isOpen } })),
-  setSidebarPlusPlaceholder: (placeholder: string) =>
-    set((state: ISidebarModalStore) => ({ sidebarPlusState: { ...state.sidebarPlusState, placeholder } })),
-  setSidebarPlusValue: (value: string) =>
-    set((state: ISidebarModalStore) => ({ sidebarPlusState: { ...state.sidebarPlusState, value } })),
+  toggleModal: (isOpen: boolean) => set((state: IModalStore) => ({ modalState: { ...state.modalState, isOpen } })),
 }));
 
-export default useSidebarModalStore;
+export default useModalStore;

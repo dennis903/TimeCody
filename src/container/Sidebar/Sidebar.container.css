@@ -41,4 +41,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #343434;
 }
