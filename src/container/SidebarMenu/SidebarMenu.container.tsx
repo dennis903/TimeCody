@@ -22,11 +22,17 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
-  const { toggleSidebarPlusModal, setSidebarPlusPlaceholder } = useSidebarModalStore();
+  const { toggleSidebarPlusModal, setSidebarPlusPlaceholder, setSidebarPlusValue } = useSidebarModalStore();
 
-  const onClickModifyBtn = (id: string, placeholder: string) => {
+  const onClickModifyBtn = (value: string) => {
     toggleSidebarPlusModal(true);
-    setSidebarPlusPlaceholder(id, placeholder);
+    setSidebarPlusValue(value);
+  };
+
+  const onClickPlusBtn = (placeholder: string) => {
+    toggleSidebarPlusModal(true);
+    setSidebarPlusValue('');
+    setSidebarPlusPlaceholder(placeholder);
   };
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
                 <button
                   type="button"
                   className="icon-btn"
-                  onClick={() => toggleSidebarPlusModal(true)}
+                  onClick={() => onClickPlusBtn('새 카테고리를 입력하세요.')}
                   style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
                 >
                   <IconComponent icon="icon-plus" />
@@ -99,9 +105,10 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
         >
           {props.subMenuList.map((subMenu, index) => (
             <li key={index} className="sidebar-sub-item">
+              <div className="sidebar-sub-item__color" style={{ backgroundColor: 'black' }} />
               <p className="sidebar-sub__title">{subMenu}</p>
               {props.isPlusOn && (
-                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu, subMenu)}>
+                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu)}>
                   <IconComponent icon="icon-modify" />
                 </button>
               )}

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface ISidebarPlusState {
   isOpen: boolean;
-  placeholder: { [key: string]: string };
+  placeholder: string;
   value: string;
 }
 
@@ -10,27 +10,24 @@ interface ISidebarModalStore {
   sidebarPlusState: ISidebarPlusState;
 
   toggleSidebarPlusModal: (isOpen: boolean) => void;
-  setSidebarPlusPlaceholder: (id: string, placeholder: string) => void;
+  setSidebarPlusPlaceholder: (placeholder: string) => void;
   setSidebarPlusValue: (value: string) => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
   sidebarPlusState: {
     isOpen: false,
-    placeholder: {},
+    placeholder: '',
     value: '',
   },
 
   toggleSidebarPlusModal: (isOpen: boolean) =>
     set((state: ISidebarModalStore) => ({ sidebarPlusState: { ...state.sidebarPlusState, isOpen } })),
-  setSidebarPlusPlaceholder: (id: string, placeholder: string) =>
+  setSidebarPlusPlaceholder: (placeholder: string) =>
     set((state) => ({
       sidebarPlusState: {
         ...state.sidebarPlusState,
-        placeholders: {
-          ...state.sidebarPlusState.placeholder,
-          [id]: placeholder,
-        },
+        placeholder,
       },
     })),
   setSidebarPlusValue: (value: string) => set((state) => ({ sidebarPlusState: { ...state.sidebarPlusState, value } })),

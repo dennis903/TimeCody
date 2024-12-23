@@ -294,6 +294,78 @@ a {
   background-image: url('../img/icon/order-edit.png');
 }
 
+.icon-arrow {
+  width: 1.5rem;
+  height: 1.6rem;
+  background-image: url('../img/icon/arrow.png');
+}
+
+.icon-color {
+  width: 3rem;
+  height: 3rem;
+  background-image: url('../img/color.png');
+}
+
+.icon-list {
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url('../img/icon/list.png');
+}
+
+.icon-time {
+  width: 2rem;
+  height: 2rem;
+  background-image: url('../img/icon/time.png');
+}
+
+.icon-repetition {
+  width: 1.8rem;
+  height: 2.2rem;
+  background-image: url('../img/icon/repetition.png');
+}
+
+.icon-bell {
+  width: 1.8rem;
+  height: 2rem;
+  background-image: url('../img/icon/bell.png');
+}
+
+.icon-dday {
+  width: 2rem;
+  height: 2.1rem;
+  background-image: url('../img/icon/d-day.png');
+}
+
+.icon-location {
+  width: 1.8rem;
+  height: 2.2rem;
+  background-image: url('../img/icon/location.png');
+}
+
+.icon-attendee {
+  width: 1.6rem;
+  height: 1.8rem;
+  background-image: url('../img/icon/attendee.png');
+}
+
+.icon-additinal {
+  width: 1.6rem;
+  height: 1.6rem;
+  background-image: url('../img/icon/additional.png');
+}
+
+.icon-memo {
+  width: 1.6rem;
+  height: 2rem;
+  background-image: url('../img/icon/memo.png');
+}
+
+.icon-link {
+  width: 2rem;
+  height: 2rem;
+  background-image: url('../img/icon/link.png');
+}
+
 .icon-btn {
   background-color: transparent;
   border: none;
@@ -379,6 +451,14 @@ a {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.sidebar-sub-item__color {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
 }
 
 .sidebar-sub__title {

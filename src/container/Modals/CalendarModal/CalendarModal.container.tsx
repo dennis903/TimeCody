@@ -1,6 +1,7 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
+import AdditionalModal from '../AdditionalModal/AdditionalModal.container';
 
 import './CalendarModal.container.css';
 import useModalStore from '@/store/modal.store';
@@ -27,46 +28,53 @@ const contentlist = [
 
 const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date }) => {
   const { toggleModal } = useModalStore();
+  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
+
+  if (!date) {
+    return null;
+  }
+
   return (
-    <ModalComponent>
-      <div className="calendar-modal">
-        <header className="calendar-modal__header">
-          <div className="calendar-modal__header-item">
-            <h2 className="calendar-modal__date">
-              {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일
-            </h2>
-            <button type="button" className="icon-btn" onClick={() => toggleModal(false)}>
-              <IconComponent icon="icon-close" />
-            </button>
-          </div>
-          <div className="calendar-modal__header-item">
-            <button type="button" className="icon-btn">
-              <IconComponent icon="icon-plus" />
-            </button>
-            <button type="button" className="btn edit-btn">
-              <span className="edit-order">순서 편집</span>
-              <IconComponent icon="icon-order" />
-            </button>
-          </div>
-        </header>
-        <div className="calendar-modal__contents">
-          {contentlist.map((content, id) => (
-            <div key={id} className="calendar-modal__content">
-              <input type="checkbox" className="calendar-modal__checkbox" />
-              <p className="calendar-modal__content-title">{content.title}</p>
+    <>
+      <ModalComponent>
+        <div className="calendar-modal">
+          <header className="calendar-modal__header">
+            <div className="calendar-modal__header-item">
+              <h2 className="calendar-modal__date">
+                {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일
+              </h2>
+              <button type="button" className="icon-btn" onClick={() => toggleModal(false)}>
+                <IconComponent icon="icon-close" />
+              </button>
             </div>
-          ))}
+            <div className="calendar-modal__header-item">
+              <button type="button" className="icon-btn" onClick={() => setIsAdditionalModalOpen(true)}>
+                <IconComponent icon="icon-plus" />
+              </button>
+              <button type="button" className="btn edit-btn">
+                <span className="edit-order">순서 편집</span>
+                <IconComponent icon="icon-order" />
+              </button>
+            </div>
+          </header>
+          <div className="calendar-modal__contents">
+            {contentlist.map((content) => (
+              <div key={content.id} className="calendar-modal__content">
+                <input type="checkbox" className="calendar-modal__checkbox" />
+                <p className="calendar-modal__content-title">{content.title}</p>
+              </div>
+            ))}
+          </div>
+          <footer className="calendar-modal__footer">
+            <div className="calendar-modal__footer-item">
+              <h2 className="calendar-modal__schedule-view">일정관리</h2>
+            </div>
+          </footer>
         </div>
-        <footer className="calendar-modal__footer">
-          <div className="calendar-modal__footer-item">
-            <h2 className="calendar-modal__add-item">항목추가</h2>
-          </div>
-          <div className="calendar-modal__footer-item">
-            <h2 className="calendar-modal__schedule-view">일정관리</h2>
-          </div>
-        </footer>
-      </div>
-    </ModalComponent>
+      </ModalComponent>
+
+      {isAdditionalModalOpen && <AdditionalModal date={date} />}
+    </>
   );
 };
 
