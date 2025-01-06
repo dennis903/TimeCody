@@ -4,6 +4,8 @@ import MainPage from './view/pages/page';
 import LoginPage from './view/pages/login/page';
 import AccountLoginPage from './view/pages/account/login/page';
 import CalendarPage from './view/pages/calendar/page';
+import CalendarSchedulePage from './view/pages/calendar/schedule/page';
+import CalendarWeeklyPage from './view/pages/calendar/Weekly/page';
 
 export const router = createBrowserRouter([
   {
@@ -21,5 +23,13 @@ export const router = createBrowserRouter([
   {
     path: '/Calendar',
     element: <CalendarPage />,
+  },
+  {
+    path: '/calendar/schedule',
+    element: <CalendarSchedulePage />,
+  },
+  {
+    path: '/calendar/weekly',
+    element: <CalendarWeeklyPage />,
   },
 ]);

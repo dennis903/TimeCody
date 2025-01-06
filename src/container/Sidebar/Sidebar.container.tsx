@@ -3,6 +3,7 @@ import './Sidebar.container.css';
 import IconComponent from '@/components/Icon/Icon.component';
 import SidebarMenuContainer from '@/container/SidebarMenu/SidebarMenu.container';
 import classNames from 'classnames/bind';
+import { Reorder } from 'framer-motion';
 
 const cx = classNames.bind(undefined);
 
@@ -17,16 +18,24 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   const [isPlusOn, setIsPlusOn] = useState(false);
   const [sideMenuList, setSideMenuList] = useState([
     { id: 1, title: '카테고리', subMenuList: ['개인', '공부', '만남', '직장'], more: isMoreOn, onOff: true },
-    { id: 2, title: '월간 캘린더', subMenuList: ['내 캘린더', '프로젝트'], more: isMoreOn, onOff: true },
-    { id: 3, title: '일정 관리', more: isMoreOn, onOff: false },
-    { id: 4, title: '주간 캘린더', more: isMoreOn, onOff: true },
-    { id: 5, title: '구간 캘린더', subMenuList: ['구간 설정'], more: isMoreOn, onOff: true },
+    {
+      id: 2,
+      title: '월간 캘린더',
+      subMenuList: ['내 캘린더', '프로젝트'],
+      more: isMoreOn,
+      onOff: true,
+      link: '/calendar',
+    },
+    { id: 3, title: '일정 관리', more: isMoreOn, onOff: true, link: '/calendar/schedule' },
+    { id: 4, title: '주간 캘린더', more: isMoreOn, onOff: true, link: '/calendar/weekly' },
+    { id: 5, title: '구간 캘린더', more: isMoreOn, onOff: true, link: '/calendar/period' },
     {
       id: 6,
       title: '공유 캘린더',
       subMenuList: ['팀 프로젝트', '직장', '공유 1', '공유 2'],
       more: isMoreOn,
       onOff: true,
+      link: '/calendar/shearing',
     },
   ]);
   const [onOffList, setOnOffList] = useState(
@@ -73,10 +82,20 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
 
   const onClickEditBtn = () => {
     setIsEditOn((prev) => !prev);
+    setIsPlusOn(false);
+    setIsMoreOn(false);
   };
 
   const onClickPlusBtn = () => {
+    setIsEditOn(false);
     setIsPlusOn((prev) => !prev);
+  };
+
+  const onClickCloseBtn = () => {
+    setIsEditOn(false);
+    setIsMoreOn(false);
+    setIsPlusOn(false);
+    props.setIsSidebarShow(false);
   };
 
   useEffect(() => {
@@ -115,11 +134,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               </button>
             </div>
             <div className="sidebar-header-right">
-              <button
-                type="button"
-                className="sidebar-btn sidebar-close-btn"
-                onClick={() => props.setIsSidebarShow(false)}
-              >
+              <button type="button" className="sidebar-btn sidebar-close-btn" onClick={onClickCloseBtn}>
                 <IconComponent icon="icon-close" />
               </button>
             </div>
@@ -142,6 +157,25 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
           </div>
         </div>
         <div className="sidebar-main">
+          {isEditOn && (
+            <Reorder.Group axis="y" values={sideMenuList} onReorder={setSideMenuList}>
+              {sideMenuList.map((sideMenu) => (
+                <Reorder.Item key={sideMenu.id} value={sideMenu}>
+                  <SidebarMenuContainer
+                    key={sideMenu.id}
+                    id={sideMenu.id}
+                    title={sideMenu.title}
+                    subMenuList={sideMenu?.subMenuList}
+                    isMoreOn={isMoreOn}
+                    onOff={onOffList.find((onOff) => onOff.id === sideMenu.id)?.onOff}
+                    setOnOffList={setOnOffList}
+                    isEditOn={isEditOn}
+                    isPlusOn={isPlusOn}
+                  />
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
+          )}
           <ul className="sidebar-menu-list">
             {sideMenuList
               .filter((sideMenu) => {
@@ -149,7 +183,11 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
                   return true;
                 }
 
-                if (sideMenu.onOff) {
+                if (isEditOn) {
+                  return false;
+                }
+
+                if (sideMenu.onOff || isEditOn) {
                   return true;
                 } else {
                   return false;
@@ -166,6 +204,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
                   setOnOffList={setOnOffList} // onOff 복사본 값 바꿀라고
                   isEditOn={isEditOn}
                   isPlusOn={isPlusOn}
+                  link={sideMenu?.link}
                 />
               ))}
           </ul>

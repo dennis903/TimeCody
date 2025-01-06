@@ -498,6 +498,11 @@ a {
   gap: 0.7rem;
 }
 
+.header--has-gnb {
+  text-align: center;
+  margin-bottom: 10rem;
+}
+
 .edit {
   display: flex;
   justify-content: space-between;

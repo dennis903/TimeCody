@@ -4,6 +4,7 @@ import IconComponent from '../../components/Icon/Icon.component';
 import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
 import useSidebarModalStore from '@/store/SidebarModal.store';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(undefined);
 
@@ -17,6 +18,7 @@ interface ISidebarMenuContainerProps {
   isEditOn?: boolean;
   isPlusOn: boolean;
   setIsEditOn?: React.Dispatch<React.SetStateAction<boolean>>;
+  link?: string;
 }
 
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
@@ -29,7 +31,18 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     setSidebarPlusValue(value);
   };
 
-  const onClickPlusBtn = (placeholder: string) => {
+  const onClickPlusBtn = () => {
+    let placeholder = '';
+
+    switch (props.title) {
+      case '카테고리':
+        placeholder = '새 카테고리를 입력하세요.';
+        break;
+      default:
+        placeholder = '새 캘린더 제목을 입력하세요.';
+        break;
+    }
+
     toggleSidebarPlusModal(true);
     setSidebarPlusValue('');
     setSidebarPlusPlaceholder(placeholder);
@@ -50,7 +63,13 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   return (
     <li className="sidebar-menu-item">
       <div className="sidebar-menu__detail">
-        <p className="sidebar__title">{props.title}</p>
+        {props.link ? (
+          <Link to={props.link}>
+            <p className="sidebar__title">{props.title}</p>
+          </Link>
+        ) : (
+          <p className="sidebar__title">{props.title}</p>
+        )}
         {match(props)
           .with({ isMoreOn: true }, () => (
             <SwitchComponent
@@ -63,29 +82,36 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
               }
             />
           ))
-          .with({ isMoreOn: false, subMenuList: P.when((list) => Array.isArray(list) && list.length > 0) }, () => (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <button
-                type="button"
-                className="icon-btn"
-                onClick={() => setIsOpen((prev) => !prev)}
-                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
-              >
-                <IconComponent icon="icon-open" />
-              </button>
-
-              {props.isPlusOn && (
+          .with(
+            {
+              isMoreOn: false,
+              isEditOn: false,
+              subMenuList: P.when((list) => Array.isArray(list) && list.length > 0),
+            },
+            () => (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <button
                   type="button"
                   className="icon-btn"
-                  onClick={() => onClickPlusBtn('새 카테고리를 입력하세요.')}
+                  onClick={() => setIsOpen((prev) => !prev)}
                   style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
                 >
-                  <IconComponent icon="icon-plus" />
+                  <IconComponent icon="icon-open" />
                 </button>
-              )}
-            </div>
-          ))
+
+                {props.isPlusOn && (
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    onClick={() => onClickPlusBtn()}
+                    style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+                  >
+                    <IconComponent icon="icon-plus" />
+                  </button>
+                )}
+              </div>
+            ),
+          )
           .with({ isEditOn: true }, () => (
             <button
               className={cx('open-btn', { 'open-btn--closed': !isOpen })}
