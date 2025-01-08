@@ -5,8 +5,8 @@ const getSidebarCategory = async () => {
   return axiosClient.get(`${API.SIDEBAR}/category`);
 };
 
-const SidebarRepository = {
+const sidebarRepository = {
   getSidebarCategory,
 };
 
-export default SidebarRepository;
+export default sidebarRepository;

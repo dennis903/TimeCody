@@ -1,5 +1,5 @@
 import monthlyCalendarRepository from './monthlyCalendar.repository';
-import SidebarRepository from './sidebar.repository';
+import sidebarRepository from './sidebar.repository';
 
 export const API = {
   MONTHLY_CALENDAR: '/monthlyCalendar',
@@ -8,7 +8,7 @@ export const API = {
 
 const repository = {
   monthlyCalendar: monthlyCalendarRepository,
-  sidebar: SidebarRepository,
+  sidebar: sidebarRepository,
 };
 
 export default repository;

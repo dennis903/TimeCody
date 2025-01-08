@@ -4,6 +4,7 @@ import IconComponent from '@/components/Icon/Icon.component';
 import SidebarMenuContainer from '@/container/SidebarMenu/SidebarMenu.container';
 import classNames from 'classnames/bind';
 import { Reorder } from 'framer-motion';
+import repository from '@/repository';
 
 const cx = classNames.bind(undefined);
 
@@ -108,6 +109,20 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
       });
     });
   }, [isMoreOn]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await repository.sidebar.getSidebarCategory();
+
+        const data = res.data;
+
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <div
