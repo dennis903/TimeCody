@@ -2,6 +2,7 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import repository from '@/repository';
 
 import useCalendarModalStore from '@/store/CalendarModal.store';
 import './MonthlyCalendar.container.css';
@@ -10,48 +11,23 @@ interface IMonthlyCalendarContainerProps {
   date: Date;
 }
 
+interface IEvent {
+  type: 'period' | 'routine' | 'schdule' | 'todo';
+  title: string;
+  start: string;
+  end?: string;
+  color?: string;
+  groupId?: string;
+  backgroundColor?: string;
+}
+
 const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {
   const calendarRef = useRef<FullCalendar>(null);
   const { toggleCalendarModal, setCalendarModalDate } = useCalendarModalStore();
-  const periodList = [
-    { title: 'Long Event', start: '2024-11-07', end: '2024-11-10', color: 'purple', className: 'period-event' },
-  ];
-  const routineList = [
-    {
-      groupId: 'exercise',
-      title: '운동',
-      start: '2024-11-09T16:00:00',
-      className: 'routine-event',
-    },
-    {
-      groupId: 'exercise',
-      title: '운동',
-      start: '2024-11-11T16:00:00',
-      className: 'routine-event',
-    },
-    {
-      groupId: 'exercise',
-      title: '운동',
-      start: '2024-11-13T16:00:00',
-      className: 'routine-event',
-    },
-  ];
-  const scheduleList = [
-    {
-      title: '일정',
-      start: '2024-11-01',
-      className: 'schedule-event',
-    },
-  ];
-  const todoList = [
-    {
-      title: '1984 독서',
-      start: '2024-11-12T10:30:00',
-      end: '2024-11-12T12:30:00',
-      backgroundColor: 'red',
-      className: 'todo-event',
-    },
-  ];
+  const [periodList, setPeriodList] = useState<IEvent[]>([]);
+  const [routineList, setRoutineList] = useState<IEvent[]>([]);
+  const [scheduleList, setScheduleList] = useState<IEvent[]>([]);
+  const [todoList, setTodoList] = useState<IEvent[]>([]);
 
   const handleDateClick = (info: { date: Date }) => {
     setCalendarModalDate(info.date);
@@ -62,6 +38,41 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
     if (calendarRef.current) {
       calendarRef.current.getApi().gotoDate(props.date);
     }
+  }, [props.date]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await repository.monthlyCalendar.getCalendarByMonth(
+          `${props.date.getFullYear()}-${(props.date.getMonth() + 1).toString().padStart(2, '0')}`,
+        );
+
+        const data = res.data;
+
+        setPeriodList(
+          data
+            .filter((item: IEvent) => item.type === 'period')
+            .map((item: IEvent) => ({ ...item, className: 'period-event' })),
+        );
+        setRoutineList(
+          data
+            .filter((item: IEvent) => item.type === 'routine')
+            .map((item: IEvent) => ({ ...item, className: 'routine-event' })),
+        );
+        setScheduleList(
+          data
+            .filter((item: IEvent) => item.type === 'schdule')
+            .map((item: IEvent) => ({ ...item, className: 'schedule-event' })),
+        );
+        setTodoList(
+          data
+            .filter((item: IEvent) => item.type === 'todo')
+            .map((item: IEvent) => ({ ...item, className: 'todo-event' })),
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    })();
   }, [props.date]);
 
   return (

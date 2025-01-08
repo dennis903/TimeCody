@@ -61,11 +61,7 @@
   border-radius: 0%;
   opacity: 0.5;
 }
-/* 
-.fc-daygrid-dot-event.fc-event-draggable {
-  background-color: aquamarine;
-} */
 
-/* .todo-event {
-  background-color: red;
-} */
+.fc-daygrid-dot-event .fc-event-title {
+  color: #343434;
+}

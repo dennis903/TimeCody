@@ -5,7 +5,7 @@ export const API = {
 };
 
 const repository = {
-  monthlyCalendarRepository,
+  monthlyCalendar: monthlyCalendarRepository,
 };
 
 export default repository;

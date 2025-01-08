@@ -196,4 +196,32 @@ export const dateDB: {
       backgroundColor: 'red',
     },
   ],
+  '2025-01': [
+    {
+      type: 'period',
+      title: '신년 휴가',
+      start: '2025-01-01',
+      end: '2025-01-03',
+      color: 'blue',
+    },
+    {
+      type: 'routine',
+      groupId: 'exercise',
+      title: '아침 조깅',
+      start: '2025-01-05T06:30:00',
+      color: 'blue',
+    },
+    {
+      type: 'schedule',
+      title: '신년 모임',
+      start: '2025-01-10',
+    },
+    {
+      type: 'todo',
+      title: '책 읽기 - "1984"',
+      start: '2025-01-15T15:00:00',
+      end: '2025-01-15T17:00:00',
+      backgroundColor: 'green',
+    },
+  ],
 };
