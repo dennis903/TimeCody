@@ -27,7 +27,7 @@ const WeeklyCalendarContainer: FC<IWeeklyCalendarContainerProps> = () => {
         </div>
         <div className="schedule-open">
           <button className="icon-btn">
-            <IconComponent className="icon-open" />
+            <IconComponent icon="icon-open" />
           </button>
         </div>
       </div>

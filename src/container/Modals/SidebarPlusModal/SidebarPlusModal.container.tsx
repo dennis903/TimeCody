@@ -6,14 +6,14 @@ import useSidebarModalStore from '@/store/SidebarModal.store';
 import './SidebarPlusModal.container.css';
 
 const SidebarPlusModalContainer: FC = () => {
-  const { sidebarPlusState, toggleSidebarPlusModal } = useSidebarModalStore();
+  const { sidebarModalState, toggleSidebarModal } = useSidebarModalStore();
 
   return (
-    sidebarPlusState.isOpen && (
+    sidebarModalState.isOpen && (
       <ModalComponent>
         <div className="sidebar-modal-plus">
           <header className="sidebar-modal__header">
-            <button type="button" className="icon-btn" onClick={() => toggleSidebarPlusModal(false)}>
+            <button type="button" className="icon-btn" onClick={() => toggleSidebarModal(false)}>
               <IconComponent icon="icon-close" />
             </button>
             <button type="button" className="icon-btn">
@@ -27,8 +27,8 @@ const SidebarPlusModalContainer: FC = () => {
                 type="text"
                 name="new"
                 id="new"
-                value={sidebarPlusState.value}
-                placeholder={sidebarPlusState.placeholder}
+                value={sidebarModalState.value}
+                placeholder={sidebarModalState.placeholder}
               />
               <input type="color" name="color" id="color" />
             </form>

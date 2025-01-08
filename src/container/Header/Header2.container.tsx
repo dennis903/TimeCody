@@ -1,27 +1,24 @@
 import { type FC, useState } from 'react';
-import SidebarContainer from '../Sidebar/Sidebar.container';
-import IconComponent from '../../components/Icon/Icon.component';
-import AdditionalModal from '../Modals/AdditionalModal/AdditionalModal.container';
+import IconComponent from '@/components/Icon/Icon.component';
+import HeaderUtilContainer from './HeaderUtil.container';
 
-import useModalStore from '@/store/modal.store';
+import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
-interface IBackHeaderContainerProps {
+interface IHeader2ContainerProps {
+  backTitle: string;
   date: Date;
   setDate: (date: Date) => void;
 }
 
-const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
+const Header2Container: FC<IHeader2ContainerProps> = (props) => {
   const year = props.date.getFullYear();
   const month = props.date.getMonth() + 1;
   const day = props.date.getDate();
 
-  const [isSidebarShow, setIsSidebarShow] = useState(false);
-  const { toggleModal } = useModalStore();
-  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
+  const { toggleAdditionalModal } = useAdditionalModalStore();
 
   const handlePlusClick = () => {
-    setIsAdditionalModalOpen(true);
-    toggleModal(true);
+    toggleAdditionalModal(true);
   };
 
   return (
@@ -33,7 +30,7 @@ const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
               <a href="#" className="back__link">
                 <i className="icon icon-back"></i>
               </a>
-              <h2 className="back__title">일정 관리</h2>
+              <h2 className="back__title">{props.backTitle}</h2>
             </div>
           </div>
           <div className="calendar-nav">
@@ -42,7 +39,9 @@ const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
               <button
                 type="button"
                 className="icon-btn"
-                onClick={() => props.setDate(new Date(props.date.getFullYear(), props.date.getMonth() - 1, 1))}
+                onClick={() =>
+                  props.setDate(new Date(props.date.getFullYear(), props.date.getMonth(), props.date.getDate() - 1))
+                }
               >
                 <IconComponent icon="icon-arrow-left" />
               </button>
@@ -50,7 +49,9 @@ const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
               <button
                 type="button"
                 className="icon-btn"
-                onClick={() => props.setDate(new Date(props.date.getFullYear(), props.date.getMonth() + 1, 1))}
+                onClick={() =>
+                  props.setDate(new Date(props.date.getFullYear(), props.date.getMonth(), props.date.getDate() + 1))
+                }
               >
                 <IconComponent icon="icon-arrow-right" />
               </button>
@@ -60,14 +61,7 @@ const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
             </div>
           </div>
           <div className="header-right">
-            <div className="header-util">
-              <button type="button" className="icon-btn">
-                <IconComponent icon="icon-search" />
-              </button>
-              <button type="button" className="icon-btn" onClick={() => setIsSidebarShow(true)}>
-                <IconComponent icon="icon-hamburger" />
-              </button>
-            </div>
+            <HeaderUtilContainer />
           </div>
         </div>
         <div className="edit">
@@ -80,10 +74,8 @@ const BackHeaderContainer: FC<IBackHeaderContainerProps> = (props) => {
           </div>
         </div>
       </header>
-      <SidebarContainer isSidebarShow={isSidebarShow} setIsSidebarShow={setIsSidebarShow} />
-      {isAdditionalModalOpen && <AdditionalModal date={props.date} />}
     </>
   );
 };
 
-export default BackHeaderContainer;
+export default Header2Container;

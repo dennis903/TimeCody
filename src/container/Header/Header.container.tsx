@@ -1,6 +1,7 @@
-import { type FC, useState } from 'react';
-import SidebarContainer from '../Sidebar/Sidebar.container';
-import IconComponent from '../../components/Icon/Icon.component';
+import { type FC } from 'react';
+
+import IconComponent from '@/components/Icon/Icon.component';
+import HeaderUtilContainer from './HeaderUtil.container';
 
 interface IHeaderContainerProps {
   date: Date;
@@ -10,8 +11,6 @@ interface IHeaderContainerProps {
 const HeaderContainer: FC<IHeaderContainerProps> = (props) => {
   const year = props.date.getFullYear();
   const month = props.date.getMonth() + 1;
-
-  const [isSidebarShow, setIsSidebarShow] = useState(false);
 
   return (
     <>
@@ -41,18 +40,10 @@ const HeaderContainer: FC<IHeaderContainerProps> = (props) => {
             </div>
           </div>
           <div className="header-right">
-            <div className="header-util">
-              <button type="button" className="icon-btn">
-                <IconComponent icon="icon-search" />
-              </button>
-              <button type="button" className="icon-btn" onClick={() => setIsSidebarShow(true)}>
-                <IconComponent icon="icon-hamburger" />
-              </button>
-            </div>
+            <HeaderUtilContainer />
           </div>
         </div>
       </header>
-      <SidebarContainer isSidebarShow={isSidebarShow} setIsSidebarShow={setIsSidebarShow} />
     </>
   );
 };

@@ -4,8 +4,20 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './Router';
 import './assets/css/main.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
-);
+const enableMocking = async () => {
+  if (import.meta.env.MODE !== 'development') {
+    return;
+  }
+
+  const { worker } = await import('./mocks/browser');
+
+  return worker.start();
+};
+
+enableMocking().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>,
+  );
+});

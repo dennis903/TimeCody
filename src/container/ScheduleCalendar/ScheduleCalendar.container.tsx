@@ -29,7 +29,7 @@ const ScheduleCalendarContainer: FC<IScheduleCalendarContainerProps> = () => {
             </div>
             <div className="schedule-open">
               <button className="icon-btn">
-                <IconComponent className="icon-open" />
+                <IconComponent icon="icon-open" />
               </button>
             </div>
           </div>
@@ -106,41 +106,6 @@ const ScheduleCalendarContainer: FC<IScheduleCalendarContainerProps> = () => {
           </div>
         </div>
       </main>
-      <footer className="footer">
-        <nav className="gnb">
-          <ul className="gnb-list">
-            <li className="gnb-item">
-              <a href="#" className="gnb-item__link">
-                <i className="icon icon-diary"></i>
-                다이어리
-              </a>
-            </li>
-            <li className="gnb-item">
-              <a href="#" className="gnb-item__link">
-                <i className="icon icon-todo"></i>할 일
-              </a>
-            </li>
-            <li className="gnb-item">
-              <a href="#" className="gnb-item__link">
-                <i className="icon icon-calendar"></i>
-                캘린더
-              </a>
-            </li>
-            <li className="gnb-item">
-              <a href="#" className="gnb-item__link">
-                <i className="icon icon-planner"></i>
-                계획표
-              </a>
-            </li>
-            <li className="gnb-item">
-              <a href="#" className="gnb-item__link">
-                <i className="icon icon-store"></i>
-                스토어
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </footer>
     </>
   );
 };

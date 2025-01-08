@@ -1,15 +1,10 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
-import AdditionalModal from '../AdditionalModal/AdditionalModal.container';
 
 import './CalendarModal.container.css';
-import useModalStore from '@/store/modal.store';
-
-interface ICalendarModalContainerProps {
-  date: Date;
-  onClose: () => void;
-}
+import useCalendarModalStore from '@/store/CalendarModal.store';
+import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
 const contentlist = [
   {
@@ -26,29 +21,31 @@ const contentlist = [
   { id: 5, title: '학원 과제' },
 ];
 
-const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date }) => {
-  const { toggleModal } = useModalStore();
-  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
+const CalendarModalContainer: FC = () => {
+  const { calendarModalState, toggleCalendarModal } = useCalendarModalStore();
+  const { toggleAdditionalModal } = useAdditionalModalStore();
 
-  if (!date) {
-    return null;
-  }
+  const formatDate = () => {
+    const year = calendarModalState.date.getFullYear();
+    const month = calendarModalState.date.getMonth() + 1;
+    const date = calendarModalState.date.getDate();
+
+    return `${year}년 ${month}월 ${date}일`;
+  };
 
   return (
-    <>
+    calendarModalState.isOpen && (
       <ModalComponent>
         <div className="calendar-modal">
           <header className="calendar-modal__header">
             <div className="calendar-modal__header-item">
-              <h2 className="calendar-modal__date">
-                {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일
-              </h2>
-              <button type="button" className="icon-btn" onClick={() => toggleModal(false)}>
+              <h2 className="calendar-modal__date">{formatDate()}</h2>
+              <button type="button" className="icon-btn" onClick={() => toggleCalendarModal(false)}>
                 <IconComponent icon="icon-close" />
               </button>
             </div>
             <div className="calendar-modal__header-item">
-              <button type="button" className="icon-btn" onClick={() => setIsAdditionalModalOpen(true)}>
+              <button type="button" className="icon-btn" onClick={() => toggleAdditionalModal(true)}>
                 <IconComponent icon="icon-plus" />
               </button>
               <button type="button" className="btn edit-btn">
@@ -72,10 +69,9 @@ const CalendarModalcontainer: React.FC<ICalendarModalContainerProps> = ({ date }
           </footer>
         </div>
       </ModalComponent>
-
-      {isAdditionalModalOpen && <AdditionalModal date={date} />}
-    </>
+    )
+    // {isAdditionalModalOpen && <AdditionalModal date={date} />}
   );
 };
 
-export default CalendarModalcontainer;
+export default CalendarModalContainer;

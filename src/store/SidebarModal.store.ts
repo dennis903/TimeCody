@@ -1,36 +1,37 @@
 import { create } from 'zustand';
 
-interface ISidebarPlusState {
+interface ISidebarModalState {
   isOpen: boolean;
   placeholder: string;
   value: string;
 }
 
 interface ISidebarModalStore {
-  sidebarPlusState: ISidebarPlusState;
+  sidebarModalState: ISidebarModalState;
 
-  toggleSidebarPlusModal: (isOpen: boolean) => void;
-  setSidebarPlusPlaceholder: (placeholder: string) => void;
-  setSidebarPlusValue: (value: string) => void;
+  toggleSidebarModal: (isOpen: boolean) => void;
+  setSidebarModalPlaceholder: (placeholder: string) => void;
+  setSidebarModalValue: (value: string) => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
-  sidebarPlusState: {
+  sidebarModalState: {
     isOpen: false,
     placeholder: '',
     value: '',
   },
 
-  toggleSidebarPlusModal: (isOpen: boolean) =>
-    set((state: ISidebarModalStore) => ({ sidebarPlusState: { ...state.sidebarPlusState, isOpen } })),
-  setSidebarPlusPlaceholder: (placeholder: string) =>
+  toggleSidebarModal: (isOpen: boolean) =>
+    set((state: ISidebarModalStore) => ({ sidebarModalState: { ...state.sidebarModalState, isOpen } })),
+  setSidebarModalPlaceholder: (placeholder: string) =>
     set((state) => ({
-      sidebarPlusState: {
-        ...state.sidebarPlusState,
+      sidebarModalState: {
+        ...state.sidebarModalState,
         placeholder,
       },
     })),
-  setSidebarPlusValue: (value: string) => set((state) => ({ sidebarPlusState: { ...state.sidebarPlusState, value } })),
+  setSidebarModalValue: (value: string) =>
+    set((state) => ({ sidebarModalState: { ...state.sidebarModalState, value } })),
 }));
 
 export default useSidebarModalStore;

@@ -24,11 +24,11 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
-  const { toggleSidebarPlusModal, setSidebarPlusPlaceholder, setSidebarPlusValue } = useSidebarModalStore();
+  const { toggleSidebarModal, setSidebarModalPlaceholder, setSidebarModalValue } = useSidebarModalStore();
 
   const onClickModifyBtn = (value: string) => {
-    toggleSidebarPlusModal(true);
-    setSidebarPlusValue(value);
+    toggleSidebarModal(true);
+    setSidebarModalValue(value);
   };
 
   const onClickPlusBtn = () => {
@@ -43,9 +43,9 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
         break;
     }
 
-    toggleSidebarPlusModal(true);
-    setSidebarPlusValue('');
-    setSidebarPlusPlaceholder(placeholder);
+    toggleSidebarModal(true);
+    setSidebarModalValue('');
+    setSidebarModalPlaceholder(placeholder);
   };
 
   useEffect(() => {

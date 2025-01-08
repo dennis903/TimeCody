@@ -3,8 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import CalendarModalcontainer from '../Modals/CalendarModal/CalendarModal.container';
-import useModalStore from '@/store/modal.store';
+import useCalendarModalStore from '@/store/CalendarModal.store';
 import './MonthlyCalendar.container.css';
 
 interface IMonthlyCalendarContainerProps {
@@ -13,8 +12,7 @@ interface IMonthlyCalendarContainerProps {
 
 const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {
   const calendarRef = useRef<FullCalendar>(null);
-  const { modalState, toggleModal } = useModalStore();
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { toggleCalendarModal, setCalendarModalDate } = useCalendarModalStore();
   const periodList = [
     { title: 'Long Event', start: '2024-11-07', end: '2024-11-10', color: 'purple', className: 'period-event' },
   ];
@@ -55,43 +53,34 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
     },
   ];
 
+  const handleDateClick = (info: { date: Date }) => {
+    setCalendarModalDate(info.date);
+    toggleCalendarModal(true);
+  };
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.getApi().gotoDate(props.date);
     }
   }, [props.date]);
 
-  const handleDateClick = (info: { date: Date }) => {
-    setSelectedDate(info.date);
-    toggleModal(true);
-  };
-
-  const closeModal = () => {
-    setSelectedDate(null);
-    toggleModal(false);
-  };
-
   return (
-    <>
-      <FullCalendar
-        ref={calendarRef}
-        locale="kr"
-        headerToolbar={false}
-        displayEventTime={false}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        editable={true}
-        initialDate={props.date}
-        dayCellContent={(arg) => {
-          const { date } = arg;
-          return date.getDate();
-        }}
-        events={[...periodList, ...routineList, ...scheduleList, ...todoList]}
-        dateClick={handleDateClick}
-      />
-
-      {modalState.isOpen && selectedDate && <CalendarModalcontainer date={selectedDate} onClose={closeModal} />}
-    </>
+    <FullCalendar
+      ref={calendarRef}
+      locale="kr"
+      headerToolbar={false}
+      displayEventTime={false}
+      plugins={[dayGridPlugin, interactionPlugin]}
+      initialView="dayGridMonth"
+      editable={true}
+      initialDate={props.date}
+      dayCellContent={(arg) => {
+        const { date } = arg;
+        return date.getDate();
+      }}
+      events={[...periodList, ...routineList, ...scheduleList, ...todoList]}
+      dateClick={handleDateClick}
+    />
   );
 };
 
