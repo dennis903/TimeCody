@@ -3,7 +3,9 @@ import { create } from 'zustand';
 interface ISidebarModalState {
   isOpen: boolean;
   placeholder: string;
+  id: number;
   value: string;
+  color: string;
 }
 
 interface ISidebarModalStore {
@@ -12,13 +14,17 @@ interface ISidebarModalStore {
   toggleSidebarModal: (isOpen: boolean) => void;
   setSidebarModalPlaceholder: (placeholder: string) => void;
   setSidebarModalValue: (value: string) => void;
+  setSidebarModalColor: (color: string) => void;
+  setSidebarModalId: (id: number) => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
   sidebarModalState: {
     isOpen: false,
+    id: 0,
     placeholder: '',
     value: '',
+    color: '',
   },
 
   toggleSidebarModal: (isOpen: boolean) =>
@@ -32,6 +38,9 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
     })),
   setSidebarModalValue: (value: string) =>
     set((state) => ({ sidebarModalState: { ...state.sidebarModalState, value } })),
+  setSidebarModalColor: (color: string) =>
+    set((state) => ({ sidebarModalState: { ...state.sidebarModalState, color } })),
+  setSidebarModalId: (id: number) => set((state) => ({ sidebarModalState: { ...state.sidebarModalState, id } })),
 }));
 
 export default useSidebarModalStore;

@@ -2,26 +2,26 @@ export const categoryDB = [
   {
     id: 1,
     title: '프로젝트',
-    color: 'red',
+    color: '#ff0000',
   },
   {
     id: 2,
     title: '회사',
-    color: 'blue',
+    color: '#0000ff',
   },
   {
     id: 3,
     title: '개인',
-    color: 'green',
+    color: '#00ff00',
   },
   {
     id: 4,
     title: '가족',
-    color: 'purple',
+    color: '#ffff00',
   },
   {
     id: 5,
     title: '기타',
-    color: 'orange',
+    color: '#ff00ff',
   },
 ];

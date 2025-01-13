@@ -19,11 +19,11 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   const [isEditOn, setIsEditOn] = useState(false);
   const [isPlusOn, setIsPlusOn] = useState(false);
   const [sideMenuList, setSideMenuList] = useState([
-    { id: 1, title: '카테고리', subMenuList: ['개인', '공부', '만남', '직장'], more: isMoreOn, onOff: true },
+    { id: 1, title: '카테고리', subMenuList: [], more: isMoreOn, onOff: true },
     {
       id: 2,
       title: '월간 캘린더',
-      subMenuList: ['내 캘린더', '프로젝트'],
+      subMenuList: [],
       more: isMoreOn,
       onOff: true,
       link: '/calendar',
@@ -34,7 +34,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     {
       id: 6,
       title: '공유 캘린더',
-      subMenuList: ['팀 프로젝트', '직장', '공유 1', '공유 2'],
+      subMenuList: [],
       more: isMoreOn,
       onOff: true,
       link: '/calendar/shearing',
@@ -118,7 +118,18 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
 
         const data = res.data;
 
-        console.log(data);
+        setSideMenuList((prev) => {
+          return prev.map((sideMenu) => {
+            if (sideMenu.title !== '카테고리') {
+              return sideMenu;
+            }
+
+            return {
+              ...sideMenu,
+              subMenuList: data,
+            };
+          });
+        });
       } catch (err) {
         console.log(err);
       }

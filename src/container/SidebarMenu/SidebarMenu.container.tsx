@@ -13,7 +13,11 @@ interface ISidebarMenuContainerProps {
   title: string;
   isMoreOn: boolean;
   onOff?: boolean;
-  subMenuList?: string[];
+  subMenuList?: {
+    id: number;
+    title: string;
+    color: string;
+  }[];
   setOnOffList: React.Dispatch<React.SetStateAction<{ id: number; onOff: boolean }[]>>;
   isEditOn?: boolean;
   isPlusOn: boolean;
@@ -24,11 +28,22 @@ interface ISidebarMenuContainerProps {
 const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const subMenuListRef = useRef<HTMLUListElement>(null);
-  const { toggleSidebarModal, setSidebarModalPlaceholder, setSidebarModalValue } = useSidebarModalStore();
+  const [subMenuList, setSubMenuList] = useState<{ id: number; title: string; color: string }[]>(
+    props.subMenuList || [],
+  );
+  const {
+    toggleSidebarModal,
+    setSidebarModalPlaceholder,
+    setSidebarModalValue,
+    setSidebarModalColor,
+    setSidebarModalId,
+  } = useSidebarModalStore();
 
-  const onClickModifyBtn = (value: string) => {
+  const onClickModifyBtn = (value: string, color: string, id: number) => {
     toggleSidebarModal(true);
     setSidebarModalValue(value);
+    setSidebarModalColor(color);
+    setSidebarModalId(id);
   };
 
   const onClickPlusBtn = () => {
@@ -59,6 +74,12 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
       subMenuListRef.current.style.height = isOpen ? `${subMenuListRef.current.scrollHeight}px` : '0';
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (props.subMenuList) {
+      setSubMenuList(props.subMenuList);
+    }
+  }, [props.subMenuList]);
 
   return (
     <li className="sidebar-menu-item">
@@ -123,18 +144,22 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           ))
           .otherwise(() => null)}
       </div>
-      {props.subMenuList && (
+      {subMenuList && (
         <ul
           ref={subMenuListRef}
           className="sidebar-sub-list"
           style={{ height: 0, overflow: 'hidden', transition: 'all 0.3s ease-out' }}
         >
-          {props.subMenuList.map((subMenu, index) => (
-            <li key={index} className="sidebar-sub-item">
-              <div className="sidebar-sub-item__color" style={{ backgroundColor: 'black' }} />
-              <p className="sidebar-sub__title">{subMenu}</p>
+          {subMenuList.map((subMenu) => (
+            <li key={subMenu.id} className="sidebar-sub-item">
+              <div className="sidebar-sub-item__color" style={{ backgroundColor: subMenu.color }} />
+              <p className="sidebar-sub__title">{subMenu.title}</p>
               {props.isPlusOn && (
-                <button type="button" className="icon-btn" onClick={() => onClickModifyBtn(subMenu)}>
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={() => onClickModifyBtn(subMenu.title, subMenu.color, subMenu.id)}
+                >
                   <IconComponent icon="icon-modify" />
                 </button>
               )}
