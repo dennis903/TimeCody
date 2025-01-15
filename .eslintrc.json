@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:@tanstack/eslint-plugin-query/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

@@ -1,4 +1,5 @@
 import { type FC, useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -24,10 +25,6 @@ interface IEvent {
 const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {
   const calendarRef = useRef<FullCalendar>(null);
   const { toggleCalendarModal, setCalendarModalDate } = useCalendarModalStore();
-  const [periodList, setPeriodList] = useState<IEvent[]>([]);
-  const [routineList, setRoutineList] = useState<IEvent[]>([]);
-  const [scheduleList, setScheduleList] = useState<IEvent[]>([]);
-  const [todoList, setTodoList] = useState<IEvent[]>([]);
 
   const handleDateClick = (info: { date: Date }) => {
     setCalendarModalDate(info.date);
@@ -40,40 +37,39 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
     }
   }, [props.date]);
 
-  useEffect(() => {
-    (async () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['monthlyCalendar', props.date],
+    queryFn: async () => {
       try {
         const res = await repository.monthlyCalendar.getCalendarByMonth(
           `${props.date.getFullYear()}-${(props.date.getMonth() + 1).toString().padStart(2, '0')}`,
         );
-
-        const data = res.data;
-
-        setPeriodList(
-          data
-            .filter((item: IEvent) => item.type === 'period')
-            .map((item: IEvent) => ({ ...item, className: 'period-event' })),
-        );
-        setRoutineList(
-          data
-            .filter((item: IEvent) => item.type === 'routine')
-            .map((item: IEvent) => ({ ...item, className: 'routine-event' })),
-        );
-        setScheduleList(
-          data
-            .filter((item: IEvent) => item.type === 'schdule')
-            .map((item: IEvent) => ({ ...item, className: 'schedule-event' })),
-        );
-        setTodoList(
-          data
-            .filter((item: IEvent) => item.type === 'todo')
-            .map((item: IEvent) => ({ ...item, className: 'todo-event' })),
-        );
+        return res.data;
       } catch (err) {
         console.log(err);
       }
-    })();
-  }, [props.date]);
+    },
+    select: (data) => {
+      return {
+        periodList: data
+          .filter((item: IEvent) => item.type === 'period')
+          .map((item: IEvent) => ({ ...item, className: 'period-event' })),
+        routineList: data
+          .filter((item: IEvent) => item.type === 'routine')
+          .map((item: IEvent) => ({ ...item, className: 'routine-event' })),
+        scheduleList: data
+          .filter((item: IEvent) => item.type === 'schdule')
+          .map((item: IEvent) => ({ ...item, className: 'schedule-event' })),
+        todoList: data
+          .filter((item: IEvent) => item.type === 'todo')
+          .map((item: IEvent) => ({ ...item, className: 'todo-event' })),
+      };
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <FullCalendar
@@ -89,7 +85,7 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
         const { date } = arg;
         return date.getDate();
       }}
-      events={[...periodList, ...routineList, ...scheduleList, ...todoList]}
+      events={isError ? [] : [...data?.periodList, ...data?.routineList, ...data?.scheduleList, ...data?.todoList]}
       dateClick={handleDateClick}
     />
   );
