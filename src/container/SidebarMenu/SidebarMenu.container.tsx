@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import SwitchComponent from '../../components/switch/Switch.component';
 import useSidebarModalStore from '@/store/SidebarModal.store';
 import { Link } from 'react-router-dom';
+import { Reorder } from 'framer-motion';
 
 const cx = classNames.bind(undefined);
 
@@ -137,10 +138,28 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
               </div>
             ),
           )
+          .with({ isEditOn: true, subMenuList: P.when((list) => Array.isArray(list) && list.length > 0) }, () => (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={() => setIsOpen((prev) => !prev)}
+                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+              >
+                <IconComponent icon="icon-open" />
+              </button>
+
+              <button
+                className={cx('open-btn', { 'open-btn--closed': !isOpen })}
+                style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
+              >
+                <IconComponent icon="icon-order-edit" />
+              </button>
+            </div>
+          ))
           .with({ isEditOn: true }, () => (
             <button
               className={cx('open-btn', { 'open-btn--closed': !isOpen })}
-              onClick={() => setIsOpen((prev) => !prev)}
               style={{ transform: isOpen ? 'rotate(180deg)' : '' }}
             >
               <IconComponent icon="icon-order-edit" />
@@ -154,21 +173,37 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           className="sidebar-sub-list"
           style={{ height: 0, overflow: 'hidden', transition: 'all 0.3s ease-out' }}
         >
-          {subMenuList.map((subMenu) => (
-            <li key={subMenu.id} className="sidebar-sub-item">
-              <div className="sidebar-sub-item__color" style={{ backgroundColor: subMenu.color }} />
-              <p className="sidebar-sub__title">{subMenu.title}</p>
-              {props.isPlusOn && (
-                <button
-                  type="button"
-                  className="icon-btn"
-                  onClick={() => onClickModifyBtn(subMenu.title, subMenu.color, subMenu.id)}
-                >
-                  <IconComponent icon="icon-modify" />
-                </button>
-              )}
-            </li>
-          ))}
+          {!props.isEditOn ? (
+            subMenuList.map((subMenu) => (
+              <li key={subMenu.id} className="sidebar-sub-item">
+                <div className="sidebar-sub-item__color" style={{ backgroundColor: subMenu.color }} />
+                <p className="sidebar-sub__title">{subMenu.title}</p>
+                {props.isPlusOn && (
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    onClick={() => onClickModifyBtn(subMenu.title, subMenu.color, subMenu.id)}
+                  >
+                    <IconComponent icon="icon-modify" />
+                  </button>
+                )}
+              </li>
+            ))
+          ) : (
+            <Reorder.Group axis="y" values={subMenuList} onReorder={setSubMenuList}>
+              {subMenuList.map((subMenu) => (
+                <Reorder.Item key={subMenu.id} value={subMenu}>
+                  <li className="sidebar-sub-item">
+                    <div className="sidebar-sub-item__color" style={{ backgroundColor: subMenu.color }} />
+                    <p className="sidebar-sub__title">{subMenu.title}</p>
+                    <button type="button" className="icon-btn">
+                      <IconComponent icon="icon-order-edit" />
+                    </button>
+                  </li>
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
+          )}
         </ul>
       )}
     </li>

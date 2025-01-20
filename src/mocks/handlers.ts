@@ -4,6 +4,7 @@ import { categoryDB } from './db/categoryDB';
 
 export const handlers = [
   http.get(`${import.meta.env.VITE_API_URL}/monthlyCalendar/:date`, ({ params }) => {
+    // 2024-08-11
     const { date } = params;
 
     if (!dateDB[date as keyof typeof dateDB]) {
@@ -11,6 +12,28 @@ export const handlers = [
     }
 
     return HttpResponse.json(dateDB[date as keyof typeof dateDB], { status: 200 });
+  }),
+
+  http.get(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date`, ({ params }) => {
+    const { date } = params;
+
+    if (!dateDB[date as keyof typeof dateDB]) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    const targetDate = dateDB[date as keyof typeof dateDB];
+
+    const foundDate = targetDate.find((d) => {
+      if (d?.start === date || d?.end === date) {
+        return d;
+      }
+    });
+
+    if (!foundDate) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    return HttpResponse.json(foundDate, { status: 200 });
   }),
 
   http.get(`${import.meta.env.VITE_API_URL}/sidebar/category`, () => {
