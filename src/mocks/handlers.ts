@@ -46,4 +46,18 @@ export const handlers = [
 
     return HttpResponse.json(categoryDB, { status: 200 });
   }),
+
+  http.delete(`${import.meta.env.VITE_API_URL}/sidebar/category/:id`, ({ params }) => {
+    const { id } = params;
+
+    const index = categoryDB.findIndex((category) => category.id === Number(id));
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    categoryDB.splice(index, 1);
+
+    return HttpResponse.json(categoryDB, { status: 200 });
+  }),
 ];
