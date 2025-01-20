@@ -5,7 +5,7 @@ import SidebarMenuContainer from '@/container/SidebarMenu/SidebarMenu.container'
 import classNames from 'classnames/bind';
 import { Reorder } from 'framer-motion';
 import repository from '@/repository';
-import { use } from 'motion/react-client';
+import { useQuery } from '@tanstack/react-query';
 
 const cx = classNames.bind(undefined);
 
@@ -48,6 +48,36 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
       };
     }),
   ); // [{id: 1, onOff: true}, {id: 2, onOff: true}, ...]
+
+  const { data, isSuccess } = useQuery({
+    queryKey: ['sidebarCategory'],
+    queryFn: async () => {
+      try {
+        const res = await repository.sidebar.getSidebarCategory();
+
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      setSideMenuList((prev) => {
+        return prev.map((sideMenu) => {
+          if (sideMenu.title !== '카테고리') {
+            return sideMenu;
+          }
+
+          return {
+            ...sideMenu,
+            subMenuList: data,
+          };
+        });
+      });
+    }
+  }, [isSuccess, data]);
 
   const onClickStoreBtn = () => {
     setSideMenuList((prev) =>
@@ -110,31 +140,6 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
       });
     });
   }, [isMoreOn]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await repository.sidebar.getSidebarCategory();
-
-        const data = res.data;
-
-        setSideMenuList((prev) => {
-          return prev.map((sideMenu) => {
-            if (sideMenu.title !== '카테고리') {
-              return sideMenu;
-            }
-
-            return {
-              ...sideMenu,
-              subMenuList: data,
-            };
-          });
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
 
   return (
     <div

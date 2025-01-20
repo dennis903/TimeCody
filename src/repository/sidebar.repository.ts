@@ -13,9 +13,17 @@ const putUpdateSidebarCategory = async ({ id, value, color }: { id: number; valu
   });
 };
 
+const postAddSidebarCategory = async ({ value, color }: { value: string; color: string }) => {
+  return axiosClient.post(`${API.SIDEBAR}/category`, {
+    value,
+    color,
+  });
+};
+
 const sidebarRepository = {
   getSidebarCategory,
   putUpdateSidebarCategory,
+  postAddSidebarCategory,
 };
 
 export default sidebarRepository;

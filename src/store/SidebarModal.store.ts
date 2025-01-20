@@ -6,6 +6,7 @@ interface ISidebarModalState {
   id: number;
   value: string;
   color: string;
+  editType: 'edit' | 'add';
 }
 
 interface ISidebarModalStore {
@@ -16,6 +17,7 @@ interface ISidebarModalStore {
   setSidebarModalValue: (value: string) => void;
   setSidebarModalColor: (color: string) => void;
   setSidebarModalId: (id: number) => void;
+  setSidebarModalEditType: (editType: 'edit' | 'add') => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
@@ -25,6 +27,7 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
     placeholder: '',
     value: '',
     color: '',
+    editType: 'add',
   },
 
   toggleSidebarModal: (isOpen: boolean) =>
@@ -41,6 +44,8 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
   setSidebarModalColor: (color: string) =>
     set((state) => ({ sidebarModalState: { ...state.sidebarModalState, color } })),
   setSidebarModalId: (id: number) => set((state) => ({ sidebarModalState: { ...state.sidebarModalState, id } })),
+  setSidebarModalEditType: (editType: 'add' | 'edit') =>
+    set((state) => ({ sidebarModalState: { ...state.sidebarModalState, editType } })),
 }));
 
 export default useSidebarModalStore;

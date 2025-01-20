@@ -22,15 +22,26 @@ export const handlers = [
 
     const { id, value, color } = newCategory;
 
-    if (categoryDB.some((category) => category.title === value)) {
-      return HttpResponse.json({ message: '이미 존재하는 카테고리 입니다.' }, { status: 409 });
-    }
-
     categoryDB.forEach((category) => {
       if (category.id === id) {
         category.title = value;
         category.color = color;
       }
+    });
+
+    return HttpResponse.json(categoryDB, { status: 200 });
+  }),
+
+  http.post(`${import.meta.env.VITE_API_URL}/sidebar/category`, async ({ request }) => {
+    const newCategory = (await request.json()) as { value: string; color: string };
+
+    const { value, color } = newCategory;
+    const id = categoryDB.length > 0 ? categoryDB[categoryDB.length - 1].id + 1 : 1;
+
+    categoryDB.push({
+      id,
+      title: value,
+      color,
     });
 
     return HttpResponse.json(categoryDB, { status: 200 });

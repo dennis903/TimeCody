@@ -37,6 +37,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     setSidebarModalValue,
     setSidebarModalColor,
     setSidebarModalId,
+    setSidebarModalEditType,
   } = useSidebarModalStore();
 
   const onClickModifyBtn = (value: string, color: string, id: number) => {
@@ -44,6 +45,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     setSidebarModalValue(value);
     setSidebarModalColor(color);
     setSidebarModalId(id);
+    setSidebarModalEditType('edit');
   };
 
   const onClickPlusBtn = () => {
@@ -60,7 +62,9 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
 
     toggleSidebarModal(true);
     setSidebarModalValue('');
+    setSidebarModalColor('#000');
     setSidebarModalPlaceholder(placeholder);
+    setSidebarModalEditType('add');
   };
 
   useEffect(() => {
@@ -73,7 +77,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     if (subMenuListRef.current) {
       subMenuListRef.current.style.height = isOpen ? `${subMenuListRef.current.scrollHeight}px` : '0';
     }
-  }, [isOpen]);
+  }, [isOpen, subMenuList]);
 
   useEffect(() => {
     if (props.subMenuList) {

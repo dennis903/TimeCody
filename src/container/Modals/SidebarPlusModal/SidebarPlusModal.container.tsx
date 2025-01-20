@@ -3,11 +3,50 @@ import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
 import useSidebarModalStore from '@/store/SidebarModal.store';
 import repository from '@/repository';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import './SidebarPlusModal.container.css';
 
 const SidebarPlusModalContainer: FC = () => {
   const { sidebarModalState, toggleSidebarModal, setSidebarModalValue, setSidebarModalColor } = useSidebarModalStore();
+  const queryClient = useQueryClient();
+  const { mutate: updateMutate } = useMutation({
+    mutationKey: ['updateSidebarCategory'],
+    mutationFn: async () => {
+      try {
+        const res = await repository.sidebar.putUpdateSidebarCategory({
+          id: sidebarModalState.id,
+          value: sidebarModalState.value,
+          color: sidebarModalState.color,
+        });
+
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarCategory'], data);
+
+      toggleSidebarModal(false);
+    },
+  });
+
+  const { mutate: adddataMutate } = useMutation({
+    mutationKey: ['adddateSidebarCategory'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.postAddSidebarCategory({
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarCategory'], data);
+
+      toggleSidebarModal(false);
+    },
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSidebarModalValue(e.target.value);
@@ -17,17 +56,11 @@ const SidebarPlusModalContainer: FC = () => {
     setSidebarModalColor(e.target.value);
   };
 
-  const handleUpdate = async () => {
-    try {
-      const res = await repository.sidebar.putUpdateSidebarCategory({
-        id: sidebarModalState.id,
-        value: sidebarModalState.value,
-        color: sidebarModalState.color,
-      });
-
-      toggleSidebarModal(false);
-    } catch (err) {
-      console.log(err);
+  const handleUpdate = () => {
+    if (sidebarModalState.editType === 'edit') {
+      updateMutate();
+    } else {
+      adddataMutate();
     }
   };
 
