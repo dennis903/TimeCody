@@ -20,10 +20,15 @@ const postAddSidebarCategory = async ({ value, color }: { value: string; color: 
   });
 };
 
+const deleteSidebarCategory = async ({ id }: { id: number }) => {
+  return axiosClient.delete(`${API.SIDEBAR}/category/${id}`);
+};
+
 const sidebarRepository = {
   getSidebarCategory,
   putUpdateSidebarCategory,
   postAddSidebarCategory,
+  deleteSidebarCategory,
 };
 
 export default sidebarRepository;

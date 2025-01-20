@@ -48,6 +48,21 @@ const SidebarPlusModalContainer: FC = () => {
     },
   });
 
+  const { mutate: deleteMutate } = useMutation({
+    mutationKey: ['deleteSidebarCategory'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.deleteSidebarCategory({
+        id: sidebarModalState.id,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarCategory'], data);
+
+      toggleSidebarModal(false);
+    },
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSidebarModalValue(e.target.value);
   };
@@ -96,7 +111,9 @@ const SidebarPlusModalContainer: FC = () => {
               />
             </form>
 
-            <button className="sidebar-modal__delete-btn">삭제</button>
+            <button type="button" className="sidebar-modal__delete-btn" onClick={() => deleteMutate()}>
+              삭제
+            </button>
           </div>
         </div>
       </ModalComponent>

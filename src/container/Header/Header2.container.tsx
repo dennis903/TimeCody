@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
 import HeaderUtilContainer from './HeaderUtil.container';
 
