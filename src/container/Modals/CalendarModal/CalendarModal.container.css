@@ -25,13 +25,20 @@
 .calendar-modal__content {
   display: flex;
   gap: 1.5rem;
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
 }
 
 .calendar-modal__content-title {
   font-weight: 400;
   font-size: 1.6rem;
   color: #343434;
+  width: 100%;
+}
+
+.calendar-modal__checkbox {
+  border: #343434 1px solid;
+  border-radius: 0.5rem;
+  width: 1.7rem;
 }
 
 .calendar-modal__footer-item {

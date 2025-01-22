@@ -8,6 +8,15 @@ interface IWeeklyCalendarContainerProps {
 const WeeklyCalendarContainer: FC<IWeeklyCalendarContainerProps> = () => {
   return (
     <>
+      <div className="edit">
+        <div className="edit-left"></div>
+        <div className="edit-right">
+          <button type="button" className="btn edit-btn">
+            <span className="edit-order">순서 편집</span>
+            <i className="icon icon-order"></i>
+          </button>
+        </div>
+      </div>
       <div className="schedule-list">
         <div className="schedule-item">
           <div className="schedule-check schedule-check--complete"></div>

@@ -7,6 +7,7 @@ interface ISidebarModalState {
   value: string;
   color: string;
   editType: 'edit' | 'add';
+  currentCategory: 'category' | 'monthly' | 'shared';
 }
 
 interface ISidebarModalStore {
@@ -18,6 +19,7 @@ interface ISidebarModalStore {
   setSidebarModalColor: (color: string) => void;
   setSidebarModalId: (id: number) => void;
   setSidebarModalEditType: (editType: 'edit' | 'add') => void;
+  setSidebarModalCurrentCategory: (currentCategory: 'category' | 'monthly' | 'shared') => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
@@ -27,7 +29,8 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
     placeholder: '',
     value: '',
     color: '',
-    editType: 'add',
+    editType: 'edit',
+    currentCategory: 'category',
   },
 
   toggleSidebarModal: (isOpen: boolean) =>
@@ -46,6 +49,8 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
   setSidebarModalId: (id: number) => set((state) => ({ sidebarModalState: { ...state.sidebarModalState, id } })),
   setSidebarModalEditType: (editType: 'add' | 'edit') =>
     set((state) => ({ sidebarModalState: { ...state.sidebarModalState, editType } })),
+  setSidebarModalCurrentCategory: (currentCategory: 'category' | 'monthly' | 'shared') =>
+    set((state) => ({ sidebarModalState: { ...state.sidebarModalState, currentCategory } })),
 }));
 
 export default useSidebarModalStore;

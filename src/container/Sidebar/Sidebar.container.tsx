@@ -49,7 +49,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     }),
   ); // [{id: 1, onOff: true}, {id: 2, onOff: true}, ...]
 
-  const { data, isSuccess } = useQuery({
+  const { data: categoryData, isSuccess: isCategorySuccess } = useQuery({
     queryKey: ['sidebarCategory'],
     queryFn: async () => {
       try {
@@ -62,22 +62,58 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     },
   });
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      setSideMenuList((prev) => {
-        return prev.map((sideMenu) => {
-          if (sideMenu.title !== '카테고리') {
-            return sideMenu;
-          }
+  const { data: monthlyData, isSuccess: isMonthlySuccess } = useQuery({
+    queryKey: ['sidebarMonthly'],
+    queryFn: async () => {
+      try {
+        const res = await repository.sidebar.getSidebarMonthly();
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
 
-          return {
-            ...sideMenu,
-            subMenuList: data,
-          };
-        });
-      });
-    }
-  }, [isSuccess, data]);
+  const { data: sharedData, isSuccess: isSharedSuccess } = useQuery({
+    queryKey: ['sidebarShared'],
+    queryFn: async () => {
+      try {
+        const res = await repository.sidebar.getSidebarShared();
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+
+  const updateSideMenuList = (title: string, data: any) => {
+    setSideMenuList((prev) =>
+      prev.map((sideMenu) => {
+        if (sideMenu.title !== title) {
+          return sideMenu;
+        }
+
+        return {
+          ...sideMenu,
+          subMenuList: data,
+        };
+      }),
+    );
+  };
+
+  const queries = [
+    { title: '카테고리', isSuccess: isCategorySuccess, data: categoryData },
+    { title: '월간 캘린더', isSuccess: isMonthlySuccess, data: monthlyData },
+    { title: '공유 캘린더', isSuccess: isSharedSuccess, data: sharedData },
+  ];
+
+  useEffect(() => {
+    queries.forEach(({ title, isSuccess, data }) => {
+      if (isSuccess && data) {
+        updateSideMenuList(title, data);
+      }
+    });
+  }, [queries]);
 
   const onClickStoreBtn = () => {
     setSideMenuList((prev) =>

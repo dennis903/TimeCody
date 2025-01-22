@@ -8,6 +8,15 @@ interface IScheduleCalendarContainerProps {
 const ScheduleCalendarContainer: FC<IScheduleCalendarContainerProps> = () => {
   return (
     <>
+      <div className="edit">
+        <div className="edit-left"></div>
+        <div className="edit-right">
+          <button type="button" className="btn edit-btn">
+            <span className="edit-order">순서 편집</span>
+            <i className="icon icon-order"></i>
+          </button>
+        </div>
+      </div>
       <main className="main">
         <div className="schedule-contents">
           <div className="schedule-list">

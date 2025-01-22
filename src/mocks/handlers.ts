@@ -1,6 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import { dateDB } from './db/dateDB';
 import { categoryDB } from './db/categoryDB';
+import { sharedCategoryDB } from './db/sharedCalendarCategoryDB';
+import { monthlyCategoryDB } from './db/monthlyCategoryDB';
 
 export const handlers = [
   http.get(`${import.meta.env.VITE_API_URL}/monthlyCalendar/:date`, ({ params }) => {
@@ -82,5 +84,101 @@ export const handlers = [
     categoryDB.splice(index, 1);
 
     return HttpResponse.json(categoryDB, { status: 200 });
+  }),
+
+  http.get(`${import.meta.env.VITE_API_URL}/sidebar/monthly`, () => {
+    return HttpResponse.json(monthlyCategoryDB, { status: 200 });
+  }),
+
+  http.put(`${import.meta.env.VITE_API_URL}/sidebar/monthly`, async ({ request }) => {
+    const newCategory = (await request.json()) as { id: number; value: string; color: string };
+
+    const { id, value, color } = newCategory;
+
+    monthlyCategoryDB.forEach((monthlyCategory) => {
+      if (monthlyCategory.id === id) {
+        monthlyCategory.title = value;
+        monthlyCategory.color = color;
+      }
+    });
+
+    return HttpResponse.json(monthlyCategoryDB, { status: 200 });
+  }),
+
+  http.post(`${import.meta.env.VITE_API_URL}/sidebar/monthly`, async ({ request }) => {
+    const newCategory = (await request.json()) as { value: string; color: string };
+
+    const { value, color } = newCategory;
+    const id = monthlyCategoryDB.length > 0 ? monthlyCategoryDB[monthlyCategoryDB.length - 1].id + 1 : 1;
+
+    monthlyCategoryDB.push({
+      id,
+      title: value,
+      color,
+    });
+
+    return HttpResponse.json(monthlyCategoryDB, { status: 200 });
+  }),
+
+  http.delete(`${import.meta.env.VITE_API_URL}/sidebar/monthly/:id`, ({ params }) => {
+    const { id } = params;
+
+    const index = monthlyCategoryDB.findIndex((monthlyCategory) => monthlyCategory.id === Number(id));
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    monthlyCategoryDB.splice(index, 1);
+
+    return HttpResponse.json(monthlyCategoryDB, { status: 200 });
+  }),
+
+  http.get(`${import.meta.env.VITE_API_URL}/sidebar/shared`, () => {
+    return HttpResponse.json(sharedCategoryDB, { status: 200 });
+  }),
+
+  http.put(`${import.meta.env.VITE_API_URL}/sidebar/shared`, async ({ request }) => {
+    const newCategory = (await request.json()) as { id: number; value: string; color: string };
+
+    const { id, value, color } = newCategory;
+
+    sharedCategoryDB.forEach((sharedCategory) => {
+      if (sharedCategory.id === id) {
+        sharedCategory.title = value;
+        sharedCategory.color = color;
+      }
+    });
+
+    return HttpResponse.json(sharedCategoryDB, { status: 200 });
+  }),
+
+  http.post(`${import.meta.env.VITE_API_URL}/sidebar/shared`, async ({ request }) => {
+    const newCategory = (await request.json()) as { value: string; color: string };
+
+    const { value, color } = newCategory;
+    const id = sharedCategoryDB.length > 0 ? sharedCategoryDB[sharedCategoryDB.length - 1].id + 1 : 1;
+
+    sharedCategoryDB.push({
+      id,
+      title: value,
+      color,
+    });
+
+    return HttpResponse.json(sharedCategoryDB, { status: 200 });
+  }),
+
+  http.delete(`${import.meta.env.VITE_API_URL}/sidebar/shared/:id`, ({ params }) => {
+    const { id } = params;
+
+    const index = sharedCategoryDB.findIndex((sharedCategory) => sharedCategory.id === Number(id));
+
+    if (index === -1) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    sharedCategoryDB.splice(index, 1);
+
+    return HttpResponse.json(sharedCategoryDB, { status: 200 });
   }),
 ];

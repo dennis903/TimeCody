@@ -10,30 +10,24 @@ import './SidebarPlusModal.container.css';
 const SidebarPlusModalContainer: FC = () => {
   const { sidebarModalState, toggleSidebarModal, setSidebarModalValue, setSidebarModalColor } = useSidebarModalStore();
   const queryClient = useQueryClient();
-  const { mutate: updateMutate } = useMutation({
+  const { mutate: updateCategoryMutate } = useMutation({
     mutationKey: ['updateSidebarCategory'],
     mutationFn: async () => {
-      try {
-        const res = await repository.sidebar.putUpdateSidebarCategory({
-          id: sidebarModalState.id,
-          value: sidebarModalState.value,
-          color: sidebarModalState.color,
-        });
-
-        return res.data;
-      } catch (err) {
-        console.log(err);
-      }
+      const res = await repository.sidebar.putUpdateSidebarCategory({
+        id: sidebarModalState.id,
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
     },
     onSuccess: (data) => {
       queryClient.setQueryData(['sidebarCategory'], data);
-
       toggleSidebarModal(false);
     },
   });
 
-  const { mutate: adddataMutate } = useMutation({
-    mutationKey: ['adddateSidebarCategory'],
+  const { mutate: addCategoryMutate } = useMutation({
+    mutationKey: ['addSidebarCategory'],
     mutationFn: async () => {
       const res = await repository.sidebar.postAddSidebarCategory({
         value: sidebarModalState.value,
@@ -43,12 +37,11 @@ const SidebarPlusModalContainer: FC = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(['sidebarCategory'], data);
-
       toggleSidebarModal(false);
     },
   });
 
-  const { mutate: deleteMutate } = useMutation({
+  const { mutate: deleteCategoryMutate } = useMutation({
     mutationKey: ['deleteSidebarCategory'],
     mutationFn: async () => {
       const res = await repository.sidebar.deleteSidebarCategory({
@@ -58,7 +51,98 @@ const SidebarPlusModalContainer: FC = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(['sidebarCategory'], data);
+      toggleSidebarModal(false);
+    },
+  });
 
+  // Monthly Mutations
+  const { mutate: updateMonthlyMutate } = useMutation({
+    mutationKey: ['updateSidebarMonthly'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.putUpdateSidebarMonthly({
+        id: sidebarModalState.id,
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarMonthly'], data);
+      toggleSidebarModal(false);
+    },
+  });
+
+  const { mutate: addMonthlyMutate } = useMutation({
+    mutationKey: ['addSidebarMonthly'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.postAddSidebarMonthly({
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarMonthly'], data);
+      toggleSidebarModal(false);
+    },
+  });
+
+  const { mutate: deleteMonthlyMutate } = useMutation({
+    mutationKey: ['deleteSidebarMonthly'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.deleteSidebarMonthly({
+        id: sidebarModalState.id,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarMonthly'], data);
+      toggleSidebarModal(false);
+    },
+  });
+
+  // Shared Mutations
+  const { mutate: updateSharedMutate } = useMutation({
+    mutationKey: ['updateSidebarShared'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.putUpdateSidebarShared({
+        id: sidebarModalState.id,
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarShared'], data);
+      toggleSidebarModal(false);
+    },
+  });
+
+  const { mutate: addSharedMutate } = useMutation({
+    mutationKey: ['addSidebarShared'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.postAddSidebarShared({
+        value: sidebarModalState.value,
+        color: sidebarModalState.color,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarShared'], data);
+      toggleSidebarModal(false);
+    },
+  });
+
+  const { mutate: deleteSharedMutate } = useMutation({
+    mutationKey: ['deleteSidebarShared'],
+    mutationFn: async () => {
+      const res = await repository.sidebar.deleteSidebarShared({
+        id: sidebarModalState.id,
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sidebarShared'], data);
       toggleSidebarModal(false);
     },
   });
@@ -72,11 +156,25 @@ const SidebarPlusModalContainer: FC = () => {
   };
 
   const handleUpdate = () => {
-    if (sidebarModalState.editType === 'edit') {
-      updateMutate();
+    const { editType, currentCategory } = sidebarModalState;
+
+    if (editType === 'edit') {
+      if (currentCategory === 'category') updateCategoryMutate();
+      if (currentCategory === 'monthly') updateMonthlyMutate();
+      if (currentCategory === 'shared') updateSharedMutate();
     } else {
-      adddataMutate();
+      if (currentCategory === 'category') addCategoryMutate();
+      if (currentCategory === 'monthly') addMonthlyMutate();
+      if (currentCategory === 'shared') addSharedMutate();
     }
+  };
+
+  const handleDelete = () => {
+    const { currentCategory } = sidebarModalState;
+
+    if (currentCategory === 'category') deleteCategoryMutate();
+    if (currentCategory === 'monthly') deleteMonthlyMutate();
+    if (currentCategory === 'shared') deleteSharedMutate();
   };
 
   return (
@@ -111,7 +209,7 @@ const SidebarPlusModalContainer: FC = () => {
               />
             </form>
 
-            <button type="button" className="sidebar-modal__delete-btn" onClick={() => deleteMutate()}>
+            <button type="button" className="sidebar-modal__delete-btn" onClick={handleDelete}>
               삭제
             </button>
           </div>
