@@ -87,7 +87,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
   }, [props.subMenuList]);
 
   return (
-    <li className="sidebar-menu-item">
+    <div className="sidebar-menu-item">
       <div className="sidebar-menu__detail">
         {props.link ? (
           <Link to={props.link}>
@@ -206,7 +206,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
           )}
         </ul>
       )}
-    </li>
+    </div>
   );
 };
 

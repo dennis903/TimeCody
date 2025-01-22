@@ -113,7 +113,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
         updateSideMenuList(title, data);
       }
     });
-  }, [queries]);
+  }, [categoryData, monthlyData, sharedData]);
 
   const onClickStoreBtn = () => {
     setSideMenuList((prev) =>
@@ -131,6 +131,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
   };
 
   const onClickMoreBtn = () => {
+    setIsEditOn(false);
     setIsMoreOn((prev) => {
       if (prev) {
         // 복사본 => 원상 복구 시킨다.

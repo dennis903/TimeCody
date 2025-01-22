@@ -16,27 +16,48 @@ export const handlers = [
     return HttpResponse.json(dateDB[date as keyof typeof dateDB], { status: 200 });
   }),
 
-  http.get(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date`, ({ params }) => {
-    const { date } = params;
+  http.get(
+    `${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date`,
+    ({ params }: { params: { date: string } }) => {
+      const { date } = params;
 
-    if (!dateDB[date as keyof typeof dateDB]) {
-      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
-    }
-
-    const targetDate = dateDB[date as keyof typeof dateDB];
-
-    const foundDate = targetDate.find((d) => {
-      if (d?.start === date || d?.end === date) {
-        return d;
+      // date가 올바른 형식인지 확인
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return HttpResponse.json({ message: 'Invalid date format' }, { status: 400 });
       }
-    });
 
-    if (!foundDate) {
-      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
-    }
+      // year-month 추출
+      const [year, month] = date.split('-');
+      const key = `${year}-${month}`;
 
-    return HttpResponse.json(foundDate, { status: 200 });
-  }),
+      // 해당 month 데이터가 있는지 확인
+      const targetMonth = dateDB[key];
+      if (!targetMonth) {
+        return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+      }
+
+      // 해당 날짜 데이터 필터링
+      const foundDate = targetMonth.filter((item) => {
+        if (item.start === date || item.end === date) {
+          return true;
+        }
+        // start와 end가 날짜 범위일 경우 범위 내에 date가 있는지 확인
+        if (item.start && item.end) {
+          const startDate = new Date(item.start).getTime();
+          const endDate = new Date(item.end).getTime();
+          const targetDate = new Date(date).getTime();
+          return targetDate >= startDate && targetDate <= endDate;
+        }
+        return false;
+      });
+
+      if (foundDate.length === 0) {
+        return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+      }
+
+      return HttpResponse.json(foundDate, { status: 200 });
+    },
+  ),
 
   http.get(`${import.meta.env.VITE_API_URL}/sidebar/category`, () => {
     return HttpResponse.json(categoryDB, { status: 200 });
