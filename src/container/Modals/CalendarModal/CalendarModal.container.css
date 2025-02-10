@@ -23,9 +23,28 @@
 }
 
 .calendar-modal__content {
+  padding: 1rem 0.5rem;
   display: flex;
   gap: 1.5rem;
-  padding: 1rem 0.5rem;
+}
+
+.calendar-modal__item {
+  width: 100%;
+  align-items: center;
+}
+
+.calendar-modal__item-edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-modal__checkbox {
+  border: #343434 1px solid;
+  border-radius: 0.5rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  position: relative;
 }
 
 .calendar-modal__content-title {
@@ -35,10 +54,18 @@
   width: 100%;
 }
 
-.calendar-modal__checkbox {
-  border: #343434 1px solid;
-  border-radius: 0.5rem;
-  width: 1.7rem;
+.calendar-modal__content-state {
+  display: flex;
+  padding: 0.5rem 0;
+  gap: 1rem;
+}
+
+.calendar-modal__state-type {
+  color: #6b6b6b;
+}
+
+.calendar-modal__state-description {
+  color: #a9a9a9;
 }
 
 .calendar-modal__footer-item {
@@ -48,4 +75,10 @@
   display: flex;
   justify-content: center;
   padding: 1rem;
+}
+
+.calendar-modal__checkbox-selected {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
 }

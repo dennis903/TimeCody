@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import ModalComponent from '@/components/modal/Modal.component';
 import IconComponent from '@/components/Icon/Icon.component';
+import SwitchComponent from '@/components/switch/Switch.component';
 
 import './AdditionalModal.container.css';
 
@@ -36,20 +37,27 @@ const AdditionalModalContainer: FC = () => {
               </button>
             </div>
             <div className="additional-modal__header-items">
-              <h2 className="addtional-modal__header-item">일정</h2>
-              <h2 className="addtional-modal__header-item">할 일</h2>
-              <h2 className="addtional-modal__header-item">일기</h2>
-              <h2 className="addtional-modal__header-item">메모</h2>
-              <h2 className="addtional-modal__header-item">첨부</h2>
-              <h2 className="addtional-modal__header-item">스티커</h2>
-              <h2 className="addtional-modal__header-item">배경</h2>
+              <h2 className="additional-modal__header-item">일정</h2>
+              <h2 className="additional-modal__header-item">할 일</h2>
+              <h2 className="additional-modal__header-item">구간</h2>
+              <h2 className="additional-modal__header-item">습관</h2>
+              <h2 className="additional-modal__header-item">일기</h2>
+              <h2 className="additional-modal__header-item">메모</h2>
+              <h2 className="additional-modal__header-item">첨부</h2>
+              <h2 className="additional-modal__header-item">스티커</h2>
+              <h2 className="additional-modal__header-item">배경</h2>
             </div>
           </header>
           <form className="addtional-modal__input">
-            <input type="text" className="additional-modal__title" placeholder="제목을 입력해주세요."></input>
-            <button type="button" className="icon-btn">
-              <IconComponent icon="icon-color" />
-            </button>
+            <input
+              className="additional-modal__title"
+              type="text"
+              name="new"
+              id="new"
+              value={''}
+              placeholder="제목을 입력해주세요."
+            ></input>
+            <input type="color" name="color" id="color" value={''}></input>
           </form>
           <div className="addtional-modal__date">
             <div className="additional-modal-start">

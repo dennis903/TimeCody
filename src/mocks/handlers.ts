@@ -3,6 +3,7 @@ import { dateDB } from './db/dateDB';
 import { categoryDB } from './db/categoryDB';
 import { sharedCategoryDB } from './db/sharedCalendarCategoryDB';
 import { monthlyCategoryDB } from './db/monthlyCategoryDB';
+import { format } from 'date-fns';
 
 export const handlers = [
   http.get(`${import.meta.env.VITE_API_URL}/monthlyCalendar/:date`, ({ params }) => {
@@ -36,20 +37,31 @@ export const handlers = [
         return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
       }
 
+      console.log(targetMonth);
       // 해당 날짜 데이터 필터링
       const foundDate = targetMonth.filter((item) => {
-        if (item.start === date || item.end === date) {
+        const targetDate = new Date(date).getTime();
+
+        // 정확히 해당 날짜가 start나 end에 일치하는 경우
+        if (format(new Date(item.start), 'yyyy-MM-dd') === date) {
           return true;
         }
-        // start와 end가 날짜 범위일 경우 범위 내에 date가 있는지 확인
+
+        // 구간 데이터 처리: start와 end가 존재하고 targetDate가 범위 내에 있는 경우
         if (item.start && item.end) {
           const startDate = new Date(item.start).getTime();
           const endDate = new Date(item.end).getTime();
-          const targetDate = new Date(date).getTime();
-          return targetDate >= startDate && targetDate <= endDate;
+
+          // 범위 비교 (start <= target <= end)
+          if (targetDate >= startDate && targetDate <= endDate) {
+            return true;
+          }
         }
+
         return false;
       });
+
+      console.log(foundDate, '데이터 찾ㅡ');
 
       if (foundDate.length === 0) {
         return HttpResponse.json({ message: 'Not Found' }, { status: 404 });

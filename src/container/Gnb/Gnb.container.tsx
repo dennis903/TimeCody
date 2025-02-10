@@ -60,7 +60,7 @@ const GnbContainer: FC = () => {
               'gnb-item--active': navItem.isActive,
             })}
           >
-            <Link to={navItem.link} className="gnb-item__link">
+            <Link to={navItem.link} className="link gnb-item__link">
               <i className={cx('icon', navItem.icon)}>
                 <img src={navItem.imageUrl} />
               </i>

@@ -157,6 +157,7 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
 
   const onClickPlusBtn = () => {
     setIsEditOn(false);
+    setIsMoreOn(false);
     setIsPlusOn((prev) => !prev);
   };
 
@@ -178,6 +179,15 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
     });
   }, [isMoreOn]);
 
+  useEffect(() => {
+    setSideMenuList((prev) =>
+      prev.map((sideMenu) => {
+        const onOffItem = onOffList.find((onOff) => onOff.id === sideMenu.id);
+        return { ...sideMenu, onOff: onOffItem?.onOff ?? sideMenu.onOff };
+      }),
+    );
+  }, [onOffList]);
+
   return (
     <div
       className={cx('sidebar-wrapper', {
@@ -197,7 +207,11 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
                   <IconComponent icon="icon-plus" />
                 </button>
               )}
-
+              {isMoreOn && (
+                <button type="button" className="sidebar-btn sidebar-plus-btn" onClick={onClickPlusBtn}>
+                  <IconComponent icon="icon-plus" />
+                </button>
+              )}
               <button type="button" className="sidebar-btn sidebar-detail-btn" onClick={onClickMoreBtn}>
                 <IconComponent icon="icon-detail" />
               </button>
@@ -278,11 +292,6 @@ const SidebarContainer: FC<ISidebarContainerProps> = (props) => {
               ))}
           </ul>
         </div>
-        {isMoreOn && (
-          <button type="button" className="complete-btn" onClick={onClickStoreBtn}>
-            저장
-          </button>
-        )}
       </div>
     </div>
   );

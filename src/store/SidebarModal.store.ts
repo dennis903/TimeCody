@@ -7,7 +7,7 @@ interface ISidebarModalState {
   value: string;
   color: string;
   editType: 'edit' | 'add';
-  currentCategory: 'category' | 'monthly' | 'shared';
+  currentCategory: string;
 }
 
 interface ISidebarModalStore {
@@ -19,7 +19,7 @@ interface ISidebarModalStore {
   setSidebarModalColor: (color: string) => void;
   setSidebarModalId: (id: number) => void;
   setSidebarModalEditType: (editType: 'edit' | 'add') => void;
-  setSidebarModalCurrentCategory: (currentCategory: 'category' | 'monthly' | 'shared') => void;
+  setSidebarModalCurrentCategory: (currentCategory: string) => void;
 }
 
 const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
@@ -49,7 +49,7 @@ const useSidebarModalStore = create<ISidebarModalStore>((set) => ({
   setSidebarModalId: (id: number) => set((state) => ({ sidebarModalState: { ...state.sidebarModalState, id } })),
   setSidebarModalEditType: (editType: 'add' | 'edit') =>
     set((state) => ({ sidebarModalState: { ...state.sidebarModalState, editType } })),
-  setSidebarModalCurrentCategory: (currentCategory: 'category' | 'monthly' | 'shared') =>
+  setSidebarModalCurrentCategory: (currentCategory: string) =>
     set((state) => ({ sidebarModalState: { ...state.sidebarModalState, currentCategory } })),
 }));
 

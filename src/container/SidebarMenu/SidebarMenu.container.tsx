@@ -39,18 +39,35 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     setSidebarModalColor,
     setSidebarModalId,
     setSidebarModalEditType,
+    setSidebarModalCurrentCategory,
   } = useSidebarModalStore();
 
   const onClickModifyBtn = (value: string, color: string, id: number) => {
+    let type = '';
+
+    switch (props.title) {
+      case '카테고리':
+        type = 'category';
+        break;
+      case '월간 캘린더':
+        type = 'monthly';
+        break;
+      default:
+        type = 'shared';
+        break;
+    }
+
     toggleSidebarModal(true);
     setSidebarModalValue(value);
     setSidebarModalColor(color);
     setSidebarModalId(id);
     setSidebarModalEditType('edit');
+    setSidebarModalCurrentCategory(type);
   };
 
   const onClickPlusBtn = () => {
     let placeholder = '';
+    let type = '';
 
     switch (props.title) {
       case '카테고리':
@@ -61,11 +78,24 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
         break;
     }
 
+    switch (props.title) {
+      case '카테고리':
+        type = 'category';
+        break;
+      case '월간 캘린더':
+        type = 'monthly';
+        break;
+      default:
+        type = 'shared';
+        break;
+    }
+
     toggleSidebarModal(true);
     setSidebarModalValue('');
     setSidebarModalColor('#000');
     setSidebarModalPlaceholder(placeholder);
     setSidebarModalEditType('add');
+    setSidebarModalCurrentCategory(type);
   };
 
   useEffect(() => {
@@ -90,7 +120,7 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
     <div className="sidebar-menu-item">
       <div className="sidebar-menu__detail">
         {props.link ? (
-          <Link to={props.link}>
+          <Link to={props.link} style={{ color: '#343434' }}>
             <p className="sidebar__title">{props.title}</p>
           </Link>
         ) : (
@@ -102,9 +132,9 @@ const SidebarMenuContainer: FC<ISidebarMenuContainerProps> = (props) => {
               id={props.title}
               checked={props.onOff}
               onChangeSwitch={() =>
-                props.setOnOffList((prev) => {
-                  return prev.map((onOff) => (onOff.id === props.id ? { id: onOff.id, onOff: !onOff.onOff } : onOff));
-                })
+                props.setOnOffList((prev) =>
+                  prev.map((onOff) => (onOff.id === props.id ? { id: onOff.id, onOff: !onOff.onOff } : onOff)),
+                )
               }
             />
           ))
