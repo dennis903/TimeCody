@@ -56,8 +56,8 @@ const AdditionalModalContainer: FC = () => {
               id="new"
               value={''}
               placeholder="제목을 입력해주세요."
-            ></input>
-            <input type="color" name="color" id="color" value={''}></input>
+            />
+            <input type="color" name="color" id="color" value={''} />
           </form>
           <div className="addtional-modal__date">
             <div className="additional-modal-start">
