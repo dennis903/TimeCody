@@ -23,23 +23,24 @@
 
 .additional-modal__header-items {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   font-size: 1.6rem;
   font-weight: 500;
-  padding: 2rem 0 1rem 0;
-  border-bottom: 1px solid #d2d2d2;
+  overflow-x: auto;
 }
 
 .additional-modal__header-item {
   color: #d2d2d2;
   font-weight: 400;
   cursor: pointer;
+  padding: 1.5rem 2rem;
+  white-space: nowrap;
+  border-bottom: 1px solid #d2d2d2;
 }
 
-.additional-modal__header-item:active {
+.additional-modal__header-item--active {
   color: #343434;
   font-weight: 500;
+  border-bottom: #343434 2px solid;
 }
 
 .addtional-modal__input {

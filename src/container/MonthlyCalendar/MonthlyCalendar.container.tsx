@@ -8,18 +8,10 @@ import repository from '@/repository';
 import useCalendarModalStore from '@/store/CalendarModal.store';
 import './MonthlyCalendar.container.css';
 
+import { IEvent } from '@/types';
+
 interface IMonthlyCalendarContainerProps {
   date: Date;
-}
-
-interface IEvent {
-  type: 'period' | 'routine' | 'schdule' | 'todo';
-  title: string;
-  start: string;
-  end?: string;
-  color?: string;
-  groupId?: string;
-  backgroundColor?: string;
 }
 
 const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => {

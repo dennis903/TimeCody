@@ -12,11 +12,15 @@ import useCalendarModalStore from '@/store/CalendarModal.store';
 import useAdditionalModalStore from '@/store/AdditionalModal.store';
 import repository from '@/repository';
 
+import CalendarModalItemContainer from './CalendarModalItem.container';
+
+import { IEvent } from '@/types';
+
 const CalendarModalContainer: FC = () => {
   const { calendarModalState, toggleCalendarModal } = useCalendarModalStore();
   const { toggleAdditionalModal } = useAdditionalModalStore();
   const [isEditOn, setIsEditOn] = useState(false);
-  const [contentList, setContentList] = useState<{ title: string }[]>([]);
+  const [contentList, setContentList] = useState<IEvent[]>([]);
 
   const formatDate = () => {
     const year = calendarModalState.date.getFullYear();
@@ -26,7 +30,7 @@ const CalendarModalContainer: FC = () => {
     return `${year}년 ${month}월 ${date}일`;
   };
 
-  const { data, isSuccess } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['getCalendarByDate', calendarModalState.date],
     queryFn: async () => {
       try {
@@ -37,11 +41,33 @@ const CalendarModalContainer: FC = () => {
         console.log(err);
       }
     },
+    select: (data) => {
+      return {
+        periodList: data
+          .filter((item: IEvent) => item.type === 'period')
+          .map((item: IEvent) => ({ ...item, className: 'period-event' })),
+        routineList: data
+          .filter((item: IEvent) => item.type === 'routine')
+          .map((item: IEvent) => ({ ...item, className: 'routine-event' })),
+        scheduleList: data
+          .filter((item: IEvent) => item.type === 'schdule')
+          .map((item: IEvent) => ({ ...item, className: 'schedule-event' })),
+        todoList: data
+          .filter((item: IEvent) => item.type === 'todo')
+          .map((item: IEvent) => ({ ...item, className: 'todo-event' })),
+      };
+    },
   });
 
   useEffect(() => {
-    setContentList(data);
+    if (isSuccess) {
+      setContentList([...data.todoList, ...data.scheduleList, ...data.routineList, ...data.periodList]);
+    }
   }, [isSuccess]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     calendarModalState.isOpen && (
@@ -70,50 +96,15 @@ const CalendarModalContainer: FC = () => {
                 <Reorder.Group axis="y" values={contentList} onReorder={setContentList}>
                   {contentList?.map((content, index) => (
                     <Reorder.Item key={index} value={content}>
-                      <div className="calendar-modal__content">
-                        <div className="calendar-modal__checkbox"></div>
-                        <div className="calendar-modal__item">
-                          <div className="calendar-modal__item-edit">
-                            <p className="calendar-modal__content-title">{content.title}</p>
-                            <IconComponent icon="icon-order-edit" />
-                          </div>
-                          <div className="calendar-modal__content-state">
-                            <p className="calendar-modal__state-type">할 일</p>
-                            <p className="calendar-modal__state-description">미완료</p>
-                          </div>
-                        </div>
-                      </div>
+                      <CalendarModalItemContainer content={content} isEditOn={isEditOn} />
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
               ) : (
                 <div className="calendar-modal__contents">
-                  <div className="calendar-modal__content">
-                    <div className="calendar-modal__checkbox"></div>
-                    {contentList?.map((content, index) => (
-                      <div key={index} className="calendar-modal__item">
-                        <p className="calendar-modal__content-title">{content.title}</p>
-                        <div className="calendar-modal__content-state">
-                          <p className="calendar-modal__state-type">할 일</p>
-                          <p className="calendar-modal__state-description">미완료</p>
-                        </div>
-                        <div className="calendar-modal__checkbox-selected">
-                          <div className="calendar-modal__checkbox-content">
-                            <button type="button" className="icon-btn">
-                              <IconComponent icon="icon-complete" />
-                            </button>
-                            <span className="calendar-modal__checkbox-description">완료</span>
-                          </div>
-                          <div className="calendar-modal__checkbox-content">
-                            <button type="button" className="icon-btn">
-                              <IconComponent icon="icon-doing" />
-                            </button>
-                            <span className="calendar-modal__checkbox-description">진행중</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  {contentList.map((content, index) => (
+                    <CalendarModalItemContainer key={index} content={content} isEditOn />
+                  ))}
                 </div>
               )}
             </div>

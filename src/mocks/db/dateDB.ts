@@ -7,6 +7,7 @@ export const dateDB: {
     color?: string;
     groupId?: string;
     backgroundColor?: string;
+    status?: 0 | 1 | 2; // 0: 미완료, 1: 진행중, 2: 완료
   }>;
 } = {
   '2024-07': [
@@ -34,6 +35,7 @@ export const dateDB: {
       start: '2024-07-10T15:00:00',
       end: '2024-07-10T17:00:00',
       backgroundColor: 'blue',
+      status: 0,
     },
   ],
   '2024-08': [
@@ -49,6 +51,7 @@ export const dateDB: {
       groupId: 'exercise',
       title: '요가 수업',
       start: '2024-08-12T07:00:00',
+      status: 2,
     },
     {
       type: 'schedule',
@@ -61,6 +64,7 @@ export const dateDB: {
       start: '2024-08-15T14:00:00',
       end: '2024-08-15T16:00:00',
       backgroundColor: 'purple',
+      status: 1,
     },
   ],
   '2024-09': [
@@ -76,6 +80,7 @@ export const dateDB: {
       groupId: 'exercise',
       title: '저녁 달리기',
       start: '2024-09-07T18:30:00',
+      status: 0,
     },
     {
       type: 'schedule',
@@ -88,6 +93,7 @@ export const dateDB: {
       start: '2024-09-22T10:00:00',
       end: '2024-09-22T12:00:00',
       backgroundColor: 'red',
+      status: 2,
     },
   ],
   '2024-10': [
@@ -103,6 +109,7 @@ export const dateDB: {
       groupId: 'exercise',
       title: '헬스장 운동',
       start: '2024-10-05T17:00:00',
+      status: 0,
     },
     {
       type: 'schedule',
@@ -115,6 +122,7 @@ export const dateDB: {
       start: '2024-10-29T13:00:00',
       end: '2024-10-29T15:00:00',
       backgroundColor: 'orange',
+      status: 0,
     },
   ],
   '2024-11': [
@@ -130,6 +138,7 @@ export const dateDB: {
       groupId: 'exercise',
       title: '필라테스',
       start: '2024-11-08T08:00:00',
+      status: 0,
     },
     {
       type: 'schedule',
@@ -142,6 +151,7 @@ export const dateDB: {
       start: '2024-11-15T09:00:00',
       end: '2024-11-15T11:00:00',
       backgroundColor: 'green',
+      status: 1,
     },
   ],
   '2024-12': [
@@ -164,12 +174,14 @@ export const dateDB: {
       groupId: 'workout',
       title: '요가 세션',
       start: '2024-12-05T07:00:00',
+      status: 1,
     },
     {
       type: 'routine',
       groupId: 'workout',
       title: '달리기',
       start: '2024-12-07T06:30:00',
+      status: 2,
     },
     {
       type: 'schedule',
@@ -187,6 +199,7 @@ export const dateDB: {
       start: '2024-12-10T09:00:00',
       end: '2024-12-10T11:00:00',
       backgroundColor: 'orange',
+      status: 2,
     },
     {
       type: 'todo',
@@ -194,6 +207,7 @@ export const dateDB: {
       start: '2024-12-23T14:00:00',
       end: '2024-12-23T17:00:00',
       backgroundColor: 'red',
+      status: 0,
     },
   ],
   '2025-01': [
@@ -210,6 +224,7 @@ export const dateDB: {
       title: '아침 조깅',
       start: '2025-01-05T06:30:00',
       color: 'blue',
+      status: 1,
     },
     {
       type: 'schedule',
@@ -222,6 +237,7 @@ export const dateDB: {
       start: '2025-01-15T15:00:00',
       end: '2025-01-15T17:00:00',
       backgroundColor: 'green',
+      status: 1,
     },
   ],
 };
