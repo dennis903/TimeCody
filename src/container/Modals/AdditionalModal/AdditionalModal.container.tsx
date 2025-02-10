@@ -37,7 +37,7 @@ const AdditionalModalContainer: FC = () => {
               </button>
             </div>
             <div className="additional-modal__header-items">
-              <h2 className="additional-modal__header-item">일정</h2>
+              <h2 className="additional-modal__header-item additional-modal__header-item--active">일정</h2>
               <h2 className="additional-modal__header-item">할 일</h2>
               <h2 className="additional-modal__header-item">구간</h2>
               <h2 className="additional-modal__header-item">습관</h2>
@@ -86,6 +86,7 @@ const AdditionalModalContainer: FC = () => {
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-time" />
                 <span className="additional-modal__setting-title">시간</span>
+                <SwitchComponent id="time" />
               </div>
               <form className="additional-modal__time-form">
                 <input type="checkbox" className="additional-modal__time-check" />
@@ -95,11 +96,13 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal__repetition">
               <IconComponent icon="icon-repetition" />
               <span className="additional-modal__setting-title">반복</span>
+              <SwitchComponent id="repeat" />
             </div>
             <div className="additional-modal__notification">
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-bell" />
                 <span className="additional-modal__setting-title">알림</span>
+                <SwitchComponent id="noti" />
               </div>
               <div className="additional-modal__notification-time">
                 <span className="additional-modal__notification-time-title">08:00 AM</span>
@@ -111,10 +114,12 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal__dday">
               <IconComponent icon="icon-dday" />
               <span className="additional-modal__setting-title">D-DAY</span>
+              <SwitchComponent id="dday" />
             </div>
             <div className="additional-modal__location">
               <IconComponent icon="icon-location" />
               <span className="additional-modal__setting-title">위치</span>
+              <SwitchComponent id="location" />
             </div>
             <div className="additional-modal__attendee">
               <IconComponent icon="icon-attendee" />
