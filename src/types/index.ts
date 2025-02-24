@@ -1,5 +1,5 @@
 export interface IEvent {
-  type: 'period' | 'routine' | 'schdule' | 'todo';
+  type: 'period' | 'routine' | 'schedule' | 'todo';
   title: string;
   start: string;
   end?: string;

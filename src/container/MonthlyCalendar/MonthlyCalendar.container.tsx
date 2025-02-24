@@ -50,7 +50,7 @@ const MonthlyCalendarContainer: FC<IMonthlyCalendarContainerProps> = (props) => 
           .filter((item: IEvent) => item.type === 'routine')
           .map((item: IEvent) => ({ ...item, className: 'routine-event' })),
         scheduleList: data
-          .filter((item: IEvent) => item.type === 'schdule')
+          .filter((item: IEvent) => item.type === 'schedule')
           .map((item: IEvent) => ({ ...item, className: 'schedule-event' })),
         todoList: data
           .filter((item: IEvent) => item.type === 'todo')
