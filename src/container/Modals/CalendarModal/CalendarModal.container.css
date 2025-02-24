@@ -45,6 +45,8 @@
   width: 2rem;
   height: 2rem;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .calendar-modal__content-title {

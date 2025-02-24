@@ -63,7 +63,7 @@ const CalendarModalContainer: FC = () => {
     if (isSuccess) {
       setContentList([...data.todoList, ...data.scheduleList, ...data.routineList, ...data.periodList]);
     }
-  }, [isSuccess]);
+  }, [isSuccess, calendarModalState.date]);
 
   if (isLoading) {
     return <div>Loading...</div>;

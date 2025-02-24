@@ -37,7 +37,6 @@ export const handlers = [
         return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
       }
 
-      console.log(targetMonth);
       // 해당 날짜 데이터 필터링
       const foundDate = targetMonth.filter((item) => {
         const targetDate = new Date(date).getTime();
@@ -60,8 +59,6 @@ export const handlers = [
 
         return false;
       });
-
-      console.log(foundDate, '데이터 찾ㅡ');
 
       if (foundDate.length === 0) {
         return HttpResponse.json({ message: 'Not Found' }, { status: 404 });

@@ -58,10 +58,19 @@
 }
 
 .fc-daygrid-event-dot {
-  border-radius: 0%;
-  opacity: 0.5;
+  border-radius: 3px;
+  border: #d9d9d9 solid 5px;
 }
 
 .fc-daygrid-dot-event .fc-event-title {
   color: #343434;
 }
+
+.fc-h-event {
+  border-color: #d9d9d9;
+  background-color: #d9d9d9;
+}
+/* 
+.fc-h-event .fc-event-main {
+  color: ;
+} */

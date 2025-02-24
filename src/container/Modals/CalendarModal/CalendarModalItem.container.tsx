@@ -3,9 +3,11 @@ import IconComponent from '@/components/Icon/Icon.component';
 
 import './CalendarModal.container.css';
 import { IEvent } from '@/types';
+import { match } from 'ts-pattern';
 
 import CompleteSvg from '@/components/svg/CompleteSvg';
 import DoingSvg from '@/components/svg/DoingSvg';
+import PeriodSvg from '@/components/svg/PeriodSvg';
 
 interface ICalendarModalItemContainerProps {
   content: IEvent;
@@ -49,14 +51,55 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
 
   return (
     <div className="calendar-modal__content">
-      <div className="calendar-modal__checkbox">
-        {(props.content.type === 'todo' || props.content.type === 'routine') &&
-          (props.content.status === 0 ? null : props.content.status === 1 ? (
-            <DoingSvg />
-          ) : props.content.status === 2 ? (
-            <CompleteSvg />
-          ) : null)}
-      </div>
+      {match(props.content.type)
+        .when(
+          (type) => type === 'todo' || type === 'routine',
+          () =>
+            match(props.content.status)
+              .with(1, () => (
+                <div
+                  className="calendar-modal__checkbox"
+                  style={{ borderColor: props.content.backgroundColor || props.content.color }}
+                >
+                  <DoingSvg color={props.content.backgroundColor || props.content.color} />
+                </div>
+              ))
+              .with(2, () => (
+                <div
+                  className="calendar-modal__checkbox"
+                  style={{
+                    backgroundColor: props.content.backgroundColor || props.content.color,
+                    borderColor: props.content.backgroundColor || props.content.color,
+                  }}
+                >
+                  <CompleteSvg color="#ffffff" />
+                </div>
+              ))
+              .otherwise(() => <div className="calendar-modal__checkbox" />),
+        )
+        .when(
+          (type) => type === 'period',
+          () => (
+            <div
+              className="calendar-modal__checkbox"
+              style={{
+                backgroundColor: props.content.backgroundColor || props.content.color,
+                borderColor: props.content.backgroundColor || props.content.color,
+              }}
+            >
+              <PeriodSvg color="#ffffff" />
+            </div>
+          ),
+        )
+        .otherwise(() => (
+          <div
+            className="calendar-modal__checkbox"
+            style={{
+              backgroundColor: props.content.backgroundColor || props.content.color,
+              borderColor: props.content.backgroundColor || props.content.color,
+            }}
+          />
+        ))}
       <div className="calendar-modal__item">
         <div className="calendar-modal__item-edit">
           <p className="calendar-modal__content-title">{props.content.title}</p>
