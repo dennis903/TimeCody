@@ -68,6 +68,56 @@ export const handlers = [
     },
   ),
 
+  http.post(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date/:status`, async ({ params, request }) => {
+    const { date, status } = params as { date: string; status: string };
+
+    const { type, title, start, end, color, groupId, backgroundColor } = (await request.json()) as {
+      type: string;
+      title: string;
+      start: string;
+      end?: string;
+      color?: string;
+      groupId?: string;
+      backgroundColor?: string;
+    };
+
+    // date가 올바른 형식인지 확인
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return HttpResponse.json({ message: 'Invalid date format' }, { status: 400 });
+    }
+
+    // year-month 추출
+    const [year, month] = date.split('-');
+    const key = `${year}-${month}`;
+
+    // 해당 month 데이터가 있는지 확인
+    if (!dateDB[key]) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    // status가 0, 1, 2 중 하나인지 확인
+    if (!['0', '1', '2'].includes(status)) {
+      return HttpResponse.json({ message: 'Invalid status' }, { status: 400 });
+    }
+
+    // status를 number로 변환
+    const statusNumber = Number(status) as 0 | 1 | 2;
+
+    // 새로운 데이터 추가
+    dateDB[key].push({
+      type,
+      title,
+      start,
+      end,
+      color,
+      groupId,
+      backgroundColor,
+      status: statusNumber,
+    });
+
+    return HttpResponse.json(dateDB[key], { status: 200 });
+  }),
+
   http.get(`${import.meta.env.VITE_API_URL}/sidebar/category`, () => {
     return HttpResponse.json(categoryDB, { status: 200 });
   }),
