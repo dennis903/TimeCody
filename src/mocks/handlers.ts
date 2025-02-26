@@ -68,7 +68,7 @@ export const handlers = [
     },
   ),
 
-  http.post(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date/:status`, async ({ params, request }) => {
+  http.put(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date/:status`, async ({ params, request }) => {
     const { date, status } = params as { date: string; status: string };
 
     const { type, title, start, end, color, groupId, backgroundColor } = (await request.json()) as {
