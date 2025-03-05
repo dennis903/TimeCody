@@ -1,5 +1,6 @@
 export const dateDB: {
   [key: string]: Array<{
+    id: string;
     type: string;
     title: string;
     start: string;
@@ -12,6 +13,7 @@ export const dateDB: {
 } = {
   '2024-07': [
     {
+      id: '1',
       type: 'period',
       title: '여름 축제',
       start: '2024-07-14',
@@ -19,17 +21,20 @@ export const dateDB: {
       color: 'yellow',
     },
     {
+      id: '2',
       type: 'routine',
       groupId: 'exercise',
       title: '아침 조깅',
       start: '2024-07-05T06:30:00',
     },
     {
+      id: '3',
       type: 'schedule',
       title: '가족 모임',
       start: '2024-07-20',
     },
     {
+      id: '4',
       type: 'todo',
       title: '책 읽기 - "위대한 개츠비"',
       start: '2024-07-10T15:00:00',
@@ -40,6 +45,7 @@ export const dateDB: {
   ],
   '2024-08': [
     {
+      id: '5',
       type: 'period',
       title: '해변 휴가',
       start: '2024-08-01',
@@ -47,6 +53,7 @@ export const dateDB: {
       color: 'aqua',
     },
     {
+      id: '6',
       type: 'routine',
       groupId: 'exercise',
       title: '요가 수업',
@@ -54,11 +61,13 @@ export const dateDB: {
       status: 2,
     },
     {
+      id: '7',
       type: 'schedule',
       title: '워크숍',
       start: '2024-08-25',
     },
     {
+      id: '8',
       type: 'todo',
       title: '생일 파티 준비',
       start: '2024-08-15T14:00:00',
@@ -69,6 +78,7 @@ export const dateDB: {
   ],
   '2024-09': [
     {
+      id: '9',
       type: 'period',
       title: '가을 축제',
       start: '2024-09-18',
@@ -76,6 +86,7 @@ export const dateDB: {
       color: 'orange',
     },
     {
+      id: '10',
       type: 'routine',
       groupId: 'exercise',
       title: '저녁 달리기',
@@ -83,11 +94,13 @@ export const dateDB: {
       status: 0,
     },
     {
+      id: '11',
       type: 'schedule',
       title: '회사 회의',
       start: '2024-09-13',
     },
     {
+      id: '12',
       type: 'todo',
       title: '시험 준비',
       start: '2024-09-22T10:00:00',
@@ -98,6 +111,7 @@ export const dateDB: {
   ],
   '2024-10': [
     {
+      id: '13',
       type: 'period',
       title: '할로윈 준비',
       start: '2024-10-25',
@@ -105,6 +119,7 @@ export const dateDB: {
       color: 'black',
     },
     {
+      id: '14',
       type: 'routine',
       groupId: 'exercise',
       title: '헬스장 운동',
@@ -112,11 +127,13 @@ export const dateDB: {
       status: 0,
     },
     {
+      id: '15',
       type: 'schedule',
       title: '봉사 활동',
       start: '2024-10-12',
     },
     {
+      id: '16',
       type: 'todo',
       title: '할로윈 쿠키 만들기',
       start: '2024-10-29T13:00:00',
@@ -127,6 +144,7 @@ export const dateDB: {
   ],
   '2024-11': [
     {
+      id: '17',
       type: 'period',
       title: '가을 휴양',
       start: '2024-11-10',
@@ -134,6 +152,7 @@ export const dateDB: {
       color: 'brown',
     },
     {
+      id: '18',
       type: 'routine',
       groupId: 'exercise',
       title: '필라테스',
@@ -141,11 +160,13 @@ export const dateDB: {
       status: 0,
     },
     {
+      id: '19',
       type: 'schedule',
       title: '연간 리뷰',
       start: '2024-11-20',
     },
     {
+      id: '20',
       type: 'todo',
       title: '블로그 글쓰기',
       start: '2024-11-15T09:00:00',
@@ -156,6 +177,7 @@ export const dateDB: {
   ],
   '2024-12': [
     {
+      id: '21',
       type: 'period',
       title: '휴일 시즌',
       start: '2024-12-24',
@@ -163,6 +185,7 @@ export const dateDB: {
       color: 'green',
     },
     {
+      id: '22',
       type: 'period',
       title: '겨울 휴가',
       start: '2024-12-27',
@@ -170,6 +193,7 @@ export const dateDB: {
       color: 'blue',
     },
     {
+      id: '23',
       type: 'routine',
       groupId: 'workout',
       title: '요가 세션',
@@ -177,6 +201,7 @@ export const dateDB: {
       status: 1,
     },
     {
+      id: '24',
       type: 'routine',
       groupId: 'workout',
       title: '달리기',
@@ -184,16 +209,19 @@ export const dateDB: {
       status: 2,
     },
     {
+      id: '25',
       type: 'schedule',
       title: '팀 미팅',
       start: '2024-12-15',
     },
     {
+      id: '26',
       type: 'schedule',
       title: '프로젝트 마감',
       start: '2024-12-20',
     },
     {
+      id: '27',
       type: 'todo',
       title: '발표 준비',
       start: '2024-12-10T09:00:00',
@@ -202,6 +230,7 @@ export const dateDB: {
       status: 2,
     },
     {
+      id: '28',
       type: 'todo',
       title: '크리스마스 쇼핑',
       start: '2024-12-23T14:00:00',
@@ -212,6 +241,7 @@ export const dateDB: {
   ],
   '2025-01': [
     {
+      id: '29',
       type: 'period',
       title: '신년 휴가',
       start: '2025-01-01',
@@ -219,6 +249,7 @@ export const dateDB: {
       color: 'blue',
     },
     {
+      id: '30',
       type: 'routine',
       groupId: 'exercise',
       title: '아침 조깅',
@@ -227,11 +258,13 @@ export const dateDB: {
       status: 1,
     },
     {
+      id: '31',
       type: 'schedule',
       title: '신년 모임',
       start: '2025-01-10',
     },
     {
+      id: '32',
       type: 'todo',
       title: '책 읽기 - "1984"',
       start: '2025-01-15T15:00:00',

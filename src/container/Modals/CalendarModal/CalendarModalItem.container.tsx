@@ -1,5 +1,7 @@
-import { type FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import repository from '@/repository';
 
 import './CalendarModal.container.css';
 import { IEvent } from '@/types';
@@ -10,44 +12,65 @@ import DoingSvg from '@/components/svg/DoingSvg';
 import PeriodSvg from '@/components/svg/PeriodSvg';
 
 interface ICalendarModalItemContainerProps {
+  date: Date;
   content: IEvent;
   isEditOn: boolean;
 }
 
 const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props) => {
-  let typeLabel = '';
-  switch (props.content.type) {
-    case 'todo':
-      typeLabel = '할 일';
-      break;
-    case 'routine':
-      typeLabel = '습관';
-      break;
-    case 'schedule':
-      typeLabel = '일정';
-      break;
-    case 'period':
-      typeLabel = '구간';
-      break;
-    default:
-      typeLabel = '';
-      break;
-  }
+  const setTypeLabel = (type: string) => {
+    switch (type) {
+      case 'todo':
+        return '할 일';
+      case 'routine':
+        return '습관';
+      case 'schedule':
+        return '일정';
+      case 'period':
+        return '구간';
+      default:
+        return '';
+    }
+  };
+  const [statusLabel, setStatusLabel] = useState('');
+  const [isShowStatusLabel, setIsShowStatusLabel] = useState(false);
+  const queryClient = useQueryClient();
+  const { mutate: updateStatusMutate } = useMutation({
+    mutationKey: ['updateStatus'],
+    mutationFn: async (status: number) => {
+      const res = await repository.monthlyCalendar.putChangeTargetCalendarStatus({
+        id: props.content.id,
+        status,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getCalendarByDate', props.date] });
+    },
+  });
 
-  let statusLabel = '';
-  switch (props.content.status) {
-    case 0:
-      statusLabel = '미완료';
-      break;
-    case 1:
-      statusLabel = '진행중';
-      break;
-    case 2:
-      statusLabel = '완료';
-      break;
-    default:
-      statusLabel = '';
-  }
+  const onClickStatusLabel = () => {
+    setIsShowStatusLabel(!isShowStatusLabel);
+  };
+
+  const onClickStatusBtn = (status: number) => {
+    updateStatusMutate(status);
+  };
+
+  useEffect(() => {
+    setStatusLabel(() => {
+      switch (props.content.status) {
+        case 0:
+          return '미완료';
+        case 1:
+          return '진행중';
+        case 2:
+          return '완료';
+        default:
+          return '';
+      }
+    });
+  }, []);
 
   return (
     <div className="calendar-modal__content">
@@ -59,6 +82,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
               .with(1, () => (
                 <div
                   className="calendar-modal__checkbox"
+                  onClick={onClickStatusLabel}
                   style={{ borderColor: props.content.backgroundColor || props.content.color }}
                 >
                   <DoingSvg color={props.content.backgroundColor || props.content.color} />
@@ -67,6 +91,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
               .with(2, () => (
                 <div
                   className="calendar-modal__checkbox"
+                  onClick={onClickStatusLabel}
                   style={{
                     backgroundColor: props.content.backgroundColor || props.content.color,
                     borderColor: props.content.backgroundColor || props.content.color,
@@ -75,7 +100,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
                   <CompleteSvg color="#ffffff" />
                 </div>
               ))
-              .otherwise(() => <div className="calendar-modal__checkbox" />),
+              .otherwise(() => <div className="calendar-modal__checkbox" onClick={onClickStatusLabel} />),
         )
         .when(
           (type) => type === 'period',
@@ -106,23 +131,35 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
           {props.isEditOn && <IconComponent icon="icon-order-edit" />}
         </div>
         <div className="calendar-modal__content-state">
-          <p className="calendar-modal__state-type">{typeLabel}</p>
+          <p className="calendar-modal__state-type">{setTypeLabel(props.content.type)}</p>
           <p className="calendar-modal__state-description">{statusLabel}</p>
         </div>
-        <div className="calendar-modal__checkbox-selected">
-          <div className="calendar-modal__checkbox-content">
-            <button type="button" className="icon-btn">
-              <CompleteSvg />
-            </button>
-            <span className="calendar-modal__checkbox-description">완료</span>
+        {isShowStatusLabel && (
+          <div className="calendar-modal__checkbox-selected">
+            {props.content.status !== 0 && (
+              <div className="calendar-modal__checkbox-content">
+                <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(0)}></button>
+                <span className="calendar-modal__checkbox-description">미완료</span>
+              </div>
+            )}
+            {props.content.status !== 1 && (
+              <div className="calendar-modal__checkbox-content">
+                <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(1)}>
+                  <DoingSvg />
+                </button>
+                <span className="calendar-modal__checkbox-description">진행중</span>
+              </div>
+            )}
+            {props.content.status !== 2 && (
+              <div className="calendar-modal__checkbox-content">
+                <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(2)}>
+                  <CompleteSvg />
+                </button>
+                <span className="calendar-modal__checkbox-description">완료</span>
+              </div>
+            )}
           </div>
-          <div className="calendar-modal__checkbox-content">
-            <button type="button" className="icon-btn">
-              <DoingSvg />
-            </button>
-            <span className="calendar-modal__checkbox-description">진행중</span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

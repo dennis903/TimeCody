@@ -96,14 +96,18 @@ const CalendarModalContainer: FC = () => {
                 <Reorder.Group axis="y" values={contentList} onReorder={setContentList}>
                   {contentList?.map((content, index) => (
                     <Reorder.Item key={index} value={content}>
-                      <CalendarModalItemContainer content={content} isEditOn={isEditOn} />
+                      <CalendarModalItemContainer
+                        date={calendarModalState.date}
+                        content={content}
+                        isEditOn={isEditOn}
+                      />
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
               ) : (
                 <div className="calendar-modal__contents">
                   {contentList.map((content, index) => (
-                    <CalendarModalItemContainer key={index} content={content} isEditOn />
+                    <CalendarModalItemContainer date={calendarModalState.date} key={index} content={content} isEditOn />
                   ))}
                 </div>
               )}
