@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import ModalComponent from '@/components/modal/Modal.component';
 import IconComponent from '@/components/Icon/Icon.component';
 import SwitchComponent from '@/components/switch/Switch.component';
@@ -9,6 +9,10 @@ import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
 const AdditionalModalContainer: FC = () => {
   const { additionalModalState, toggleAdditionalModal } = useAdditionalModalStore();
+  const [title, setTitle] = useState('');
+  const [timeEnabled, setTimeEnabled] = useState(true);
+  const [isAllDay, setIsAllDay] = useState(false);
+  const [notiEnabled, setNotiEnabled] = useState(true);
 
   const formatFullDate = () => {
     const year = additionalModalState.date.getFullYear();
@@ -54,7 +58,8 @@ const AdditionalModalContainer: FC = () => {
               type="text"
               name="new"
               id="new"
-              value={''}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해주세요."
             />
             <input type="color" name="color" id="color" value={''} />
@@ -63,13 +68,13 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal-start">
               <span className="additional-modal-start__title">시작</span>
               <span className="additional-modal-start__date">{formatMonthDate()}</span>
-              <span className="additional-modal-start__time">오전 9:00</span>
+              {!isAllDay && timeEnabled && <span className="additional-modal-start__time">오전 9:00</span>}
             </div>
             <IconComponent className="icon-btn" icon="icon-arrow" />
             <div className="additional-modal-end">
               <span className="additional-modal-end__title">종료</span>
               <span className="additional-modal-end__date">{formatMonthDate()}</span>
-              <span className="additional-modal-end__time">오후 9:00</span>
+              {!isAllDay && timeEnabled && <span className="additional-modal-end__time">오후 9:00</span>}
             </div>
           </div>
           <div className="additional-modal__settings">
@@ -86,10 +91,15 @@ const AdditionalModalContainer: FC = () => {
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-time" />
                 <span className="additional-modal__setting-title">시간</span>
-                <SwitchComponent id="time" />
+                <SwitchComponent id="time" checked={timeEnabled} onChangeSwitch={() => setTimeEnabled(!timeEnabled)} />
               </div>
               <form className="additional-modal__time-form">
-                <input type="checkbox" className="additional-modal__time-check" />
+                <input
+                  type="checkbox"
+                  className="additional-modal__time-check"
+                  checked={isAllDay}
+                  onChange={(e) => setIsAllDay(e.target.checked)}
+                />
                 <span className="additional-modal__allday">종일</span>
               </form>
             </div>
@@ -102,14 +112,16 @@ const AdditionalModalContainer: FC = () => {
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-bell" />
                 <span className="additional-modal__setting-title">알림</span>
-                <SwitchComponent id="noti" />
+                <SwitchComponent id="noti" checked={notiEnabled} onChangeSwitch={() => setNotiEnabled(!notiEnabled)} />
               </div>
-              <div className="additional-modal__notification-time">
-                <span className="additional-modal__notification-time-title">08:00 AM</span>
-                <button type="button" className="icon-btn">
-                  <IconComponent icon="icon-open" />
-                </button>
-              </div>
+              {notiEnabled && (
+                <div className="additional-modal__notification-time">
+                  <span className="additional-modal__notification-time-title">08:00 AM</span>
+                  <button type="button" className="icon-btn">
+                    <IconComponent icon="icon-open" />
+                  </button>
+                </div>
+              )}
             </div>
             <div className="additional-modal__dday">
               <IconComponent icon="icon-dday" />
