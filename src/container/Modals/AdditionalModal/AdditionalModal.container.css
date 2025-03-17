@@ -201,3 +201,8 @@
   border-radius: 2rem;
   padding: 0.5rem;
 }
+
+.additional-modal__header-btns {
+  display: flex;
+  gap: 1rem;
+}

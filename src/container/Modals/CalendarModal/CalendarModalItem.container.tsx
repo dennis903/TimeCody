@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 import IconComponent from '@/components/Icon/Icon.component';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import repository from '@/repository';
+import getContrastColor from '@/utils/luminance';
 
 import './CalendarModal.container.css';
 import { IEvent } from '@/types';
@@ -33,6 +34,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
     }
   };
   const [statusLabel, setStatusLabel] = useState('');
+  const [status, setStatus] = useState(0);
   const [isShowStatusLabel, setIsShowStatusLabel] = useState(false);
   const queryClient = useQueryClient();
   const { mutate: updateStatusMutate } = useMutation({
@@ -44,8 +46,10 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
       });
       return res.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['getCalendarByDate', props.date] });
+
+      setStatus(data.status);
     },
   });
 
@@ -59,7 +63,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
 
   useEffect(() => {
     setStatusLabel(() => {
-      switch (props.content.status) {
+      switch (status) {
         case 0:
           return '미완료';
         case 1:
@@ -70,7 +74,15 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
           return '';
       }
     });
-  }, []);
+  }, [status]);
+
+  useEffect(() => {
+    if (props.content.status === undefined) {
+      return;
+    }
+
+    setStatus(props.content.status);
+  }, [props.content.status]);
 
   return (
     <div className="calendar-modal__content">
@@ -78,7 +90,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
         .when(
           (type) => type === 'todo' || type === 'routine',
           () =>
-            match(props.content.status)
+            match(status)
               .with(1, () => (
                 <div
                   className="calendar-modal__checkbox"
@@ -97,7 +109,9 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
                     borderColor: props.content.backgroundColor || props.content.color,
                   }}
                 >
-                  <CompleteSvg color="#ffffff" />
+                  <CompleteSvg
+                    color={getContrastColor(props.content.backgroundColor || props.content.color || '#ffffff')}
+                  />
                 </div>
               ))
               .otherwise(() => <div className="calendar-modal__checkbox" onClick={onClickStatusLabel} />),
@@ -132,17 +146,19 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
         </div>
         <div className="calendar-modal__content-state">
           <p className="calendar-modal__state-type">{setTypeLabel(props.content.type)}</p>
-          <p className="calendar-modal__state-description">{statusLabel}</p>
+          {(props.content.type === 'todo' || props.content.type === 'routine') && (
+            <p className="calendar-modal__state-description">{statusLabel}</p>
+          )}
         </div>
         {isShowStatusLabel && (
           <div className="calendar-modal__checkbox-selected">
-            {props.content.status !== 0 && (
+            {status !== 0 && (
               <div className="calendar-modal__checkbox-content">
                 <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(0)}></button>
                 <span className="calendar-modal__checkbox-description">미완료</span>
               </div>
             )}
-            {props.content.status !== 1 && (
+            {status !== 1 && (
               <div className="calendar-modal__checkbox-content">
                 <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(1)}>
                   <DoingSvg />
@@ -150,7 +166,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
                 <span className="calendar-modal__checkbox-description">진행중</span>
               </div>
             )}
-            {props.content.status !== 2 && (
+            {status !== 2 && (
               <div className="calendar-modal__checkbox-content">
                 <button type="button" className="icon-btn" onClick={() => onClickStatusBtn(2)}>
                   <CompleteSvg />

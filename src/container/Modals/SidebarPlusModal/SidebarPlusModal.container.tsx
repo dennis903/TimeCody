@@ -178,44 +178,42 @@ const SidebarPlusModalContainer: FC = () => {
   };
 
   return (
-    sidebarModalState.isOpen && (
-      <ModalComponent>
-        <div className="sidebar-modal-plus">
-          <header className="sidebar-modal__header">
-            <button type="button" className="icon-btn" onClick={() => toggleSidebarModal(false)}>
-              <IconComponent icon="icon-close" />
-            </button>
-            <button type="submit" className="icon-btn" onClick={handleUpdate}>
-              <IconComponent icon="icon-check-complete" />
-            </button>
-          </header>
-          <div className="sidebar-modal-plus__contents">
-            <form className="sidebar-modal-plus__form">
-              <input
-                className="sidebar-modal-plus__input"
-                type="text"
-                name="new"
-                id="new"
-                value={sidebarModalState.value}
-                placeholder={sidebarModalState.placeholder}
-                onChange={(e) => handleChange(e)}
-              />
-              <input
-                type="color"
-                name="color"
-                id="color"
-                value={sidebarModalState.color}
-                onChange={(e) => handleChangeColor(e)}
-              />
-            </form>
+    <ModalComponent isOpen={sidebarModalState.isOpen} onClose={() => toggleSidebarModal(false)}>
+      <div className="sidebar-modal-plus">
+        <header className="sidebar-modal__header">
+          <button type="button" className="icon-btn" onClick={() => toggleSidebarModal(false)}>
+            <IconComponent icon="icon-close" />
+          </button>
+          <button type="submit" className="icon-btn" onClick={handleUpdate}>
+            <IconComponent icon="icon-check-complete" />
+          </button>
+        </header>
+        <div className="sidebar-modal-plus__contents">
+          <form className="sidebar-modal-plus__form">
+            <input
+              className="sidebar-modal-plus__input"
+              type="text"
+              name="new"
+              id="new"
+              value={sidebarModalState.value}
+              placeholder={sidebarModalState.placeholder}
+              onChange={(e) => handleChange(e)}
+            />
+            <input
+              type="color"
+              name="color"
+              id="color"
+              value={sidebarModalState.color}
+              onChange={(e) => handleChangeColor(e)}
+            />
+          </form>
 
-            <button type="button" className="sidebar-modal__delete-btn" onClick={handleDelete}>
-              삭제
-            </button>
-          </div>
+          <button type="button" className="sidebar-modal__delete-btn" onClick={handleDelete}>
+            삭제
+          </button>
         </div>
-      </ModalComponent>
-    )
+      </div>
+    </ModalComponent>
   );
 };
 

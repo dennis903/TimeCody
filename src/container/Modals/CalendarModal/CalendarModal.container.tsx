@@ -70,60 +70,53 @@ const CalendarModalContainer: FC = () => {
   }
 
   return (
-    calendarModalState.isOpen && (
-      <ModalComponent>
-        <div className="calendar-modal">
-          <header className="calendar-modal__header">
-            <div className="calendar-modal__header-item">
-              <h2 className="calendar-modal__date">{formatDate()}</h2>
-              <button type="button" className="icon-btn" onClick={() => toggleCalendarModal(false)}>
-                <IconComponent icon="icon-close" />
-              </button>
-            </div>
-            <div className="calendar-modal__header-item">
-              <button type="button" className="icon-btn" onClick={() => toggleAdditionalModal(true)}>
-                <IconComponent icon="icon-plus" />
-              </button>
-              <button type="button" className="btn edit-btn" onClick={() => setIsEditOn((prev) => !prev)}>
-                <span className="edit-order">순서 편집</span>
-                <IconComponent icon="icon-order" />
-              </button>
-            </div>
-          </header>
-          {isSuccess && (
-            <div className="calendar-modal__contents">
-              {isEditOn ? (
-                <Reorder.Group axis="y" values={contentList} onReorder={setContentList}>
-                  {contentList?.map((content, index) => (
-                    <Reorder.Item key={index} value={content}>
-                      <CalendarModalItemContainer
-                        date={calendarModalState.date}
-                        content={content}
-                        isEditOn={isEditOn}
-                      />
-                    </Reorder.Item>
-                  ))}
-                </Reorder.Group>
-              ) : (
-                <div className="calendar-modal__contents">
-                  {contentList.map((content, index) => (
-                    <CalendarModalItemContainer date={calendarModalState.date} key={index} content={content} isEditOn />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-          <footer className="calendar-modal__footer">
-            <div className="calendar-modal__footer-item">
-              <Link to="/calendar/schedule" style={{ color: '#343434' }}>
-                <h2 className="calendar-modal__schedule-view">일정관리</h2>
-              </Link>
-            </div>
-          </footer>
-        </div>
-      </ModalComponent>
-    )
-    // {isAdditionalModalOpen && <AdditionalModal date={date} />}
+    <ModalComponent isOpen={calendarModalState.isOpen} onClose={() => toggleCalendarModal(false)}>
+      <div className="calendar-modal">
+        <header className="calendar-modal__header">
+          <div className="calendar-modal__header-item">
+            <h2 className="calendar-modal__date">{formatDate()}</h2>
+            <button type="button" className="icon-btn" onClick={() => toggleCalendarModal(false)}>
+              <IconComponent icon="icon-close" />
+            </button>
+          </div>
+          <div className="calendar-modal__header-item">
+            <button type="button" className="icon-btn" onClick={() => toggleAdditionalModal(true)}>
+              <IconComponent icon="icon-plus" />
+            </button>
+            <button type="button" className="btn edit-btn" onClick={() => setIsEditOn((prev) => !prev)}>
+              <span className="edit-order">순서 편집</span>
+              <IconComponent icon="icon-order" />
+            </button>
+          </div>
+        </header>
+        {isSuccess && (
+          <div className="calendar-modal__contents">
+            {isEditOn ? (
+              <Reorder.Group axis="y" values={contentList} onReorder={setContentList}>
+                {contentList?.map((content, index) => (
+                  <Reorder.Item key={index} value={content}>
+                    <CalendarModalItemContainer date={calendarModalState.date} content={content} isEditOn={isEditOn} />
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
+            ) : (
+              <div className="calendar-modal__contents">
+                {contentList.map((content, index) => (
+                  <CalendarModalItemContainer date={calendarModalState.date} key={index} content={content} isEditOn />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        <footer className="calendar-modal__footer">
+          <div className="calendar-modal__footer-item">
+            <Link to="/calendar/schedule" style={{ color: '#343434' }}>
+              <h2 className="calendar-modal__schedule-view">일정관리</h2>
+            </Link>
+          </div>
+        </footer>
+      </div>
+    </ModalComponent>
   );
 };
 
