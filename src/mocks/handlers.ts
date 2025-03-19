@@ -68,6 +68,48 @@ export const handlers = [
     },
   ),
 
+  http.post(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:date`, async ({ request }) => {
+    const newEvent = (await request.json()) as {
+      title: string;
+      category: number;
+      start: string;
+      end: string;
+      status: 0 | 1 | 2;
+    };
+
+    const { title, category, start, end, status } = newEvent;
+
+    // date가 올바른 형식인지 확인
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(start)) {
+      return HttpResponse.json({ message: 'Invalid date format' }, { status: 400 });
+    }
+
+    // year-month 추출
+    const [year, month] = start.split('-');
+    const key = `${year}-${month}`;
+
+    // 해당 month 데이터가 있는지 확인
+    if (!dateDB[key as keyof typeof dateDB]) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+
+    // 새로운 이벤트 생성
+    const newEventItem = {
+      id: (dateDB[key as keyof typeof dateDB].length + 1).toString(),
+      type: 'event', // Add the required 'type' property
+      title,
+      category,
+      start,
+      end,
+      status,
+    };
+
+    // 해당 month 데이터에 추가
+    dateDB[key as keyof typeof dateDB].push(newEventItem);
+
+    return HttpResponse.json(newEventItem, { status: 200 });
+  }),
+
   http.put(`${import.meta.env.VITE_API_URL}/monthlyCalendar/target/:id/:status`, async ({ params }) => {
     const { id, status } = params as { id: string; status: string };
 
