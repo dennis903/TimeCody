@@ -2,10 +2,7 @@ import { type FC, useState } from 'react';
 import ModalComponent from '@/components/modal/Modal.component';
 import IconComponent from '@/components/Icon/Icon.component';
 import SwitchComponent from '@/components/switch/Switch.component';
-import DatePickerModalContainer from '../DatePickerModal/DatePickerModal.container';
 import useDatePickerModalStore from '@/store/DatePickerModal.store';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 
 import './AdditionalModal.container.css';
 
@@ -181,7 +178,6 @@ const AdditionalModalContainer: FC = () => {
           </div>
         </div>
       </ModalComponent>
-      <DatePickerModalContainer />
     </>
   );
 };
