@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useEffect } from 'react';
 
 import './CalendarModal.container.css';
+import useDatePickerModalStore from '@/store/DatePickerModal.store';
 import useCalendarModalStore from '@/store/CalendarModal.store';
 import useAdditionalModalStore from '@/store/AdditionalModal.store';
 import repository from '@/repository';
@@ -18,8 +19,8 @@ import { IEvent } from '@/types';
 
 const CalendarModalContainer: FC = () => {
   const { calendarModalState, toggleCalendarModal } = useCalendarModalStore();
-  const { toggleAdditionalModal } = useAdditionalModalStore();
-  const [isEditOn, setIsEditOn] = useState(false);
+  const { toggleAdditionalModal, setAdditionalModalDate } = useAdditionalModalStore();
+  const { setStartDate, setEndDate } = useDatePickerModalStore();
   const [contentList, setContentList] = useState<IEvent[]>([]);
 
   const formatDate = () => {
@@ -65,6 +66,10 @@ const CalendarModalContainer: FC = () => {
     }
   }, [isSuccess, calendarModalState.date]);
 
+  useEffect(() => {
+    setStartDate(calendarModalState.date);
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -80,7 +85,16 @@ const CalendarModalContainer: FC = () => {
             </button>
           </div>
           <div className="calendar-modal__header-item">
-            <button type="button" className="icon-btn" onClick={() => toggleAdditionalModal(true)}>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => {
+                toggleAdditionalModal(true);
+                setAdditionalModalDate(calendarModalState.date);
+                setStartDate(calendarModalState.date);
+                setEndDate(calendarModalState.date);
+              }}
+            >
               <IconComponent icon="icon-plus" />
             </button>
             <button type="button" className="btn edit-btn" onClick={() => setIsEditOn((prev) => !prev)}>

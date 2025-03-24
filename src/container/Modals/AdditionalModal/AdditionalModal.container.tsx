@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useLayoutEffect } from 'react';
 import ModalComponent from '@/components/modal/Modal.component';
 import IconComponent from '@/components/Icon/Icon.component';
 import SwitchComponent from '@/components/switch/Switch.component';
@@ -10,7 +10,7 @@ import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
 const AdditionalModalContainer: FC = () => {
   const { additionalModalState, toggleAdditionalModal } = useAdditionalModalStore();
-  const { datePickerModalState, toggleDatePickerModal } = useDatePickerModalStore();
+  const { datePickerModalState, toggleDatePickerModal, setStartDate, setEndDate } = useDatePickerModalStore();
   const [title, setTitle] = useState('');
   const [timeEnabled, setTimeEnabled] = useState(true);
   const [isAllDay, setIsAllDay] = useState(false);
@@ -32,11 +32,9 @@ const AdditionalModalContainer: FC = () => {
   };
 
   const formatTime = (date: Date) => {
-    let hours = date.getHours();
+    const hours = date.getHours() % 12 || 12;
     const minutes = date.getMinutes();
     const ampm = hours >= 12 ? '오후' : '오전';
-
-    hours = hours % 12 || 12;
 
     return `${ampm} ${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
   };
