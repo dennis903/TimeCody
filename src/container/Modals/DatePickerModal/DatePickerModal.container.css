@@ -95,6 +95,9 @@ h2.react-datepicker__current-month {
   margin: 0;
   font-size: 1.4rem;
 }
+.react-datepicker__day--disabled {
+  opacity: 0.5;
+}
 /* 
 .react-datepicker__day--keyboard-selected {
   border-radius: 2rem;

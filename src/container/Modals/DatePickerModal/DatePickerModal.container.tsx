@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
 
@@ -13,29 +14,44 @@ import './DatePickerModal.container.css';
 const cx = classNames.bind({});
 
 const DatePickerModalContainer: FC = () => {
-  const { datePickerModalState, toggleDatePickerModal } = useDatePickerModalStore();
-  const [activeTimeTable, setActiveTimeTable] = useState(true);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const { datePickerModalState, toggleDatePickerModal, setStartDate, setEndDate } = useDatePickerModalStore();
 
-  const handleStartDateChange = (date: Date) => {
-    console.log(date);
-    setStartDate(date);
+  const isSelectingStart = datePickerModalState.activeField === 'start';
+
+  const onClickActiveStart = () => {
+    toggleDatePickerModal(true, 'start');
   };
 
+  const onClickActiveEnd = () => {
+    toggleDatePickerModal(true, 'end');
+  };
+
+  const handleStartDateChange = (date: Date) => {
+    if (isSelectingStart) {
+      setStartDate(date);
+    } else {
+      setEndDate(date);
+      toggleDatePickerModal(false);
+    }
+  };
+
+  const formatDate = (date: Date) => format(date, 'M월 d일', { locale: ko });
+  const formatTime = (date: Date) => format(date, 'a h:mm', { locale: ko });
+
   return (
-    <ModalComponent isOpen={false} zIndex={20000} onClose={() => toggleDatePickerModal(false)}>
+    <ModalComponent isOpen={datePickerModalState.isOpen} zIndex={20000} onClose={() => toggleDatePickerModal(false)}>
       <div className="date-picker-modal">
         <div className="date-picker-modal__header">
           <div
             className={cx('time-table', {
-              on: activeTimeTable,
+              on: isSelectingStart,
+              off: !isSelectingStart,
             })}
-            onClick={() => setActiveTimeTable(true)}
+            onClick={onClickActiveStart}
           >
             <span className="time-table__header">시작</span>
-            <span className="time-table__time">3월 19일</span>
-            <span className="time-table__clock">오후 8:00</span>
+            <span className="time-table__time">{formatDate(datePickerModalState.startDate)}</span>
+            {false && <span className="time-table__clock">{formatTime(datePickerModalState.startDate)}</span>}
           </div>
           <IconComponent
             className="icon-btn"
@@ -46,20 +62,22 @@ const DatePickerModalContainer: FC = () => {
           />
           <div
             className={cx('time-table', {
-              on: !activeTimeTable,
+              on: !isSelectingStart,
+              off: isSelectingStart,
             })}
-            onClick={() => setActiveTimeTable(false)}
+            onClick={onClickActiveEnd}
           >
             <span className="time-table__header">종료</span>
-            <span className="time-table__time">3월 19일</span>
-            <span className="time-table__clock">오후 10:00</span>
+            <span className="time-table__time">{formatDate(datePickerModalState.endDate)}</span>
+            {false && <span className="time-table__clock">{formatTime(datePickerModalState.endDate)}</span>}
           </div>
         </div>
         <div className="date-picker-modal__main">
           <DatePicker
-            selected={startDate}
+            selected={isSelectingStart ? datePickerModalState.startDate : datePickerModalState.endDate}
             onChange={(date) => handleStartDateChange(date as Date)}
-            startDate={startDate}
+            startDate={datePickerModalState.startDate}
+            minDate={!isSelectingStart ? datePickerModalState.startDate : undefined}
             dateFormatCalendar={'yyyy년 MM월'}
             inline
             showDisabledMonthNavigation

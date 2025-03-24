@@ -5,12 +5,13 @@ interface IDatePickerModalState {
   isTimer: boolean;
   startDate: Date;
   endDate: Date;
+  activeField: 'start' | 'end';
 }
 
 interface IDatePickerModalStore {
   datePickerModalState: IDatePickerModalState;
 
-  toggleDatePickerModal: (isOpen: boolean) => void;
+  toggleDatePickerModal: (isOpen: boolean, field?: 'start' | 'end') => void;
   setStartDate: (date: Date) => void;
   setEndDate: (date: Date) => void;
 }
@@ -21,16 +22,21 @@ const useDatePickerModalStore = create<IDatePickerModalStore>((set) => ({
     isTimer: false,
     startDate: new Date(),
     endDate: new Date(),
+    activeField: 'start',
   },
 
-  toggleDatePickerModal: (isOpen: boolean) =>
-    set((state: IDatePickerModalStore) => ({ datePickerModalState: { ...state.datePickerModalState, isOpen } })),
+  toggleDatePickerModal: (isOpen: boolean, field: 'start' | 'end' = 'start') =>
+    set((state) => ({
+      datePickerModalState: { ...state.datePickerModalState, isOpen, activeField: field },
+    })),
   setIsTimer: (isTimer: boolean) =>
-    set((state: IDatePickerModalStore) => ({ datePickerModalState: { ...state.datePickerModalState, isTimer } })),
+    set((state) => ({ datePickerModalState: { ...state.datePickerModalState, isTimer } })),
   setStartDate: (date: Date) =>
-    set((state: IDatePickerModalStore) => ({ datePickerModalState: { ...state.datePickerModalState, date } })),
+    set((state) => ({
+      datePickerModalState: { ...state.datePickerModalState, startDate: date, activeField: 'end' },
+    })),
   setEndDate: (date: Date) =>
-    set((state: IDatePickerModalStore) => ({ datePickerModalState: { ...state.datePickerModalState, date } })),
+    set((state) => ({ datePickerModalState: { ...state.datePickerModalState, endDate: date } })),
 }));
 
 export default useDatePickerModalStore;
