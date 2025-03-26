@@ -1,8 +1,10 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useLayoutEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { format, set } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
+
+import TimePickerContainer from '@/container/TimePicker/TimePicker.container';
 
 import IconComponent from '@/components/Icon/Icon.component';
 import ModalComponent from '@/components/modal/Modal.component';
@@ -14,18 +16,28 @@ import './DatePickerModal.container.css';
 const cx = classNames.bind({});
 
 const DatePickerModalContainer: FC = () => {
-  const { datePickerModalState, toggleDatePickerModal, setAcitveField, setStartDate, setEndDate } =
-    useDatePickerModalStore();
-  const [isActiveField, setIsActiveField] = useState<'start' | 'end'>(datePickerModalState.activeField);
+  const { datePickerModalState, toggleDatePickerModal, setStartDate, setEndDate } = useDatePickerModalStore();
+  const [isActiveField, setIsActiveField] = useState<'start' | 'end'>('start');
+
   const [isSelectingStart, setIsSelectingStart] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const onClickActiveStart = () => {
+    setIsActiveField('start');
     toggleDatePickerModal(true, 'start');
   };
 
   const onClickActiveEnd = () => {
+    setIsActiveField('end');
     toggleDatePickerModal(true, 'end');
+  };
+
+  const onCloseModal = () => {
+    toggleDatePickerModal(false);
+
+    if (datePickerModalState.startDate > datePickerModalState.endDate) {
+      setEndDate(datePickerModalState.startDate);
+    }
   };
 
   const handleDateChange = (date: Date) => {
@@ -49,25 +61,25 @@ const DatePickerModalContainer: FC = () => {
   };
 
   useEffect(() => {
+    setIsActiveField(datePickerModalState.activeField);
+  }, [datePickerModalState.activeField]);
+
+  useEffect(() => {
     setIsSelectingStart(isActiveField === 'start');
   }, [isActiveField]);
 
   useEffect(() => {
-    setCurrentDate(isSelectingStart ? datePickerModalState.startDate : datePickerModalState.endDate);
-  }, [isSelectingStart, datePickerModalState.startDate, datePickerModalState.endDate]);
-
-  // useEffect(() => {
-  //   setCurrentDate(isSelectingStart ? datePickerModalState.startDate : datePickerModalState.endDate);
-  // }, [isSelectingStart]);
+    setCurrentDate(datePickerModalState.startDate);
+  }, [datePickerModalState.startDate]);
 
   return (
-    <ModalComponent isOpen={datePickerModalState.isOpen} zIndex={20000} onClose={() => toggleDatePickerModal(false)}>
+    <ModalComponent isOpen={datePickerModalState.isOpen} zIndex={20000} onClose={onCloseModal}>
       <div className="date-picker-modal">
         <div className="date-picker-modal__header">
           <div
             className={cx('time-table', {
-              on: isSelectingStart,
-              off: !isSelectingStart,
+              on: isActiveField === 'start',
+              off: isActiveField !== 'start',
             })}
             onClick={onClickActiveStart}
           >
@@ -84,8 +96,8 @@ const DatePickerModalContainer: FC = () => {
           />
           <div
             className={cx('time-table', {
-              on: !isSelectingStart,
-              off: isSelectingStart,
+              on: isActiveField !== 'start',
+              off: isActiveField === 'start',
             })}
             onClick={onClickActiveEnd}
           >
@@ -95,7 +107,8 @@ const DatePickerModalContainer: FC = () => {
           </div>
         </div>
         <div className="date-picker-modal__main">
-          <DatePicker
+          <TimePickerContainer />
+          {/* <DatePicker
             selected={currentDate}
             onChange={(date) => handleDateChange(date as Date)}
             startDate={datePickerModalState.startDate}
@@ -104,7 +117,7 @@ const DatePickerModalContainer: FC = () => {
             inline
             showDisabledMonthNavigation
             locale={ko}
-          />
+          /> */}
         </div>
       </div>
     </ModalComponent>

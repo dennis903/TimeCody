@@ -1,0 +1,11 @@
+.modal-picker-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-colon {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 1rem;
+}
