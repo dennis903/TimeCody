@@ -1,20 +1,27 @@
-import { type FC, useState, useLayoutEffect } from 'react';
+import { type FC, useState, useEffect, useLayoutEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+import repository from '@/repository';
 import ModalComponent from '@/components/modal/Modal.component';
 import IconComponent from '@/components/Icon/Icon.component';
 import SwitchComponent from '@/components/switch/Switch.component';
 import useDatePickerModalStore from '@/store/DatePickerModal.store';
+import useAdditionalModalStore from '@/store/AdditionalModal.store';
+
+import DatePickerModalContainer from '@/container/Modals/DatePickerModal/DatePickerModal.container';
+import CategoryConfigContainer from '@/container/CategoryConfig/CategoryConfig.container';
+
+import { type ICategory } from '@/types';
 
 import './AdditionalModal.container.css';
-
-import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
 const AdditionalModalContainer: FC = () => {
   const { additionalModalState, toggleAdditionalModal } = useAdditionalModalStore();
   const { datePickerModalState, toggleDatePickerModal, setStartDate, setEndDate } = useDatePickerModalStore();
   const [title, setTitle] = useState('');
   const [timeEnabled, setTimeEnabled] = useState(true);
-  const [isAllDay, setIsAllDay] = useState(false);
   const [notiEnabled, setNotiEnabled] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
 
   const formatFullDate = () => {
     const year = additionalModalState.date.getFullYear();
@@ -39,6 +46,19 @@ const AdditionalModalContainer: FC = () => {
 
     return `${ampm} ${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
   };
+
+  const { data: categoryData, isSuccess: isCategorySuccess } = useQuery({
+    queryKey: ['sidebarCategory'],
+    queryFn: async () => {
+      try {
+        const res = await repository.sidebar.getSidebarCategory();
+
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
 
   return (
     <>
@@ -84,7 +104,7 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal-start" onClick={() => toggleDatePickerModal(true, 'start')}>
               <span className="additional-modal-start__title">시작</span>
               <span className="additional-modal-start__date">{formatMonthDate(datePickerModalState.startDate)}</span>
-              {!isAllDay && timeEnabled && (
+              {timeEnabled && (
                 <span className="additional-modal-start__time">{formatTime(datePickerModalState.startDate)}</span>
               )}
             </div>
@@ -92,36 +112,23 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal-end" onClick={() => toggleDatePickerModal(true, 'end')}>
               <span className="additional-modal-end__title">종료</span>
               <span className="additional-modal-end__date">{formatMonthDate(datePickerModalState.endDate)}</span>
-              {!isAllDay && timeEnabled && (
+              {timeEnabled && (
                 <span className="additional-modal-end__time">{formatTime(datePickerModalState.endDate)}</span>
               )}
             </div>
           </div>
+          <CategoryConfigContainer
+            categoryList={categoryData}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
           <div className="additional-modal__settings">
-            <div className="additional-modal__category">
-              <div className="additional-modal__category-list">
-                <IconComponent icon="icon-list" />
-                <h2 className="additional-modal__category-title">카테고리</h2>
-              </div>
-              <button type="button" className="icon-btn">
-                <IconComponent icon="icon-open" />
-              </button>
-            </div>
             <div className="additional-modal__time">
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-time" />
                 <span className="additional-modal__setting-title">시간</span>
                 <SwitchComponent id="time" checked={timeEnabled} onChangeSwitch={() => setTimeEnabled(!timeEnabled)} />
               </div>
-              <form className="additional-modal__time-form">
-                <input
-                  type="checkbox"
-                  className="additional-modal__time-check"
-                  checked={isAllDay}
-                  onChange={(e) => setIsAllDay(e.target.checked)}
-                />
-                <span className="additional-modal__allday">종일</span>
-              </form>
             </div>
             <div className="additional-modal__repetition">
               <IconComponent icon="icon-repetition" />
@@ -177,6 +184,8 @@ const AdditionalModalContainer: FC = () => {
           </div>
         </div>
       </ModalComponent>
+
+      <DatePickerModalContainer timeEnabled={timeEnabled} />
     </>
   );
 };

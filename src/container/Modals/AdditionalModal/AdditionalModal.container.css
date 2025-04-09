@@ -109,20 +109,6 @@
   font-size: 1.4rem;
 }
 
-.additional-modal__category {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 1.8rem;
-  font-weight: 400;
-}
-
-.additional-modal__category-list {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .additional-modal__time {
   display: flex;
   align-items: center;

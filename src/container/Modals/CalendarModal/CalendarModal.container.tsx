@@ -22,6 +22,7 @@ const CalendarModalContainer: FC = () => {
   const { toggleAdditionalModal, setAdditionalModalDate } = useAdditionalModalStore();
   const { setStartDate, setEndDate } = useDatePickerModalStore();
   const [contentList, setContentList] = useState<IEvent[]>([]);
+  const [isEditOn, setIsEditOn] = useState(false);
 
   const formatDate = () => {
     const year = calendarModalState.date.getFullYear();
