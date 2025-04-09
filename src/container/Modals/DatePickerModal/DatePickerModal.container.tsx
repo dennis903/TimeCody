@@ -107,7 +107,20 @@ const DatePickerModalContainer: FC = () => {
           </div>
         </div>
         <div className="date-picker-modal__main">
-          <TimePickerContainer />
+          <TimePickerContainer
+            isSelectingStart={isSelectingStart}
+            setIsSelectingStart={(value) => {
+              setIsSelectingStart(value);
+              setIsActiveField(value ? 'start' : 'end');
+            }}
+            activeField={isActiveField}
+            setIsActiveField={setIsActiveField}
+            startDate={datePickerModalState.startDate}
+            endDate={datePickerModalState.endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            onClose={onCloseModal}
+          />
           {/* <DatePicker
             selected={currentDate}
             onChange={(date) => handleDateChange(date as Date)}

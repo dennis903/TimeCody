@@ -11,8 +11,8 @@
   right: 14px;
   height: 40px; /* h-10 = 10 * 4 = 40px */
   width: 40px; /* w-10 = 10 * 4 = 40px */
-  border-top: 2px solid #ccc;
-  border-bottom: 2px solid #ccc;
+  border-top: 2px solid #c1c1c1;
+  border-bottom: 2px solid #c1c1c1;
   left: 0;
   right: 0;
   margin: auto;
@@ -42,10 +42,18 @@
 }
 
 .time-picker-item.selected {
-  color: black;
+  color: #343434;
   font-weight: 500;
 }
 
 .time-picker-item.unselected {
-  color: #ccc;
+  color: #c1c1c1;
+}
+
+.day-picker {
+  width: 16rem;
+}
+
+.day-picker .time-picker-highlight {
+  width: 16rem;
 }

@@ -32,9 +32,10 @@ const AdditionalModalContainer: FC = () => {
   };
 
   const formatTime = (date: Date) => {
-    const hours = date.getHours() % 12 || 12;
+    const hours24 = date.getHours();
+    const hours = hours24 % 12 || 12;
     const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? '오후' : '오전';
+    const ampm = hours24 >= 12 ? '오후' : '오전';
 
     return `${ampm} ${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
   };

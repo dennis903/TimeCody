@@ -9,3 +9,15 @@
   font-weight: bold;
   margin: 0 1rem;
 }
+
+.modal-picker-actions {
+  font-size: 1.4rem;
+  color: #343434;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.modal-picker-btn:hover {
+  cursor: pointer;
+}
