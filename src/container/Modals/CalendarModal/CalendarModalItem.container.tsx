@@ -11,6 +11,7 @@ import { match } from 'ts-pattern';
 import CompleteSvg from '@/components/svg/CompleteSvg';
 import DoingSvg from '@/components/svg/DoingSvg';
 import PeriodSvg from '@/components/svg/PeriodSvg';
+import useAdditionalModalStore from '@/store/AdditionalModal.store';
 
 interface ICalendarModalItemContainerProps {
   date: Date;
@@ -36,6 +37,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
   const [statusLabel, setStatusLabel] = useState('');
   const [status, setStatus] = useState(0);
   const [isShowStatusLabel, setIsShowStatusLabel] = useState(false);
+  const { toggleAdditionalModal, toggleEditMode, setAdditionalModalData } = useAdditionalModalStore();
   const queryClient = useQueryClient();
   const { mutate: updateStatusMutate } = useMutation({
     mutationKey: ['updateStatus'],
@@ -59,6 +61,25 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
 
   const onClickStatusBtn = (status: number) => {
     updateStatusMutate(status);
+  };
+
+  const onClickCalendarItem = () => {
+    toggleAdditionalModal(true);
+    toggleEditMode(true);
+
+    setAdditionalModalData({
+      title: props.content.title,
+      color: props.content.color,
+      category: props.content.category,
+      isTimeOn: props.content.isTimeOn,
+      isRepeatOn: props.content.isRepeatOn,
+      notice: props.content.notice,
+      isDDayOn: props.content.isDDayOn,
+      isLocationOn: props.content.isLocationOn,
+      participants: props.content.participants,
+      memo: props.content.memo,
+      calendarCategory: props.content.calendarCategory,
+    });
   };
 
   useEffect(() => {
@@ -139,7 +160,7 @@ const CalendarModalItemContainer: FC<ICalendarModalItemContainerProps> = (props)
             }}
           />
         ))}
-      <div className="calendar-modal__item">
+      <div className="calendar-modal__item" onClick={onClickCalendarItem}>
         <div className="calendar-modal__item-edit">
           <p className="calendar-modal__content-title">{props.content.title}</p>
           {props.isEditOn && <IconComponent icon="icon-order-edit" />}

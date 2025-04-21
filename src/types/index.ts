@@ -1,7 +1,21 @@
+export type TCalendarType = 'period' | 'routine' | 'schedule' | 'todo';
+
 export interface IEvent {
-  type: 'period' | 'routine' | 'schedule' | 'todo';
+  type: TCalendarType;
   id: string;
   title: string;
+  category?: string;
+  isTimeOn?: boolean;
+  isRepeatOn?: boolean;
+  notice?: {
+    isOn: boolean;
+    time: Date;
+  };
+  isDDayOn?: boolean;
+  isLocationOn?: boolean;
+  participants?: string[];
+  memo?: string;
+  calendarCategory?: string;
   start: string;
   end?: string;
   color?: string;

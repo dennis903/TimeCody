@@ -5,6 +5,17 @@ export const dateDB: {
     title: string;
     start: string;
     end?: string;
+    isTimeOn?: boolean;
+    isRepeatOn?: boolean;
+    notice?: {
+      isOn: boolean;
+      time: Date;
+    };
+    isDDayOn?: boolean;
+    isLocationOn?: boolean;
+    participants?: string[];
+    memo?: string;
+    calendarCategory?: string;
     color?: string;
     groupId?: string;
     backgroundColor?: string;
@@ -147,6 +158,17 @@ export const dateDB: {
       id: '17',
       type: 'period',
       title: '가을 휴양',
+      isTimeOn: true,
+      isRepeatOn: false,
+      notice: {
+        isOn: true,
+        time: new Date('2024-11-10T08:00:00'),
+      },
+      isDDayOn: false,
+      isLocationOn: false,
+      participants: ['친구', '가족'],
+      memo: '가을 단풍 구경',
+      calendarCategory: '내 캘린더',
       start: '2024-11-10',
       end: '2024-11-12',
       color: 'brown',

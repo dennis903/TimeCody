@@ -15,12 +15,27 @@ import { type ICategory } from '@/types';
 
 import './AdditionalModal.container.css';
 
+interface IModalData {
+  title: string;
+  isTimeOn: boolean;
+  isNotiOn: boolean;
+  isDDayOn: boolean;
+  isRepeatOn: boolean;
+  isLocationOn: boolean;
+}
+
 const AdditionalModalContainer: FC = () => {
   const { additionalModalState, toggleAdditionalModal } = useAdditionalModalStore();
   const { datePickerModalState, toggleDatePickerModal } = useDatePickerModalStore();
-  const [title, setTitle] = useState('');
-  const [timeEnabled, setTimeEnabled] = useState(true);
-  const [notiEnabled, setNotiEnabled] = useState(true);
+  const [modalData, setModalData] = useState<IModalData>({
+    title: '',
+    isTimeOn: true,
+    isNotiOn: true,
+    isDDayOn: false,
+    isRepeatOn: false,
+    isLocationOn: false,
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
 
   const formatFullDate = () => {
@@ -60,6 +75,30 @@ const AdditionalModalContainer: FC = () => {
     },
   });
 
+  useEffect(() => {
+    if (!additionalModalState.isEdit) {
+      return;
+    }
+
+    const { title, isTimeOn, notice, isDDayOn, isRepeatOn, isLocationOn } = additionalModalState.additionalModalData;
+
+    setModalData({
+      title,
+      isTimeOn,
+      isNotiOn: notice.isOn,
+      isDDayOn,
+      isRepeatOn,
+      isLocationOn,
+    });
+  }, [additionalModalState]);
+
+  useEffect(() => {
+    if (isCategorySuccess) {
+      const selectedCategory = categoryData.find((item: ICategory) => item.title === '일정');
+      setSelectedCategory(selectedCategory);
+    }
+  }, [categoryData]);
+
   return (
     <>
       <ModalComponent isOpen={additionalModalState.isOpen} onClose={() => toggleAdditionalModal(false)}>
@@ -94,8 +133,8 @@ const AdditionalModalContainer: FC = () => {
               type="text"
               name="new"
               id="new"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={modalData.title}
+              onChange={(e) => setModalData({ ...modalData, title: e.target.value })}
               placeholder="제목을 입력해주세요."
             />
             <input type="color" name="color" id="color" value={''} />
@@ -104,7 +143,7 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal-start" onClick={() => toggleDatePickerModal(true, 'start')}>
               <span className="additional-modal-start__title">시작</span>
               <span className="additional-modal-start__date">{formatMonthDate(datePickerModalState.startDate)}</span>
-              {timeEnabled && (
+              {modalData.isTimeOn && (
                 <span className="additional-modal-start__time">{formatTime(datePickerModalState.startDate)}</span>
               )}
             </div>
@@ -112,7 +151,7 @@ const AdditionalModalContainer: FC = () => {
             <div className="additional-modal-end" onClick={() => toggleDatePickerModal(true, 'end')}>
               <span className="additional-modal-end__title">종료</span>
               <span className="additional-modal-end__date">{formatMonthDate(datePickerModalState.endDate)}</span>
-              {timeEnabled && (
+              {modalData.isTimeOn && (
                 <span className="additional-modal-end__time">{formatTime(datePickerModalState.endDate)}</span>
               )}
             </div>
@@ -127,7 +166,16 @@ const AdditionalModalContainer: FC = () => {
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-time" />
                 <span className="additional-modal__setting-title">시간</span>
-                <SwitchComponent id="time" checked={timeEnabled} onChangeSwitch={() => setTimeEnabled(!timeEnabled)} />
+                <SwitchComponent
+                  id="time"
+                  checked={modalData.isTimeOn}
+                  onChangeSwitch={() =>
+                    setModalData({
+                      ...modalData,
+                      isTimeOn: !modalData.isTimeOn,
+                    })
+                  }
+                />
               </div>
             </div>
             <div className="additional-modal__repetition">
@@ -139,9 +187,18 @@ const AdditionalModalContainer: FC = () => {
               <div className="additional-modal__setting">
                 <IconComponent icon="icon-bell" />
                 <span className="additional-modal__setting-title">알림</span>
-                <SwitchComponent id="noti" checked={notiEnabled} onChangeSwitch={() => setNotiEnabled(!notiEnabled)} />
+                <SwitchComponent
+                  id="noti"
+                  checked={modalData.isNotiOn}
+                  onChangeSwitch={() =>
+                    setModalData({
+                      ...modalData,
+                      isNotiOn: !modalData.isNotiOn,
+                    })
+                  }
+                />
               </div>
-              {notiEnabled && (
+              {modalData.isNotiOn && (
                 <div className="additional-modal__notification-time">
                   <span className="additional-modal__notification-time-title">08:00 AM</span>
                   <button type="button" className="icon-btn">
@@ -185,7 +242,7 @@ const AdditionalModalContainer: FC = () => {
         </div>
       </ModalComponent>
 
-      <DatePickerModalContainer timeEnabled={timeEnabled} />
+      <DatePickerModalContainer timeEnabled={modalData.isTimeOn} />
     </>
   );
 };

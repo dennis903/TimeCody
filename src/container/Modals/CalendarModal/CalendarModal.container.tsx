@@ -19,7 +19,7 @@ import { IEvent } from '@/types';
 
 const CalendarModalContainer: FC = () => {
   const { calendarModalState, toggleCalendarModal } = useCalendarModalStore();
-  const { toggleAdditionalModal, setAdditionalModalDate } = useAdditionalModalStore();
+  const { toggleAdditionalModal, setAdditionalModalDate, initAdditionalModalData } = useAdditionalModalStore();
   const { setStartDate, setEndDate } = useDatePickerModalStore();
   const [contentList, setContentList] = useState<IEvent[]>([]);
   const [isEditOn, setIsEditOn] = useState(false);
@@ -94,6 +94,7 @@ const CalendarModalContainer: FC = () => {
                 setAdditionalModalDate(calendarModalState.date);
                 setStartDate(calendarModalState.date);
                 setEndDate(calendarModalState.date);
+                initAdditionalModalData();
               }}
             >
               <IconComponent icon="icon-plus" />
