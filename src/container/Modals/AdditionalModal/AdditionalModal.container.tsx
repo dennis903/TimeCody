@@ -17,7 +17,7 @@ import './AdditionalModal.container.css';
 
 const AdditionalModalContainer: FC = () => {
   const { additionalModalState, toggleAdditionalModal } = useAdditionalModalStore();
-  const { datePickerModalState, toggleDatePickerModal, setStartDate, setEndDate } = useDatePickerModalStore();
+  const { datePickerModalState, toggleDatePickerModal } = useDatePickerModalStore();
   const [title, setTitle] = useState('');
   const [timeEnabled, setTimeEnabled] = useState(true);
   const [notiEnabled, setNotiEnabled] = useState(true);

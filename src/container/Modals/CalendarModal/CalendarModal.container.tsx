@@ -117,7 +117,12 @@ const CalendarModalContainer: FC = () => {
             ) : (
               <div className="calendar-modal__contents">
                 {contentList.map((content, index) => (
-                  <CalendarModalItemContainer date={calendarModalState.date} key={index} content={content} isEditOn />
+                  <CalendarModalItemContainer
+                    date={calendarModalState.date}
+                    key={index}
+                    content={content}
+                    isEditOn={isEditOn}
+                  />
                 ))}
               </div>
             )}

@@ -18,13 +18,13 @@ const CategoryConfigContainer: FC<ICategoryConfigContainerProps> = (props) => {
       <div className="category-config">
         <div className="category-config__list">
           {/* <IconComponent icon="icon-list" /> */}
-          <h2 className="category-config-title">카테고리</h2>
+          <h2 className="category-config-title">{props.selectedCategory?.title ?? '카테고리'}</h2>
         </div>
         <button type="button" className="icon-btn">
           <IconComponent icon="icon-open" />
         </button>
       </div>
-      <div>
+      <div className="category-config__container">
         {props.categoryList?.map((category) => (
           <div key={category.id} className="category-config__item">
             <div
@@ -41,7 +41,7 @@ const CategoryConfigContainer: FC<ICategoryConfigContainerProps> = (props) => {
               className="category-config__item-btn"
               onClick={() => props.setSelectedCategory(category)}
             >
-              <span>{category.title}</span>
+              <span className="category-config__item-title">{category.title}</span>
             </button>
           </div>
         ))}

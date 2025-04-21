@@ -4,11 +4,40 @@
   justify-content: space-between;
   font-size: 1.8rem;
   font-weight: 400;
-  margin: 2.5rem 0;
+  margin: 2rem 0;
 }
 
 .category-config__list {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.category-config__container {
+  margin-bottom: 2rem;
+}
+
+.category-config__item {
+  padding: 0.5rem 0rem;
+  height: 4rem;
+  display: flex;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.category-config__item-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.category-config__item-title {
+  color: #343434;
+  max-width: 15rem;
+  overflow: hidden;
+  font-size: 1.4rem;
+  line-height: 4rem;
+  font-weight: 400;
+  transform: translate(-50%, -50%);
 }
